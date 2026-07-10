@@ -14,16 +14,14 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 0 — Foundation.** Code complete: Next.js 14 scaffold, shadcn/ui, magic-link auth,
-protected dashboard, SQL migrations (profiles + content stubs, RLS on). Awaiting manual steps:
-Supabase project keys, run migrations, auth redirect config, Vercel connect. Exit criterion
-(sign in on deployed URL) not yet verified.
+**Phase 0 — Foundation: DONE (2026-07-10).** Verified sign-in on https://nbdhe-prog.vercel.app,
+profile row auto-created, RLS on. Email via Resend SMTP (test sender onboarding@resend.dev —
+only delivers to Eric's Gmail until a real domain is verified in Resend). Next: Phase 1.
 
 ## Next 3 actions
-1. Manual: create Supabase project, put keys in `.env.local` + Vercel, run the two migrations,
-   set auth redirect URLs, connect Vercel → verify sign-in on deployed URL (Phase 0 exit).
-2. Phase 1: seed `taxonomy` from `01-Planning/blueprint-mapping.md` + JSON import script.
-3. Phase 1: author ~3 original questions per discipline area; raw list page to verify.
+1. Phase 1: seed `taxonomy` from `01-Planning/blueprint-mapping.md` + JSON import script.
+2. Phase 1: author ~3 original questions per discipline area; raw list page to verify.
+3. Before girlfriend onboards: verify a real domain in Resend and swap the SMTP sender.
 
 ## Stack (decided)
 - Frontend: Next.js 14 App Router · TypeScript · Tailwind · shadcn/ui · PWA (manifest + SW)

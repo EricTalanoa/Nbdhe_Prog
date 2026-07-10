@@ -28,12 +28,13 @@ kanban-plugin: board
 
 ## In Progress
 
-- [ ] Create Supabase project + wire env + Vercel deploy of empty shell (code ready; manual: keys, migrations, redirect URLs, Vercel connect)
+
 
 ## Done
 
 **Complete**
 
+- [x] Create Supabase project + wire env + Vercel deploy of empty shell
 - [x] Scaffold Next.js 14 (App Router, TS, Tailwind, shadcn/ui)
 - [x] Auth (magic link) + profiles row on signup
 - [x] Base tables + RLS on from day one
