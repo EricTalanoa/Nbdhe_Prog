@@ -36,7 +36,10 @@ const config: Config = {
   				DEFAULT: 'hsl(var(--accent))',
   				foreground: 'hsl(var(--accent-foreground))'
   			},
-  			destructive: 'hsl(var(--destructive))',
+  			destructive: {
+  				DEFAULT: 'hsl(var(--destructive))',
+  				foreground: 'hsl(var(--destructive-foreground))'
+  			},
   			border: 'hsl(var(--border))',
   			input: 'hsl(var(--input))',
   			ring: 'hsl(var(--ring))',
@@ -57,6 +60,10 @@ const config: Config = {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			}
+  		},
+  		fontFamily: {
+  			sans: ['var(--font-geist-sans)', 'system-ui', 'sans-serif'],
+  			mono: ['var(--font-geist-mono)', 'monospace']
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
