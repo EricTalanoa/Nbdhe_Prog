@@ -24,18 +24,19 @@ kanban-plugin: board
 
 ## This Phase (Phase 0)
 
-- [ ] Scaffold Next.js 14 (App Router, TS, Tailwind, shadcn/ui)
-- [ ] Create Supabase project + wire env + Vercel deploy of empty shell
-- [ ] Auth (magic link) + profiles row on signup
-- [ ] Base tables + RLS on from day one
+
 
 ## In Progress
 
-
+- [ ] Create Supabase project + wire env + Vercel deploy of empty shell (code ready; manual: keys, migrations, redirect URLs, Vercel connect)
 
 ## Done
 
 **Complete**
+
+- [x] Scaffold Next.js 14 (App Router, TS, Tailwind, shadcn/ui)
+- [x] Auth (magic link) + profiles row on signup
+- [x] Base tables + RLS on from day one
 
 %% kanban:settings
 ```

@@ -14,12 +14,16 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 0 — Foundation.** Nothing built yet. Next up = scaffold repo + Supabase.
+**Phase 0 — Foundation.** Code complete: Next.js 14 scaffold, shadcn/ui, magic-link auth,
+protected dashboard, SQL migrations (profiles + content stubs, RLS on). Awaiting manual steps:
+Supabase project keys, run migrations, auth redirect config, Vercel connect. Exit criterion
+(sign in on deployed URL) not yet verified.
 
 ## Next 3 actions
-1. Scaffold Next.js 14 (App Router, TS, Tailwind, shadcn/ui) + init Supabase project.
-2. Create `taxonomy` + `users` + auth (RLS on), deploy skeleton to Vercel.
-3. Seed taxonomy from `01-Planning/blueprint-mapping.md`, then author 3 sample questions/domain.
+1. Manual: create Supabase project, put keys in `.env.local` + Vercel, run the two migrations,
+   set auth redirect URLs, connect Vercel → verify sign-in on deployed URL (Phase 0 exit).
+2. Phase 1: seed `taxonomy` from `01-Planning/blueprint-mapping.md` + JSON import script.
+3. Phase 1: author ~3 original questions per discipline area; raw list page to verify.
 
 ## Stack (decided)
 - Frontend: Next.js 14 App Router · TypeScript · Tailwind · shadcn/ui · PWA (manifest + SW)
