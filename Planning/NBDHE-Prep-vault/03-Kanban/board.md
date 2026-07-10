@@ -4,10 +4,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] Phase 1: create taxonomy/questions/options/rationales tables
-- [ ] Phase 1: seed taxonomy from blueprint-mapping.md
-- [ ] Phase 1: JSON import script (vault notes → DB)
-- [ ] Phase 1: author 3 original questions per discipline area
 - [ ] Phase 2: question renderer (completion/question/negative)
 - [ ] Phase 2: study mode + rationale panel + per-distractor explanations
 - [ ] Phase 2: session + response tracking, bookmark/flag
@@ -22,17 +18,25 @@ kanban-plugin: board
 - [ ] Phase 7: spaced repetition + flashcards + error reporting
 - [ ] Phase 7: deepen question bank (Local Anesthesia depth)
 
-## This Phase (Phase 0)
+## This Phase (Phase 1)
 
 
 
 ## In Progress
 
-
+- [ ] Phase 1: apply taxonomy seed + run import against live DB, verify /questions on deployed URL
 
 ## Done
 
-**Complete**
+**Phase 1 (code complete 2026-07-10)**
+
+- [x] Phase 1: taxonomy tables (done in Phase 0 content stubs)
+- [x] Phase 1: seed taxonomy from blueprint-mapping.md (idempotent SQL migration)
+- [x] Phase 1: import pipeline (vault q-*.md → DB) with offline `content:check` validator
+- [x] Phase 1: author 33 original questions across all 13 score areas (Local Anesthesia x3)
+- [x] Phase 1: raw questions list page at /questions
+
+**Phase 0 (complete)**
 
 - [x] Create Supabase project + wire env + Vercel deploy of empty shell
 - [x] Scaffold Next.js 14 (App Router, TS, Tailwind, shadcn/ui)

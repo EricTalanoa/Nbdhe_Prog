@@ -9,6 +9,7 @@ area: "<% tp.system.prompt("Area (exact string from blueprint-mapping.md)") %>"
 domain: "<% tp.system.prompt("Domain") %>"
 subdomain: "<% tp.system.prompt("Subdomain") %>"
 reference: "<% tp.system.prompt("Reference (text + topic/edition)") %>"
+rationale: "See below (body)"   # full rationale lives in the # Rationale section below
 case: ""       # slug of parent case, if this is a case-linked item
 testlet: ""    # slug of parent testlet, if community-health testlet item
 ---

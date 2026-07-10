@@ -29,7 +29,29 @@ SQL migrations live in `supabase/migrations/`, ordered by filename. Apply them e
 
 Migration 1 creates `profiles` (owner-only RLS) and a trigger that inserts a profile row when a
 user first signs in. Migration 2 creates empty content stubs (`taxonomy`, `questions`, `options`,
-`rationales`) with RLS on — authenticated read, no client writes.
+`rationales`) with RLS on — authenticated read, no client writes. Migration 3 seeds `taxonomy` from
+the blueprint (idempotent; safe to re-run).
+
+## Seeding questions (content pipeline)
+
+Question content is authored as Markdown notes in
+`Planning/NBDHE-Prep-vault/02-Content/q-*.md` and imported into the database.
+
+1. `npm run content:check` — parse and validate every note (formats, one correct answer, 3–5
+   options, per-distractor rationales) and confirm each note's `area`/`domain`/`subdomain` tag
+   resolves against the seeded taxonomy. No database or credentials needed; run it before importing.
+2. Apply the migrations (above), including the taxonomy seed.
+3. Import into Supabase — needs the service-role key, which bypasses RLS. Do **not** put it in
+   `.env.local`; pass it just for the command:
+
+   ```bash
+   NEXT_PUBLIC_SUPABASE_URL=https://<ref>.supabase.co \
+   SUPABASE_SERVICE_ROLE_KEY=<service-role-key> \
+   npm run content:import
+   ```
+
+   The import upserts by `slug`, so re-running it updates existing questions in place. Seeded
+   questions are then visible (signed in) at `/questions`.
 
 ## Supabase auth config (one-time, dashboard)
 

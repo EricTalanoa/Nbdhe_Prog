@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-10
-phase: 0 — Foundation
+phase: 1 — Content model + ingestion
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -14,13 +14,19 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 0 — Foundation: DONE (2026-07-10).** Verified sign-in on https://nbdhe-prog.vercel.app,
-profile row auto-created, RLS on. Email via Resend SMTP (test sender onboarding@resend.dev —
-only delivers to Eric's Gmail until a real domain is verified in Resend). Next: Phase 1.
+**Phase 1 — Content model + ingestion: code complete (2026-07-10), pending live seed.**
+Tables existed from Phase 0. Added: taxonomy seed migration (`..._seed_taxonomy.sql`, idempotent,
+all 13 score areas + Research/Community), an import pipeline (`scripts/import-questions.mjs`:
+vault `q-*.md` → questions/options/rationales via service role), 33 original questions across all
+13 areas (Local Anesthesia x3), and an auth-gated raw list page at `/questions`.
+`npm run content:check` validates notes + taxonomy tagging offline (no DB) and passes 33/33;
+`next build` is green. **Not yet run against live DB** — needs migrations applied + import run.
 
 ## Next 3 actions
-1. Phase 1: seed `taxonomy` from `01-Planning/blueprint-mapping.md` + JSON import script.
-2. Phase 1: author ~3 original questions per discipline area; raw list page to verify.
+1. Apply migration `..._seed_taxonomy.sql`, then `SUPABASE_SERVICE_ROLE_KEY=… npm run content:import`;
+   confirm `/questions` lists them on the deployed URL (Phase 1 exit).
+2. Start Phase 2: question renderer (completion/question/negative) + study mode with rationale +
+   per-distractor explanations; session/response tracking.
 3. Before girlfriend onboards: verify a real domain in Resend and swap the SMTP sender.
 
 ## Stack (decided)

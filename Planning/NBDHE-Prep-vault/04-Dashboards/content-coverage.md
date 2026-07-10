@@ -3,6 +3,12 @@
 Live views over the question notes in `02-Content/`. Requires the **Dataview** plugin.
 (These read frontmatter written by the Templater question template.)
 
+> The authoritative quality gate is `npm run content:check` (run from the repo root): it validates
+> every note's structure — exactly one correct option, 3–5 options, a rationale for the key and each
+> distractor — and confirms the `area`/`domain`/`subdomain` tags resolve against the seeded
+> taxonomy. The Dataview tables below are a convenience view; `content:check` is what blocks a bad
+> import. As of 2026-07-10 there are 33 notes, all `review`, covering all 13 score areas.
+
 ## Counts by area
 ```dataview
 TABLE length(rows) AS "Questions"

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,9 @@ export default async function DashboardPage() {
       <p className="text-sm">
         signed in as <span className="font-medium">{user.email}</span>
       </p>
+      <Link href="/questions" className="text-sm underline underline-offset-4">
+        Browse question bank
+      </Link>
       <form action={signOut}>
         <Button variant="outline" size="sm" type="submit">
           Sign out
