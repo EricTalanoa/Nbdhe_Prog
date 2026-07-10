@@ -38,3 +38,8 @@ $$;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_user();
+
+-- Backfill: cover any user who signed in before this migration ran.
+insert into public.profiles (id)
+select id from auth.users
+on conflict (id) do nothing;
