@@ -37,11 +37,11 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 ## Chunks (do the first unchecked one)
 
 ### Phase 2 — Core practice loop
-- [ ] **2a-renderer** — Question renderer for all three formats (completion/question/negative, with
+- [x] **2a-renderer** — Question renderer for all three formats (completion/question/negative, with
   the EXCEPT/NOT stem visually flagged). Study mode: select an answer, submit, then show
   correct/incorrect feedback + correct-answer rationale + per-distractor explanations (data already
   in `questions`/`options`/`rationales`). A basic practice-set flow through N questions with an end
-  summary.
+  summary. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/1
 - [ ] **2b-tracking** — Migration `..._sessions_responses.sql` creating `sessions`, `responses`,
   `bookmarks` (owner-only RLS) per schema.md. Persist sessions + responses; add bookmark/flag.
   Degrade gracefully if tables not yet applied.
