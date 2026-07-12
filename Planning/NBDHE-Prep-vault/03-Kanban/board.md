@@ -4,7 +4,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] Phase 4: readiness band + "study next"
 - [ ] Phase 5: cases + testlets + patient-box component
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
 - [ ] Phase 6: format-accurate mock exam (two sessions, timers)
@@ -15,6 +14,7 @@ kanban-plugin: board
 ## This Phase (Phase 4)
 
 - [x] Phase 4: per-score-area analytics + weak-area ranking + accuracy trend — `/analytics` (4a)
+- [x] Phase 4: readiness band (Not yet/Approaching/Ready) + "study next" — `lib/readiness.ts` (4b)
 
 ## Done (Phase 3)
 

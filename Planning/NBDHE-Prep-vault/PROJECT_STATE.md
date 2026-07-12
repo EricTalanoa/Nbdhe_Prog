@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-12
-phase: 4 — Analytics + readiness (4a-rollup merged)
+phase: 4 — Analytics + readiness (4a + 4b merged; Phase 4 complete)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -14,15 +14,15 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 4 — Analytics + readiness: 4a-rollup merged (2026-07-12).** `/analytics` computes, from
-the user's `responses` joined through `questions.taxonomy_id → taxonomy.score_area`: overall
-accuracy, a weakest-areas ranking (accuracy asc, low-sample flagged), a per-score-area breakdown
-in blueprint order (including not-yet-started areas), and a per-day accuracy trend — all as
-dependency-free CSS bars. Dashboard links "View progress". Phase 3 is complete: `/practice/build`
-(area/difficulty/N/time-limit) plus `/practice?mode=missed|flagged` review queues and
-`/practice?t=<secs>` timed tests. Phase 1 (content) and Phase 2 (renderer + session/response
-tracking) are confirmed working against the live Supabase project (`NBDHE-Prep`,
-`otqwhkfhjhixzjtaxhzk`):
+**Phase 4 — Analytics + readiness: 4a + 4b merged, Phase 4 complete (2026-07-12).** `/analytics`
+computes, from the user's `responses` joined through `questions.taxonomy_id → taxonomy.score_area`:
+overall accuracy, a weakest-areas ranking, a per-score-area readiness band (Not yet / Approaching /
+Ready) with coverage % + recent accuracy, "Study next" suggestions that deep-link into a filtered
+practice set, and a per-day accuracy trend — all dependency-free CSS. Readiness thresholds are
+tunable in `lib/readiness.ts`. Phase 3 is complete: `/practice/build` (area/difficulty/N/time-limit)
+plus `/practice?mode=missed|flagged` review queues and `/practice?t=<secs>` timed tests. Phase 1
+(content) and Phase 2 (renderer + session/response tracking) are confirmed working against the live
+Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 - Both pending migrations (`..._seed_taxonomy.sql`, `..._sessions_responses.sql`) are applied.
 - `npm run content:import` ran against the live project: `questions` (33), `options` (132),
   `rationales` (33), `taxonomy` (60) all populated from `02-Content/q-*.md`.
@@ -36,9 +36,9 @@ tracking) are confirmed working against the live Supabase project (`NBDHE-Prep`,
   draws from the full 33-question bank instead of a set of 1.
 
 ## Next 3 actions
-1. Next chunk: **4b-readiness** — readiness band (Not yet / Approaching / Ready) per score area
-   from (coverage %, recent accuracy) with tunable thresholds in app config; "study next"
-   suggestions off the weak-area ranking.
+1. Next chunk: **5a-cases** — `cases` + `testlets` tables + patient-box component; media via
+   Supabase Storage (static images ok); author one original sample case (Rule 0). New migration —
+   apply to the live project after merge.
 2. Phase 7b (ongoing): deepen the bank beyond one item per area — Local Anesthesia and the
    high-item-count clinical areas (Care Planning, Perio Management) get the most depth. Current
    spread is thin (e.g. difficulty is 9 easy / 23 medium / 1 hard across 33 items).
