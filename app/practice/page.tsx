@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { startSession } from "@/app/practice/actions";
 import { PracticeSession } from "@/components/practice/practice-session";
 import type { PracticeOption, PracticeQuestion } from "@/components/practice/types";
 
@@ -53,6 +54,12 @@ export default async function PracticePage({
     )
     .in("status", ["approved", "live"]);
 
+  const { data: bookmarkRows } = await supabase
+    .from("bookmarks")
+    .select("question_id")
+    .eq("flagged", true);
+  const flaggedIds = new Set((bookmarkRows ?? []).map((b) => b.question_id as string));
+
   const raw = (data ?? []) as unknown as RawQuestion[];
   const questions: PracticeQuestion[] = raw.map((q) => {
     const rationale = Array.isArray(q.rationales) ? q.rationales[0] : q.rationales;
@@ -64,10 +71,15 @@ export default async function PracticePage({
       difficulty: q.difficulty,
       options: [...q.options].sort((a, b) => a.sort_order - b.sort_order),
       correct_explanation: rationale?.correct_explanation ?? null,
+      flagged: flaggedIds.has(q.id),
     };
   });
 
   const practiceSet = shuffle(questions).slice(0, setSize);
+  const sessionId =
+    !error && practiceSet.length > 0
+      ? await startSession({ requested: setSize, available: questions.length })
+      : null;
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
@@ -90,7 +102,7 @@ export default async function PracticePage({
         </div>
       )}
 
-      {!error && <PracticeSession questions={practiceSet} />}
+      {!error && <PracticeSession questions={practiceSet} sessionId={sessionId} />}
     </main>
   );
 }
