@@ -42,9 +42,9 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   correct/incorrect feedback + correct-answer rationale + per-distractor explanations (data already
   in `questions`/`options`/`rationales`). A basic practice-set flow through N questions with an end
   summary. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/1
-- [ ] **2b-tracking** — Migration `..._sessions_responses.sql` creating `sessions`, `responses`,
+- [x] **2b-tracking** — Migration `..._sessions_responses.sql` creating `sessions`, `responses`,
   `bookmarks` (owner-only RLS) per schema.md. Persist sessions + responses; add bookmark/flag.
-  Degrade gracefully if tables not yet applied.
+  Degrade gracefully if tables not yet applied. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/2
 
 ### Phase 3 — Sessions & modes
 - [ ] **3a-builder** — Quick-practice builder: pick areas/subdomains, N, difficulty; generates a

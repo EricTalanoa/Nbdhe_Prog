@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { Bookmark, CheckCircle2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { toggleBookmark } from "@/app/practice/actions";
 import type { PracticeQuestion, QuestionFormat } from "./types";
 
 const FORMAT_LABEL: Record<QuestionFormat, string> = {
@@ -43,10 +44,13 @@ export function QuestionRenderer({
   onAnswered,
 }: {
   question: PracticeQuestion;
-  onAnswered: (correct: boolean) => void;
+  onAnswered: (correct: boolean, selectedOptionId: string | null, timeMs: number) => void;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [flagged, setFlagged] = useState(question.flagged);
+  const [flagPending, setFlagPending] = useState(false);
+  const [startedAt] = useState(() => Date.now());
 
   const correctOption = question.options.find((o) => o.is_correct) ?? null;
   const selectedIsCorrect = selectedId != null && selectedId === correctOption?.id;
@@ -54,15 +58,39 @@ export function QuestionRenderer({
   function handleSubmit() {
     if (!selectedId || submitted) return;
     setSubmitted(true);
-    onAnswered(selectedIsCorrect);
+    onAnswered(selectedIsCorrect, selectedId, Date.now() - startedAt);
+  }
+
+  async function handleToggleFlag() {
+    const next = !flagged;
+    setFlagged(next);
+    setFlagPending(true);
+    const ok = await toggleBookmark(question.id, next);
+    if (!ok) setFlagged(!next);
+    setFlagPending(false);
   }
 
   return (
     <Card className="p-6">
-      <div className="mb-4 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
-        <span>{FORMAT_LABEL[question.format]}</span>
-        <span aria-hidden="true">·</span>
-        <span>{question.difficulty}</span>
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+          <span>{FORMAT_LABEL[question.format]}</span>
+          <span aria-hidden="true">·</span>
+          <span>{question.difficulty}</span>
+        </div>
+        <button
+          type="button"
+          onClick={handleToggleFlag}
+          disabled={flagPending}
+          aria-pressed={flagged}
+          aria-label={flagged ? "Remove flag" : "Flag for review"}
+          className={cn(
+            "rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground disabled:opacity-50",
+            flagged && "text-amber-500 hover:text-amber-500"
+          )}
+        >
+          <Bookmark className={cn("size-4", flagged && "fill-current")} />
+        </button>
       </div>
 
       <Stem format={question.format} stem={question.stem} />
