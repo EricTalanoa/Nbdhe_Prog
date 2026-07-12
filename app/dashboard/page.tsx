@@ -25,6 +25,9 @@ export default async function DashboardPage() {
       <p className="text-sm">
         signed in as <span className="font-medium">{user.email}</span>
       </p>
+      <Link href="/practice" className="text-sm underline underline-offset-4">
+        Start a practice set
+      </Link>
       <Link href="/questions" className="text-sm underline underline-offset-4">
         Browse question bank
       </Link>
