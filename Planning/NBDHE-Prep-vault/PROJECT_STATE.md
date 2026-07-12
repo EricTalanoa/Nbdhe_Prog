@@ -26,14 +26,15 @@ code-complete:
 - A real practice run persisted: a `sessions` row (kind `practice`, `finished_at` +
   `score_summary` set) with a matching `responses` row — confirming the owner-only RLS write
   path works end-to-end on the deployed app, not just in code.
-Only 1 of 33 questions is `status: approved` (the rest are `review`), so `/practice` currently
-draws from a set of 1 — content triage, not a bug.
+- Content triage done (2026-07-12): all 33 authored items reviewed for accuracy + Rule 0 and
+  promoted `review` → `approved` (frontmatter + live `questions.status`), so `/practice` now
+  draws from the full 33-question bank instead of a set of 1.
 
 ## Next 3 actions
-1. Move more authored items from `review` → `approved` so `/practice` has more than 1 question
-   to draw from.
-2. Next chunk: **3a-builder** — quick-practice builder (pick areas/subdomains/N/difficulty) to
+1. Next chunk: **3a-builder** — quick-practice builder (pick areas/subdomains/N/difficulty) to
    generate a filtered session instead of pulling from the whole approved bank.
+2. Phase 7b (ongoing): deepen the bank beyond one item per area — Local Anesthesia and the
+   high-item-count clinical areas (Care Planning, Perio Management) get the most depth.
 3. Before girlfriend onboards: verify a real domain in Resend and swap the SMTP sender.
 
 ## Stack (decided)

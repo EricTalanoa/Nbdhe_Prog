@@ -2,7 +2,7 @@
 type: question
 id: q-path-0002
 created: 2026-07-10
-status: review
+status: approved
 format: completion
 difficulty: easy
 area: "Scientific Basis for Dental Hygiene Practice"

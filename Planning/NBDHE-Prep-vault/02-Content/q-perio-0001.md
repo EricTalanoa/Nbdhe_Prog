@@ -2,7 +2,7 @@
 type: question
 id: q-perio-0001
 created: 2026-07-10
-status: review
+status: approved
 format: question
 difficulty: easy
 area: "Provision of Clinical Dental Hygiene Services"

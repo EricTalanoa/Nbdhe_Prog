@@ -2,7 +2,7 @@
 type: question
 id: q-anes-0003
 created: 2026-07-10
-status: review
+status: approved
 format: negative
 difficulty: hard
 area: "Scientific Basis for Dental Hygiene Practice"
