@@ -20,15 +20,16 @@ kanban-plugin: board
 - [x] Phase 2: session + response tracking — PR #2
 - [x] Phase 2: bookmark/flag — PR #2
 
-## In Progress
-
-- [ ] Phase 1: apply taxonomy seed + run import against live DB, verify /questions on deployed URL
-- [ ] Phase 2: apply `..._sessions_responses.sql` (PR #2), then smoke-test /practice end-to-end
-  (session/response persistence, bookmark toggle) on the deployed URL, and merge PR #2
-
 ## Done
 
-**Phase 2 (2b-tracking code complete 2026-07-12, PR #2 open)**
+**Live verification (2026-07-12)**
+
+- [x] Phase 1: apply taxonomy seed + run import against live DB, verify /questions on deployed URL
+- [x] Phase 2: apply `..._sessions_responses.sql` (PR #2), smoke-test /practice end-to-end
+  (session/response persistence) on the deployed URL — a real `sessions`/`responses` row exists
+  in the live project confirming the owner-only RLS write path works
+
+**Phase 2 (2a + 2b merged 2026-07-12, PR #1 + PR #2)**
 
 - [x] Phase 2: sessions/responses/bookmarks migration (owner-only RLS)
 - [x] Phase 2: /practice persists sessions + responses + bookmark/flag via server actions,
