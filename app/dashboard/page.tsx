@@ -31,6 +31,12 @@ export default async function DashboardPage() {
       <Link href="/practice" className="text-sm underline underline-offset-4">
         Quick set — 10 random
       </Link>
+      <Link href="/practice?mode=missed" className="text-sm underline underline-offset-4">
+        Review missed questions
+      </Link>
+      <Link href="/practice?mode=flagged" className="text-sm underline underline-offset-4">
+        Review flagged questions
+      </Link>
       <Link href="/questions" className="text-sm underline underline-offset-4">
         Browse question bank
       </Link>
