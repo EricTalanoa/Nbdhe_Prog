@@ -51,8 +51,10 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   Degrade gracefully if tables not yet applied. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/2
 
 ### Phase 3 — Sessions & modes
-- [ ] **3a-builder** — Quick-practice builder: pick areas/subdomains, N, difficulty; generates a
-  session from the chosen filters.
+- [x] **3a-builder** — Quick-practice builder: pick areas/subdomains, N, difficulty; generates a
+  session from the chosen filters. `/practice/build` (native GET form, score-area + difficulty +
+  set-size) submits to `/practice`, which filters the approved pool by those params and records
+  them in the session `config`. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/6
 - [ ] **3b-queues** — Review-missed and review-flagged queues; custom timed test (timer + submit).
 
 ### Phase 4 — Analytics + readiness

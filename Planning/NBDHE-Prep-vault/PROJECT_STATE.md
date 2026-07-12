@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-12
-phase: 2 — Core practice loop (2a + 2b merged and live-verified)
+phase: 3 — Sessions & modes (3a-builder merged)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -14,10 +14,12 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 2 — Core practice loop: 2a-renderer + 2b-tracking merged and live-verified (2026-07-12).**
-Phase 1 (content model + ingestion) and Phase 2b (session/response tracking) are now confirmed
-working against the live Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`), not just
-code-complete:
+**Phase 3 — Sessions & modes: 3a-builder merged (2026-07-12).** `/practice/build` is a native
+GET form (no client JS) to pick score areas, difficulty, and set size; it submits to `/practice`,
+which filters the approved pool by those params, shuffles, and records the chosen filters in the
+session `config`. Dashboard now links "Build a practice set" alongside the quick 10-random set.
+Phase 1 (content model + ingestion) and Phase 2 (renderer + session/response tracking) are
+confirmed working against the live Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 - Both pending migrations (`..._seed_taxonomy.sql`, `..._sessions_responses.sql`) are applied.
 - `npm run content:import` ran against the live project: `questions` (33), `options` (132),
   `rationales` (33), `taxonomy` (60) all populated from `02-Content/q-*.md`.
@@ -31,10 +33,11 @@ code-complete:
   draws from the full 33-question bank instead of a set of 1.
 
 ## Next 3 actions
-1. Next chunk: **3a-builder** — quick-practice builder (pick areas/subdomains/N/difficulty) to
-   generate a filtered session instead of pulling from the whole approved bank.
+1. Next chunk: **3b-queues** — review-missed and review-flagged queues (from `responses` +
+   `bookmarks`) and a custom timed test (timer + submit).
 2. Phase 7b (ongoing): deepen the bank beyond one item per area — Local Anesthesia and the
-   high-item-count clinical areas (Care Planning, Perio Management) get the most depth.
+   high-item-count clinical areas (Care Planning, Perio Management) get the most depth. Current
+   spread is thin (e.g. difficulty is 9 easy / 23 medium / 1 hard across 33 items).
 3. Before girlfriend onboards: verify a real domain in Resend and swap the SMTP sender.
 
 ## Stack (decided)
