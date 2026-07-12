@@ -4,7 +4,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] Phase 2: session + response tracking, bookmark/flag
 - [ ] Phase 3: quick-practice builder (areas/subdomains/N/difficulty)
 - [ ] Phase 3: review-missed + review-flagged queues
 - [ ] Phase 4: per-score-area analytics + weak-area ranking
@@ -18,19 +17,28 @@ kanban-plugin: board
 
 ## This Phase (Phase 2)
 
-- [x] Phase 2: question renderer (completion/question/negative) — PR #1
-- [x] Phase 2: study mode + rationale panel + per-distractor explanations — PR #1
+- [x] Phase 2: session + response tracking — PR #2
+- [x] Phase 2: bookmark/flag — PR #2
 
 ## In Progress
 
 - [ ] Phase 1: apply taxonomy seed + run import against live DB, verify /questions on deployed URL
-- [ ] Phase 2: smoke-test /practice on deployed URL once live DB is seeded (PR #1 open, not merged)
+- [ ] Phase 2: apply `..._sessions_responses.sql` (PR #2), then smoke-test /practice end-to-end
+  (session/response persistence, bookmark toggle) on the deployed URL, and merge PR #2
 
 ## Done
 
-**Phase 2 (2a-renderer code complete 2026-07-11, PR #1 open)**
+**Phase 2 (2b-tracking code complete 2026-07-12, PR #2 open)**
 
-- [x] Phase 2: /practice page — shuffled study set from approved/live questions, no persistence yet
+- [x] Phase 2: sessions/responses/bookmarks migration (owner-only RLS)
+- [x] Phase 2: /practice persists sessions + responses + bookmark/flag via server actions,
+  degrades gracefully if the migration isn't applied yet
+
+**Phase 2 (2a-renderer merged 2026-07-11/12, PR #1)**
+
+- [x] Phase 2: question renderer (completion/question/negative) — PR #1
+- [x] Phase 2: study mode + rationale panel + per-distractor explanations — PR #1
+- [x] Phase 2: /practice page — shuffled study set from approved/live questions
 
 **Phase 1 (code complete 2026-07-10)**
 

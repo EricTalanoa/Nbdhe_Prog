@@ -1,6 +1,6 @@
 ---
-updated: 2026-07-11
-phase: 2 — Core practice loop
+updated: 2026-07-12
+phase: 2 — Core practice loop (2a merged, 2b code complete)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -14,25 +14,27 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 2 — Core practice loop: 2a-renderer code complete (2026-07-11), pending live smoke test.**
+**Phase 2 — Core practice loop: 2a-renderer merged, 2b-tracking code complete (2026-07-12).**
 Phase 1 (content model + ingestion) is code complete, still pending its live-DB verification.
-Added for 2a: auth-gated `/practice` page pulling `approved`/`live` questions (with `options` +
-`rationales`) into a shuffled study set (default 10, `?n=` up to 50), a `QuestionRenderer`
-covering all three formats with EXCEPT/NOT visually flagged in negative stems, immediate
-correct/incorrect feedback with the correct-answer rationale + per-distractor explanations, and an
-end-of-set score summary. No new tables — pure UI over the Phase 1 schema. PR:
-https://github.com/EricTalanoa/Nbdhe_Prog/pull/1 (open, not merged).
-`npm run content:check` (33/33), `npm run lint`, and `next build` are green. **Not yet smoke-tested
-against a live DB** — no `.env.local`/service-role key in the build sandbox, and Phase 1's
-migrations/import still haven't been run against Supabase either.
+2a (PR #1, merged): auth-gated `/practice` page + `QuestionRenderer` covering all three formats
+with EXCEPT/NOT flagged, immediate correct/incorrect feedback + rationale + per-distractor
+explanations, end-of-set score summary. 2b (PR #2, open): migration
+`..._sessions_responses.sql` adding `sessions`/`responses`/`bookmarks` (owner-only RLS); new
+`app/practice/actions.ts` server actions persist a session per practice set, a response row per
+answer (with elapsed `time_ms`), and a finish-time score summary; `QuestionRenderer` now has a
+bookmark/flag toggle. Every action swallows DB errors so `/practice` still works before the
+migration is applied — matches the "degrade gracefully" constraint.
+`npm run content:check` (33/33), `npm run lint`, and `next build` are green on both PRs. **Neither
+has been smoke-tested against a live DB** — no `.env.local`/service-role key in the build sandbox,
+and Phase 1's migrations/import still haven't been run against Supabase either.
 
 ## Next 3 actions
-1. Apply migration `..._seed_taxonomy.sql`, then `SUPABASE_SERVICE_ROLE_KEY=… npm run content:import`;
-   confirm `/questions` **and** `/practice` work on the deployed URL (closes out Phase 1 exit +
-   verifies 2a live). Move more authored items from `review` → `approved` so `/practice` has more
-   than 1 question to draw from.
-2. Next chunk: **2b-tracking** — `sessions`/`responses`/`bookmarks` migration + persistence, wired
-   into the `/practice` flow, with graceful degradation if the tables aren't applied yet.
+1. Apply migrations `..._seed_taxonomy.sql` and `..._sessions_responses.sql` (PR #2), then
+   `SUPABASE_SERVICE_ROLE_KEY=… npm run content:import`; confirm `/questions` **and** `/practice`
+   work on the deployed URL, sessions/responses/bookmarks persist, and merge PR #2. Move more
+   authored items from `review` → `approved` so `/practice` has more than 1 question to draw from.
+2. Next chunk: **3a-builder** — quick-practice builder (pick areas/subdomains/N/difficulty) to
+   generate a filtered session instead of pulling from the whole approved bank.
 3. Before girlfriend onboards: verify a real domain in Resend and swap the SMTP sender.
 
 ## Stack (decided)
