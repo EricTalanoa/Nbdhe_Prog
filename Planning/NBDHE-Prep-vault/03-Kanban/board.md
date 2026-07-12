@@ -4,8 +4,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] Phase 2: question renderer (completion/question/negative)
-- [ ] Phase 2: study mode + rationale panel + per-distractor explanations
 - [ ] Phase 2: session + response tracking, bookmark/flag
 - [ ] Phase 3: quick-practice builder (areas/subdomains/N/difficulty)
 - [ ] Phase 3: review-missed + review-flagged queues
@@ -18,15 +16,21 @@ kanban-plugin: board
 - [ ] Phase 7: spaced repetition + flashcards + error reporting
 - [ ] Phase 7: deepen question bank (Local Anesthesia depth)
 
-## This Phase (Phase 1)
+## This Phase (Phase 2)
 
-
+- [x] Phase 2: question renderer (completion/question/negative) — PR #1
+- [x] Phase 2: study mode + rationale panel + per-distractor explanations — PR #1
 
 ## In Progress
 
 - [ ] Phase 1: apply taxonomy seed + run import against live DB, verify /questions on deployed URL
+- [ ] Phase 2: smoke-test /practice on deployed URL once live DB is seeded (PR #1 open, not merged)
 
 ## Done
+
+**Phase 2 (2a-renderer code complete 2026-07-11, PR #1 open)**
+
+- [x] Phase 2: /practice page — shuffled study set from approved/live questions, no persistence yet
 
 **Phase 1 (code complete 2026-07-10)**
 
