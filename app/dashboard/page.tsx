@@ -43,6 +43,9 @@ export default async function DashboardPage() {
       <Link href="/questions" className="text-sm underline underline-offset-4">
         Browse question bank
       </Link>
+      <Link href="/cases" className="text-sm underline underline-offset-4">
+        Browse cases
+      </Link>
       <form action={signOut}>
         <Button variant="outline" size="sm" type="submit">
           Sign out
