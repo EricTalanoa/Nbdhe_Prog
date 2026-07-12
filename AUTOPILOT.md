@@ -20,10 +20,14 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 5. Verify: `npm run content:check` (must pass) and `npm run build` (must compile). Smoke-test the
    dev server if useful.
 6. Commit (end messages with `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`), push the
-   branch, and open a PR against `main` with `gh pr create`. **Do not merge.**
+   branch, and open a PR against `main` with `gh pr create`.
 7. In this file, check the chunk's box and add the PR link. Update `PROJECT_STATE.md` (current phase
    + next actions) and `03-Kanban/board.md`. Commit + push those to the same branch.
-8. If every box below is checked, open a final "project code-complete" summary PR and stop.
+8. **Auto-merge (standing instruction from the project owner, 2026-07-12): once everything from
+   steps 6–7 is pushed and step 5's checks are green, merge the PR (squash) — don't wait for manual
+   review.** Skip only if the PR isn't cleanly mergeable (conflicts) or CI on the PR is failing; in
+   that case leave it open and say why.
+9. If every box below is checked, open a final "project code-complete" summary PR, merge it, and stop.
 
 ## Constraints (do not break)
 - Pages auth-gated (redirect to `/login` if no user), like `/dashboard` and `/questions`.
