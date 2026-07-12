@@ -4,7 +4,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] Phase 3: quick-practice builder (areas/subdomains/N/difficulty)
 - [ ] Phase 3: review-missed + review-flagged queues
 - [ ] Phase 4: per-score-area analytics + weak-area ranking
 - [ ] Phase 4: readiness band + "study next"
@@ -15,7 +14,11 @@ kanban-plugin: board
 - [ ] Phase 7: spaced repetition + flashcards + error reporting
 - [ ] Phase 7: deepen question bank (Local Anesthesia depth)
 
-## This Phase (Phase 2)
+## This Phase (Phase 3)
+
+- [x] Phase 3: quick-practice builder — `/practice/build` filters by area/difficulty/N (3a)
+
+## Done (Phase 2)
 
 - [x] Phase 2: session + response tracking — PR #2
 - [x] Phase 2: bookmark/flag — PR #2
