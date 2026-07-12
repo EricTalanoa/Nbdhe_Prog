@@ -59,6 +59,7 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   `/practice?mode=missed` (wrong `responses`) and `?mode=flagged` (flagged `bookmarks`) build
   review sets with the matching session `kind`; the builder gained a time-limit option and
   `/practice?t=<secs>` runs a countdown that auto-submits (with an "End test now" button).
+  PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/7
 
 ### Phase 4 — Analytics + readiness
 - [ ] **4a-rollup** — Per-score-area roll-up (13 areas + case area), accuracy trend, weak-area
