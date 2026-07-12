@@ -71,7 +71,7 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   (coverage %, recent accuracy) with tunable thresholds in app config; "study next" suggestions.
   Thresholds live in `lib/readiness.ts` (`READINESS` + `readinessBand`); `/analytics` shows a band
   chip per area, coverage %, recent accuracy, and a "Study next" list linking straight into a
-  filtered practice set for each suggested area.
+  filtered practice set for each suggested area. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/9
 
 ### Phase 5 — Cases & testlets
 - [ ] **5a-cases** — `cases` + `testlets` tables + patient-box component; media via Supabase
