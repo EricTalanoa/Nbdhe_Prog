@@ -2,7 +2,7 @@
 type: question
 id: q-asmt-0001
 created: 2026-07-10
-status: review
+status: approved
 format: question
 difficulty: medium
 area: "Provision of Clinical Dental Hygiene Services"

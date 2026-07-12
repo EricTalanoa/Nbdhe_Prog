@@ -2,7 +2,7 @@
 type: question
 id: q-micr-0001
 created: 2026-07-10
-status: review
+status: approved
 format: question
 difficulty: easy
 area: "Scientific Basis for Dental Hygiene Practice"
