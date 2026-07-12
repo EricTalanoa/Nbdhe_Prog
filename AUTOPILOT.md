@@ -74,8 +74,9 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   filtered practice set for each suggested area. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/9
 
 ### Phase 5 — Cases & testlets
-- [ ] **5a-cases** — `cases` + `testlets` tables + patient-box component; media via Supabase
-  Storage (static images ok). Author one original sample case (Rule 0).
+- [x] **5a-cases** — `cases` + `testlets` tables + patient-box component; media via Supabase
+  Storage (static images ok). Author one original sample case (Rule 0). PR:
+  https://github.com/EricTalanoa/Nbdhe_Prog/pull/10
 - [ ] **5b-case-nav** — Case navigation: parent stimulus + linked child items; wire case items into
   the practice loop.
 

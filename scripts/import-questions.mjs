@@ -32,6 +32,13 @@ const FORMATS = new Set(["completion", "question", "negative"]);
 const DIFFICULTIES = new Set(["easy", "medium", "hard"]);
 const STATUSES = new Set(["draft", "review", "approved", "live"]);
 const OPTION_LABELS = ["A", "B", "C", "D", "E"];
+const PATIENT_TYPES = new Set([
+  "adult",
+  "pediatric",
+  "geriatric",
+  "special_needs",
+  "medically_compromised",
+]);
 
 const checkOnly = process.argv.includes("--check");
 
@@ -200,17 +207,78 @@ function parseNote(filename, raw) {
       sort_order: i,
     })),
     correctExplanation,
+    caseSlug: data.case?.trim() || null,
+    testletSlug: data.testlet?.trim() || null,
     errors,
   };
 }
 
-async function loadNotes() {
-  const entries = await readdir(CONTENT_DIR);
-  const files = entries.filter((f) => /^q-.*\.md$/.test(f)).sort();
+// Parse a `case-*.md` note (patient box + optional notes). Media (case_media) isn't
+// authored from notes yet — add via Supabase Storage + a manual insert once a case needs it.
+function parseCaseNote(filename, raw) {
+  const errors = [];
+  const { data, body } = parseFrontmatter(raw);
+  const sections = splitSections(body);
+
+  const slug = data.id?.trim();
+  const title = data.title?.trim();
+  const patientType = data.patient_type?.trim();
+  const demographics = stripComments(sections["demographics"]);
+  const chiefComplaint = stripComments(sections["chief complaint"]);
+  const backgroundHistory = stripComments(sections["background / history"]);
+  const currentFindings = stripComments(sections["current findings"]);
+  const notes = stripComments(sections["notes"]);
+
+  if (!slug) errors.push("missing frontmatter `id` (used as slug)");
+  if (!STATUSES.has(data.status)) errors.push(`status must be one of ${[...STATUSES].join("/")}`);
+  if (!title) errors.push("missing `title`");
+  if (!patientType) errors.push("missing `patient_type`");
+  else if (!PATIENT_TYPES.has(patientType))
+    errors.push(`patient_type must be one of ${[...PATIENT_TYPES].join("/")}`);
+  if (!demographics) errors.push("empty Demographics section");
+  if (!chiefComplaint) errors.push("empty Chief Complaint section");
+  if (!backgroundHistory) errors.push("empty Background / History section");
+  if (!currentFindings) errors.push("empty Current Findings section");
+
+  return {
+    filename,
+    slug,
+    case: {
+      slug,
+      title: title || null,
+      patient_type: patientType || null,
+      patient_box: {
+        demographics,
+        chief_complaint: chiefComplaint,
+        background_history: backgroundHistory,
+        current_findings: currentFindings,
+      },
+      notes: notes || null,
+    },
+    errors,
+  };
+}
+
+async function loadContentFiles() {
+  return await readdir(CONTENT_DIR);
+}
+
+async function loadNotes(files) {
+  const questionFiles = files.filter((f) => /^q-.*\.md$/.test(f)).sort();
   const notes = [];
-  for (const f of files) {
+  for (const f of questionFiles) {
     const raw = await readFile(join(CONTENT_DIR, f), "utf8");
     notes.push(parseNote(f, raw));
+  }
+  return notes;
+}
+
+async function loadCaseNotes(files) {
+  const caseFiles = files.filter((f) => /^case-.*\.md$/.test(f)).sort();
+  const notes = [];
+  for (const f of caseFiles) {
+    const raw = await readFile(join(CONTENT_DIR, f), "utf8");
+    notes.push(parseCaseNote(f, raw));
   }
   return notes;
 }
@@ -272,7 +340,7 @@ async function loadEnvLocal() {
   }
 }
 
-async function upsertAll(notes) {
+async function upsertAll(notes, caseNotes) {
   const { createClient } = await import("@supabase/supabase-js");
   await loadEnvLocal();
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -297,6 +365,26 @@ async function upsertAll(notes) {
   if (taxErr) throw taxErr;
   const taxMap = new Map(taxonomy.map((t) => [taxKey(t.area, t.domain, t.subdomain), t.id]));
 
+  // Cases must exist before questions can be linked to them via case_id.
+  const caseMap = new Map();
+  for (const c of caseNotes) {
+    const { data: caseRow, error: caseErr } = await db
+      .from("cases")
+      .upsert(
+        { ...c.case, updated_at: new Date().toISOString() },
+        { onConflict: "slug" }
+      )
+      .select("id, slug")
+      .single();
+    if (caseErr) {
+      console.error(`  ✗ ${c.slug} (case): ${caseErr.message}`);
+      process.exitCode = 1;
+      continue;
+    }
+    caseMap.set(caseRow.slug, caseRow.id);
+    console.log(`  ✓ case ${c.slug}  [${c.case.title}]`);
+  }
+
   let imported = 0;
   for (const note of notes) {
     const taxonomyId = taxMap.get(
@@ -310,10 +398,25 @@ async function upsertAll(notes) {
       continue;
     }
 
+    let caseId = null;
+    if (note.caseSlug) {
+      caseId = caseMap.get(note.caseSlug) ?? null;
+      if (!caseId) {
+        console.error(`  ✗ ${note.slug}: case "${note.caseSlug}" was not imported (see above)`);
+        process.exitCode = 1;
+        continue;
+      }
+    }
+
     const { data: q, error: qErr } = await db
       .from("questions")
       .upsert(
-        { ...note.question, taxonomy_id: taxonomyId, updated_at: new Date().toISOString() },
+        {
+          ...note.question,
+          taxonomy_id: taxonomyId,
+          case_id: caseId,
+          updated_at: new Date().toISOString(),
+        },
         { onConflict: "slug" }
       )
       .select("id")
@@ -354,7 +457,9 @@ async function upsertAll(notes) {
 }
 
 async function main() {
-  const notes = await loadNotes();
+  const files = await loadContentFiles();
+  const notes = await loadNotes(files);
+  const caseNotes = await loadCaseNotes(files);
   if (notes.length === 0) {
     console.error(`No q-*.md notes found in ${CONTENT_DIR}`);
     process.exit(1);
@@ -374,6 +479,24 @@ async function main() {
     }
   }
 
+  // A question note can link to a case (frontmatter `case: <slug>`) — verify it points at
+  // a case note that actually exists, entirely offline.
+  const caseSlugs = new Set(caseNotes.map((c) => c.slug).filter(Boolean));
+  for (const n of notes) {
+    if (n.caseSlug && !caseSlugs.has(n.caseSlug)) {
+      n.errors.push(`case "${n.caseSlug}" not found among case-*.md notes`);
+    }
+  }
+
+  const invalidCases = caseNotes.filter((c) => c.errors.length > 0);
+  for (const c of invalidCases) {
+    console.error(`✗ ${c.filename}`);
+    for (const e of c.errors) console.error(`    - ${e}`);
+  }
+  if (caseNotes.length > 0) {
+    console.log(`${caseNotes.length - invalidCases.length}/${caseNotes.length} case note(s) valid.`);
+  }
+
   const invalid = notes.filter((n) => n.errors.length > 0);
   for (const n of invalid) {
     console.error(`✗ ${n.filename}`);
@@ -382,8 +505,10 @@ async function main() {
   const valid = notes.length - invalid.length;
   console.log(`\n${valid}/${notes.length} note(s) valid.`);
 
-  if (invalid.length > 0) {
-    console.error(`\n${invalid.length} note(s) failed validation — nothing was written.`);
+  if (invalid.length > 0 || invalidCases.length > 0) {
+    console.error(
+      `\n${invalid.length + invalidCases.length} note(s) failed validation — nothing was written.`
+    );
     process.exit(1);
   }
 
@@ -393,7 +518,7 @@ async function main() {
   }
 
   console.log("\nImporting to Supabase…");
-  await upsertAll(notes);
+  await upsertAll(notes, caseNotes);
 }
 
 main().catch((err) => {
