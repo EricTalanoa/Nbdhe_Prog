@@ -20,4 +20,5 @@ export type PracticeQuestion = {
   difficulty: string;
   options: PracticeOption[];
   correct_explanation: string | null;
+  flagged: boolean;
 };
