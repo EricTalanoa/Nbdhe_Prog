@@ -8,17 +8,44 @@ import { finishSession, recordResponse } from "@/app/practice/actions";
 import { QuestionRenderer } from "./question-renderer";
 import type { PracticeQuestion } from "./types";
 
+function formatClock(totalSec: number): string {
+  const s = Math.max(0, totalSec);
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  return `${m}:${r.toString().padStart(2, "0")}`;
+}
+
 export function PracticeSession({
   questions,
   sessionId,
+  timeLimitSec,
 }: {
   questions: PracticeQuestion[];
   sessionId: string | null;
+  timeLimitSec?: number;
 }) {
   const [index, setIndex] = useState(0);
   const [results, setResults] = useState<boolean[]>([]);
-  const finished = questions.length > 0 && index >= questions.length;
+  const [endedEarly, setEndedEarly] = useState(false);
+  const [remaining, setRemaining] = useState(timeLimitSec ?? 0);
+  const finished = endedEarly || (questions.length > 0 && index >= questions.length);
   const finishReported = useRef(false);
+
+  // Countdown for timed tests: tick once a second, auto-submit at zero.
+  useEffect(() => {
+    if (!timeLimitSec || finished) return;
+    const id = setInterval(() => {
+      setRemaining((r) => {
+        if (r <= 1) {
+          clearInterval(id);
+          setEndedEarly(true);
+          return 0;
+        }
+        return r - 1;
+      });
+    }, 1000);
+    return () => clearInterval(id);
+  }, [timeLimitSec, finished]);
 
   // Fires exactly once, the render where `finished` first flips true.
   useEffect(() => {
@@ -46,15 +73,20 @@ export function PracticeSession({
     const correctCount = results.filter(Boolean).length;
     const total = results.length;
     const pct = total === 0 ? 0 : Math.round((correctCount / total) * 100);
+    const ranOutOfTime = Boolean(timeLimitSec) && remaining <= 0;
     return (
       <Card className="p-8 text-center">
         <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-          Practice set complete
+          {timeLimitSec ? "Timed test complete" : "Practice set complete"}
         </p>
         <p className="mt-2 text-4xl font-semibold tracking-tight">
           {correctCount}/{total}
         </p>
-        <p className="mt-1 text-sm text-muted-foreground">{pct}% correct</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {pct}% correct
+          {ranOutOfTime && " · time expired"}
+          {total < questions.length && !ranOutOfTime && " · ended early"}
+        </p>
         <div className="mt-6 flex justify-center gap-3">
           <Button asChild variant="outline">
             <Link href="/dashboard">Back to dashboard</Link>
@@ -69,6 +101,7 @@ export function PracticeSession({
 
   const question = questions[index];
   const answered = results.length > index;
+  const lowTime = Boolean(timeLimitSec) && remaining <= 30;
 
   function handleAnswered(correct: boolean, selectedOptionId: string | null, timeMs: number) {
     setResults((prev) => [...prev, correct]);
@@ -91,16 +124,37 @@ export function PracticeSession({
         <span>
           Question {index + 1} of {questions.length}
         </span>
-        <span>{results.filter(Boolean).length} correct so far</span>
+        <div className="flex items-center gap-4">
+          <span>{results.filter(Boolean).length} correct so far</span>
+          {timeLimitSec ? (
+            <span
+              className={`rounded-md border px-2 py-0.5 font-mono tabular-nums ${
+                lowTime ? "border-destructive/50 text-destructive" : ""
+              }`}
+              aria-label="time remaining"
+            >
+              {formatClock(remaining)}
+            </span>
+          ) : null}
+        </div>
       </div>
 
       <QuestionRenderer key={question.id} question={question} onAnswered={handleAnswered} />
 
-      {answered && (
-        <div className="mt-5 flex justify-end">
-          <Button onClick={handleNext}>
-            {index === questions.length - 1 ? "Finish" : "Next question"}
-          </Button>
+      {(timeLimitSec || answered) && (
+        <div className="mt-5 flex items-center justify-between">
+          {timeLimitSec ? (
+            <Button variant="outline" size="sm" onClick={() => setEndedEarly(true)}>
+              End test now
+            </Button>
+          ) : (
+            <span />
+          )}
+          {answered && (
+            <Button onClick={handleNext}>
+              {index === questions.length - 1 ? "Finish" : "Next question"}
+            </Button>
+          )}
         </div>
       )}
     </div>

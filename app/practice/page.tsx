@@ -1,13 +1,16 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { startSession } from "@/app/practice/actions";
+import { startSession, type SessionKind } from "@/app/practice/actions";
 import { PracticeSession } from "@/components/practice/practice-session";
 import type { PracticeOption, PracticeQuestion } from "@/components/practice/types";
 
 const DEFAULT_SET_SIZE = 10;
 const MAX_SET_SIZE = 50;
+const MAX_TIME_LIMIT_SEC = 3 * 60 * 60; // sanity cap: 3 hours
 const DIFFICULTIES = ["easy", "medium", "hard"] as const;
+const MODES = ["missed", "flagged"] as const;
+type Mode = (typeof MODES)[number];
 
 type RawQuestion = {
   id: string;
@@ -48,15 +51,44 @@ function parseDifficulty(raw: string | string[] | undefined): string | null {
   return value && (DIFFICULTIES as readonly string[]).includes(value) ? value : null;
 }
 
+function parseMode(raw: string | string[] | undefined): Mode | null {
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  return value && (MODES as readonly string[]).includes(value) ? (value as Mode) : null;
+}
+
+function parseTimeLimit(raw: string | string[] | undefined): number {
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  const n = Number.parseInt(value ?? "", 10);
+  if (!Number.isFinite(n) || n <= 0) return 0;
+  return Math.min(n, MAX_TIME_LIMIT_SEC);
+}
+
 function firstTaxonomy(t: RawQuestion["taxonomy"]): { score_area: string } | null {
   if (!t) return null;
   return Array.isArray(t) ? t[0] ?? null : t;
 }
 
+const MODE_COPY: Record<Mode, { title: string; empty: string }> = {
+  missed: {
+    title: "Review missed",
+    empty: "You have no missed questions yet — answer some in practice first.",
+  },
+  flagged: {
+    title: "Review flagged",
+    empty: "You have not flagged any questions yet — tap the flag on a question while practicing.",
+  },
+};
+
 export default async function PracticePage({
   searchParams,
 }: {
-  searchParams: { n?: string; difficulty?: string; areas?: string | string[] };
+  searchParams: {
+    n?: string;
+    difficulty?: string;
+    areas?: string | string[];
+    mode?: string;
+    t?: string;
+  };
 }) {
   const supabase = createClient();
   const {
@@ -67,6 +99,8 @@ export default async function PracticePage({
   const setSize = parseSetSize(searchParams.n);
   const areas = parseList(searchParams.areas);
   const difficulty = parseDifficulty(searchParams.difficulty);
+  const mode = parseMode(searchParams.mode);
+  const timeLimitSec = parseTimeLimit(searchParams.t);
 
   const { data, error } = await supabase
     .from("questions")
@@ -75,16 +109,32 @@ export default async function PracticePage({
     )
     .in("status", ["approved", "live"]);
 
+  // Owner-only RLS scopes these to the signed-in user automatically.
   const { data: bookmarkRows } = await supabase
     .from("bookmarks")
     .select("question_id")
     .eq("flagged", true);
   const flaggedIds = new Set((bookmarkRows ?? []).map((b) => b.question_id as string));
 
+  // Queue modes restrict the pool to a set of question ids (missed → wrong responses,
+  // flagged → flagged bookmarks). Both degrade to an empty pool if the tables aren't there.
+  let queueIds: Set<string> | null = null;
+  if (mode === "flagged") {
+    queueIds = flaggedIds;
+  } else if (mode === "missed") {
+    const { data: missedRows } = await supabase
+      .from("responses")
+      .select("question_id")
+      .eq("is_correct", false);
+    queueIds = new Set((missedRows ?? []).map((r) => r.question_id as string));
+  }
+
   const raw = (data ?? []) as unknown as RawQuestion[];
   const areaSet = new Set(areas);
   const pool: PracticeQuestion[] = raw
     .filter((q) => {
+      if (queueIds) return queueIds.has(q.id);
+      // Filtered practice (no queue): apply the builder's area/difficulty choices.
       if (difficulty && q.difficulty !== difficulty) return false;
       if (areaSet.size > 0) {
         const scoreArea = firstTaxonomy(q.taxonomy)?.score_area;
@@ -107,26 +157,43 @@ export default async function PracticePage({
     });
 
   const practiceSet = shuffle(pool).slice(0, setSize);
-  const filtered = areas.length > 0 || difficulty !== null;
+
+  const kind: SessionKind = mode
+    ? mode === "missed"
+      ? "review_missed"
+      : "review_flagged"
+    : timeLimitSec > 0
+      ? "timed"
+      : "practice";
+
   const sessionId =
     !error && practiceSet.length > 0
-      ? await startSession({
-          requested: setSize,
-          available: pool.length,
-          areas: areas.length > 0 ? areas : "all",
-          difficulty: difficulty ?? "any",
-        })
+      ? await startSession(
+          {
+            requested: setSize,
+            available: pool.length,
+            areas: areas.length > 0 ? areas : "all",
+            difficulty: difficulty ?? "any",
+            mode: mode ?? "practice",
+            time_limit_sec: timeLimitSec || null,
+          },
+          kind
+        )
       : null;
+
+  const heading = mode ? MODE_COPY[mode].title : timeLimitSec > 0 ? "Timed test" : "Practice";
+  const filtered = areas.length > 0 || difficulty !== null;
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
       <div className="mb-8 flex items-baseline justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Practice</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{heading}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Study mode · {practiceSet.length} of {pool.length} matching question
-            {pool.length === 1 ? "" : "s"}
-            {filtered && (
+            {mode ? "Review mode" : "Study mode"} · {practiceSet.length} of {pool.length}{" "}
+            {mode ? "queued" : "matching"} question{pool.length === 1 ? "" : "s"}
+            {timeLimitSec > 0 && <> · {Math.round(timeLimitSec / 60)} min</>}
+            {!mode && filtered && (
               <>
                 {" "}
                 ·{" "}
@@ -150,15 +217,22 @@ export default async function PracticePage({
 
       {!error && practiceSet.length === 0 && (
         <div className="rounded-lg border bg-card p-6 text-sm text-muted-foreground">
-          <p>No approved questions match these filters yet.</p>
-          <Link href="/practice/build" className="mt-3 inline-block underline underline-offset-4">
-            Adjust your filters
+          <p>{mode ? MODE_COPY[mode].empty : "No approved questions match these filters yet."}</p>
+          <Link
+            href={mode ? "/practice" : "/practice/build"}
+            className="mt-3 inline-block underline underline-offset-4"
+          >
+            {mode ? "Start a practice set" : "Adjust your filters"}
           </Link>
         </div>
       )}
 
       {!error && practiceSet.length > 0 && (
-        <PracticeSession questions={practiceSet} sessionId={sessionId} />
+        <PracticeSession
+          questions={practiceSet}
+          sessionId={sessionId}
+          timeLimitSec={timeLimitSec > 0 ? timeLimitSec : undefined}
+        />
       )}
     </main>
   );

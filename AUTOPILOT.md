@@ -55,7 +55,11 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   session from the chosen filters. `/practice/build` (native GET form, score-area + difficulty +
   set-size) submits to `/practice`, which filters the approved pool by those params and records
   them in the session `config`. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/6
-- [ ] **3b-queues** — Review-missed and review-flagged queues; custom timed test (timer + submit).
+- [x] **3b-queues** — Review-missed and review-flagged queues; custom timed test (timer + submit).
+  `/practice?mode=missed` (wrong `responses`) and `?mode=flagged` (flagged `bookmarks`) build
+  review sets with the matching session `kind`; the builder gained a time-limit option and
+  `/practice?t=<secs>` runs a countdown that auto-submits (with an "End test now" button).
+  PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/7
 
 ### Phase 4 — Analytics + readiness
 - [ ] **4a-rollup** — Per-score-area roll-up (13 areas + case area), accuracy trend, weak-area

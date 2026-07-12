@@ -4,7 +4,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] Phase 3: review-missed + review-flagged queues
 - [ ] Phase 4: per-score-area analytics + weak-area ranking
 - [ ] Phase 4: readiness band + "study next"
 - [ ] Phase 5: cases + testlets + patient-box component
@@ -17,6 +16,7 @@ kanban-plugin: board
 ## This Phase (Phase 3)
 
 - [x] Phase 3: quick-practice builder — `/practice/build` filters by area/difficulty/N (3a)
+- [x] Phase 3: review-missed + review-flagged queues; custom timed test (timer + submit) (3b)
 
 ## Done (Phase 2)
 

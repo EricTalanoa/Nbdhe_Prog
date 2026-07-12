@@ -18,14 +18,25 @@ async function currentUserId(supabase: ReturnType<typeof createClient>): Promise
   return user?.id ?? null;
 }
 
-export async function startSession(config: Record<string, unknown>): Promise<string | null> {
+export type SessionKind =
+  | "practice"
+  | "timed"
+  | "mock"
+  | "review_missed"
+  | "review_flagged"
+  | "case";
+
+export async function startSession(
+  config: Record<string, unknown>,
+  kind: SessionKind = "practice"
+): Promise<string | null> {
   const supabase = createClient();
   const userId = await currentUserId(supabase);
   if (!userId) return null;
 
   const { data, error } = await supabase
     .from("sessions")
-    .insert({ user_id: userId, kind: "practice", config })
+    .insert({ user_id: userId, kind, config })
     .select("id")
     .single();
 

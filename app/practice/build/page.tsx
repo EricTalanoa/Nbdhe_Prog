@@ -6,6 +6,12 @@ import { Button } from "@/components/ui/button";
 const SET_SIZES = [5, 10, 20, 30, 50] as const;
 const DEFAULT_SET_SIZE = 10;
 const DIFFICULTIES = ["easy", "medium", "hard"] as const;
+const TIME_LIMITS = [
+  { label: "Untimed", value: 0 },
+  { label: "5 min", value: 300 },
+  { label: "10 min", value: 600 },
+  { label: "20 min", value: 1200 },
+] as const;
 
 type RawRow = {
   difficulty: string;
@@ -140,6 +146,30 @@ export default async function PracticeBuilderPage() {
                   className="h-4 w-4"
                 />
                 <span>{n}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend className="text-sm font-medium">Time limit</legend>
+          <p className="mb-3 text-xs text-muted-foreground">
+            A timed test counts down and auto-submits when it runs out.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {TIME_LIMITS.map((t) => (
+              <label
+                key={t.value}
+                className="flex items-center gap-2 rounded-md border bg-card px-3 py-2 text-sm"
+              >
+                <input
+                  type="radio"
+                  name="t"
+                  value={t.value}
+                  defaultChecked={t.value === 0}
+                  className="h-4 w-4"
+                />
+                <span>{t.label}</span>
               </label>
             ))}
           </div>
