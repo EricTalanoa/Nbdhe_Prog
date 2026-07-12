@@ -66,6 +66,7 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   ranking, from `responses` joined to `questions.taxonomy_id → score_area`. `/analytics` shows
   overall accuracy, weakest areas (accuracy asc, low-sample flagged), a per-area breakdown in
   blueprint order (incl. not-yet-started areas), and a per-day accuracy trend. Dashboard links it.
+  PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/8
 - [ ] **4b-readiness** — Readiness band (Not yet / Approaching / Ready) per score area from
   (coverage %, recent accuracy) with tunable thresholds in app config; "study next" suggestions.
 
