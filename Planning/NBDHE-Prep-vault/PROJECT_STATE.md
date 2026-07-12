@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-12
-phase: 2 — Core practice loop (2a merged, 2b code complete)
+phase: 2 — Core practice loop (2a + 2b merged and live-verified)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -14,25 +14,24 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 2 — Core practice loop: 2a-renderer merged, 2b-tracking code complete (2026-07-12).**
-Phase 1 (content model + ingestion) is code complete, still pending its live-DB verification.
-2a (PR #1, merged): auth-gated `/practice` page + `QuestionRenderer` covering all three formats
-with EXCEPT/NOT flagged, immediate correct/incorrect feedback + rationale + per-distractor
-explanations, end-of-set score summary. 2b (PR #2, open): migration
-`..._sessions_responses.sql` adding `sessions`/`responses`/`bookmarks` (owner-only RLS); new
-`app/practice/actions.ts` server actions persist a session per practice set, a response row per
-answer (with elapsed `time_ms`), and a finish-time score summary; `QuestionRenderer` now has a
-bookmark/flag toggle. Every action swallows DB errors so `/practice` still works before the
-migration is applied — matches the "degrade gracefully" constraint.
-`npm run content:check` (33/33), `npm run lint`, and `next build` are green on both PRs. **Neither
-has been smoke-tested against a live DB** — no `.env.local`/service-role key in the build sandbox,
-and Phase 1's migrations/import still haven't been run against Supabase either.
+**Phase 2 — Core practice loop: 2a-renderer + 2b-tracking merged and live-verified (2026-07-12).**
+Phase 1 (content model + ingestion) and Phase 2b (session/response tracking) are now confirmed
+working against the live Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`), not just
+code-complete:
+- Both pending migrations (`..._seed_taxonomy.sql`, `..._sessions_responses.sql`) are applied.
+- `npm run content:import` ran against the live project: `questions` (33), `options` (132),
+  `rationales` (33), `taxonomy` (60) all populated from `02-Content/q-*.md`.
+- The Vercel production deployment is built from `main` @ `820661a` (`nbdhe-prog.vercel.app`).
+  `/questions` and `/practice` are live and correctly auth-gate (redirect to `/login`).
+- A real practice run persisted: a `sessions` row (kind `practice`, `finished_at` +
+  `score_summary` set) with a matching `responses` row — confirming the owner-only RLS write
+  path works end-to-end on the deployed app, not just in code.
+Only 1 of 33 questions is `status: approved` (the rest are `review`), so `/practice` currently
+draws from a set of 1 — content triage, not a bug.
 
 ## Next 3 actions
-1. Apply migrations `..._seed_taxonomy.sql` and `..._sessions_responses.sql` (PR #2), then
-   `SUPABASE_SERVICE_ROLE_KEY=… npm run content:import`; confirm `/questions` **and** `/practice`
-   work on the deployed URL, sessions/responses/bookmarks persist, and merge PR #2. Move more
-   authored items from `review` → `approved` so `/practice` has more than 1 question to draw from.
+1. Move more authored items from `review` → `approved` so `/practice` has more than 1 question
+   to draw from.
 2. Next chunk: **3a-builder** — quick-practice builder (pick areas/subdomains/N/difficulty) to
    generate a filtered session instead of pulling from the whole approved bank.
 3. Before girlfriend onboards: verify a real domain in Resend and swap the SMTP sender.
