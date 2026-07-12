@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-12
-phase: 4 — Analytics + readiness (4a + 4b merged; Phase 4 complete)
+phase: 5 — Cases & testlets (5a-cases merged; 5b-case-nav next)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -14,13 +14,23 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 4 — Analytics + readiness: 4a + 4b merged, Phase 4 complete (2026-07-12).** `/analytics`
-computes, from the user's `responses` joined through `questions.taxonomy_id → taxonomy.score_area`:
-overall accuracy, a weakest-areas ranking, a per-score-area readiness band (Not yet / Approaching /
-Ready) with coverage % + recent accuracy, "Study next" suggestions that deep-link into a filtered
-practice set, and a per-day accuracy trend — all dependency-free CSS. Readiness thresholds are
-tunable in `lib/readiness.ts`. Phase 3 is complete: `/practice/build` (area/difficulty/N/time-limit)
-plus `/practice?mode=missed|flagged` review queues and `/practice?t=<secs>` timed tests. Phase 1
+**Phase 5 — Cases & testlets: 5a-cases merged (2026-07-12), PR #10.** `cases`/`testlets`/
+`case_media` tables exist (RLS matching other content tables) with `questions.case_id`/
+`testlet_id` now real FKs. The vault import pipeline parses `case-*.md` notes and resolves a
+question's `case: <slug>` frontmatter into `case_id`, validated offline in `content:check`. A
+read-only `PatientBox` component + `/cases` and `/cases/[slug]` pages are live (auth-gated,
+linked from the dashboard). One original sample case (`case-perio-0001`, Rule 0) with two linked
+items is authored. **Not yet done:** wiring case items into the actual practice/study loop —
+that's 5b-case-nav, next up. Migration `20260712000002_cases_testlets.sql` still needs a manual
+apply to the live project (see PR #10), then `npm run content:import` to seed the sample case.
+
+Phase 4 (analytics + readiness) is complete: `/analytics` computes, from the user's `responses`
+joined through `questions.taxonomy_id → taxonomy.score_area`: overall accuracy, a weakest-areas
+ranking, a per-score-area readiness band (Not yet / Approaching / Ready) with coverage % + recent
+accuracy, "Study next" suggestions that deep-link into a filtered practice set, and a per-day
+accuracy trend — all dependency-free CSS. Readiness thresholds are tunable in `lib/readiness.ts`.
+Phase 3 is complete: `/practice/build` (area/difficulty/N/time-limit) plus
+`/practice?mode=missed|flagged` review queues and `/practice?t=<secs>` timed tests. Phase 1
 (content) and Phase 2 (renderer + session/response tracking) are confirmed working against the live
 Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 - Both pending migrations (`..._seed_taxonomy.sql`, `..._sessions_responses.sql`) are applied.
@@ -34,15 +44,17 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 - Content triage done (2026-07-12): all 33 authored items reviewed for accuracy + Rule 0 and
   promoted `review` → `approved` (frontmatter + live `questions.status`), so `/practice` now
   draws from the full 33-question bank instead of a set of 1.
+- Not yet applied to the live project: `20260712000002_cases_testlets.sql` (PR #10) and the
+  2 new case-linked questions + 1 case it adds to the vault (35 questions / 1 case pending import).
 
 ## Next 3 actions
-1. Next chunk: **5a-cases** — `cases` + `testlets` tables + patient-box component; media via
-   Supabase Storage (static images ok); author one original sample case (Rule 0). New migration —
-   apply to the live project after merge.
-2. Phase 7b (ongoing): deepen the bank beyond one item per area — Local Anesthesia and the
+1. Apply `20260712000002_cases_testlets.sql` to the live project, run `npm run content:import`
+   to seed `case-perio-0001` + its 2 linked items, then smoke-test `/cases` on the deployed URL.
+2. Next chunk: **5b-case-nav** — case navigation (parent stimulus + linked child items); wire
+   case items into the practice loop so a case can actually be played end-to-end.
+3. Phase 7b (ongoing): deepen the bank beyond one item per area — Local Anesthesia and the
    high-item-count clinical areas (Care Planning, Perio Management) get the most depth. Current
-   spread is thin (e.g. difficulty is 9 easy / 23 medium / 1 hard across 33 items).
-3. Before girlfriend onboards: verify a real domain in Resend and swap the SMTP sender.
+   spread is thin (e.g. difficulty is 9 easy / 25 medium / 1 hard across 35 items).
 
 ## Stack (decided)
 - Frontend: Next.js 14 App Router · TypeScript · Tailwind · shadcn/ui · PWA (manifest + SW)
