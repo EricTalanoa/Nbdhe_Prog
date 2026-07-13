@@ -24,9 +24,10 @@ linked from the dashboard), and `/cases/[slug]` now has a "Start case" button. `
 session, with `PatientBox` rendered as a persistent stimulus above every item via a new
 `stimulus` prop on `PracticeSession` — answering, flagging, and response recording all reuse the
 existing practice-loop machinery unchanged. One original sample case (`case-perio-0001`, Rule 0)
-with two linked items is authored. Migration `20260712000002_cases_testlets.sql` still needs a
-manual apply to the live project (see PR #10), then `npm run content:import` to seed the sample
-case, before either `/cases` or `/practice?case=case-perio-0001` can be smoke-tested live.
+with two linked items is authored. **Live-verified (2026-07-13):** migration
+`20260712000002_cases_testlets.sql` is applied to the live project and the sample case is seeded —
+confirmed `cases`=1, case-linked `questions`=2, total `questions`=35, so `/cases` and
+`/practice?case=case-perio-0001` now run against real data.
 
 Phase 4 (analytics + readiness) is complete: `/analytics` computes, from the user's `responses`
 joined through `questions.taxonomy_id → taxonomy.score_area`: overall accuracy, a weakest-areas
@@ -46,17 +47,17 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   `score_summary` set) with a matching `responses` row — confirming the owner-only RLS write
   path works end-to-end on the deployed app, not just in code.
 - Content triage done (2026-07-12): all 33 authored items reviewed for accuracy + Rule 0 and
-  promoted `review` → `approved` (frontmatter + live `questions.status`), so `/practice` now
-  draws from the full 33-question bank instead of a set of 1.
-- Not yet applied to the live project: `20260712000002_cases_testlets.sql` (PR #10) and the
-  2 new case-linked questions + 1 case it adds to the vault (35 questions / 1 case pending import).
+  promoted `review` → `approved` (frontmatter + live `questions.status`).
+- Cases live (2026-07-12): `20260712000002_cases_testlets.sql` applied and `case-perio-0001` +
+  its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next 3 actions
-1. Apply `20260712000002_cases_testlets.sql` to the live project, run `npm run content:import`
-   to seed `case-perio-0001` + its 2 linked items, then smoke-test `/cases` and
-   `/practice?case=case-perio-0001` end-to-end on the deployed URL.
-2. Next chunk: **Phase 6** — format-accurate mock exam (two sessions, timers, optional breaks,
+1. Next chunk: **Phase 6** — format-accurate mock exam (two sessions, timers, optional breaks,
    final scoreband) and PWA polish (manifest + service worker, offline caching, install prompt).
+2. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
+   sample case). Note: this container's network egress blocks `*.supabase.co`, so
+   `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
+   editor and seed with SQL (as 5a was), or run the importer from a machine with egress.
 3. Phase 7b (ongoing): deepen the bank beyond one item per area — Local Anesthesia and the
    high-item-count clinical areas (Care Planning, Perio Management) get the most depth. Current
    spread is thin (e.g. difficulty is 9 easy / 25 medium / 1 hard across 35 items).
