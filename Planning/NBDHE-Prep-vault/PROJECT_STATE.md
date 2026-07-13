@@ -22,7 +22,9 @@ a problem" form files a `question_reports` row. New migration
 a manual apply to the live project** (SQL editor, same as the cases migration — MCP writes and
 `*.supabase.co` egress are blocked in web sessions); until then `/review` degrades gracefully
 (every card is "new", grade/report are best-effort no-ops). Dashboard links "Flashcard review".
-**Next: 7b** — deepen the question bank (wide→deep; Local Anesthesia + high-count clinical areas).
+**7b (ongoing) batch 1** authored 5 more original Local Anesthesia items (q-anes-0004..0008,
+Malamed-referenced) — vault now holds 40 questions; these need seeding to live (SQL editor / off-
+sandbox importer) along with the 7a migration.
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
@@ -82,9 +84,9 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
    editor and seed with SQL (as 5a was), or run the importer from a machine with egress.
-3. Phase 7b (ongoing): deepen the bank beyond one item per area — Local Anesthesia and the
-   high-item-count clinical areas (Care Planning, Perio Management) get the most depth. Current
-   spread is thin (e.g. difficulty is 9 easy / 25 medium / 1 hard across 35 items).
+3. Phase 7b (ongoing): keep deepening the bank — next batches on Care Planning and Perio
+   Management (high item-count areas). Bank is 40 questions (10 easy / 28 medium / 2 hard);
+   still thin relative to the real ~350-item exam.
 
 ## Stack (decided)
 - Frontend: Next.js 14 App Router · TypeScript · Tailwind · shadcn/ui · PWA (manifest + SW)
