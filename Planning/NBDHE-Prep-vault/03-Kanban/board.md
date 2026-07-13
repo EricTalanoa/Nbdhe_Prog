@@ -5,10 +5,14 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
-- [ ] Phase 7: spaced repetition + flashcards + error reporting
 - [ ] Phase 7: deepen question bank (Local Anesthesia depth)
 
-## This Phase (Phase 6)
+## This Phase (Phase 7)
+
+- [x] Phase 7: review tools — SM-2-lite flashcards `/review` + `review_schedule` +
+      error reports (`question_reports`) — `lib/srs.ts` (7a) — migration pending live apply
+
+## Done (Phase 6)
 
 - [x] Phase 6: format-accurate mock exam — `/mock` two timed components (A discipline / B
       case-based) + break + readiness scoreband — `lib/mock.ts` (6a)
