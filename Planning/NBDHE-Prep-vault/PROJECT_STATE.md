@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-13
-phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth next)
+phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 6)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -20,13 +20,15 @@ the correct answer + rationale, self-grade Again/Hard/Good/Easy to reschedule `d
 a problem" form files a `question_reports` row. Migration `20260713000001_review_tools.sql`
 (`review_schedule` + `question_reports`, owner-only RLS) is **applied to the live project
 (2026-07-13)**, so `/review` persists schedules and error reports. Dashboard links "Flashcard
-review". **7b (ongoing)** — 5 batches (b1 LA PR#16, b2 Care Planning/Perio PR#20, b3 Radiography/
+review". **7b (ongoing)** — 6 batches (b1 LA PR#16, b2 Care Planning/Perio PR#20, b3 Radiography/
 Assessment PR#22, b4 Preventive/Professional/Supportive/Research PR#23, b5 +2 cases + 4 linked
-items PR#26). Vault holds **64 questions** (12 easy / 46 medium / 6 hard) + **3 cases**
-(perio, pediatric ECC, anticoagulant) — **all seeded to live (2026-07-13); live = 64/3**. (Live
-writes go through the SQL editor; MCP writes + `*.supabase.co` egress are blocked in Claude web
-sessions.) Also shipped (features, not chunks): pre-built topic sets `/sets` + subdomain filter
-(PR #25), and a seafoam & white visual refresh (PR #24).
+items PR#26, b6 2nd-pass Care Planning/Perio subdomains — this PR). Vault holds **70 questions**
+(14 easy / 49 medium / 7 hard) + **3 cases** (perio, pediatric ECC, anticoagulant) — **batch 6 is
+authored + validated in the vault but not yet seeded to live** (live still = 64/3 as of
+2026-07-13; seed via SQL editor next). (Live writes go through the SQL editor; MCP writes +
+`*.supabase.co` egress are blocked in Claude web sessions.) Also shipped (features, not chunks):
+pre-built topic sets `/sets` + subdomain filter (PR #25), and a seafoam & white visual refresh
+(PR #24).
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
@@ -79,16 +81,15 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next 3 actions
-1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
-   Next batches on Care Planning and Perio Management (high item-count areas). Seed each batch to
-   live via the SQL editor (as done 2026-07-13) or the off-sandbox importer.
-2. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
+1. Seed batch 6 (q-plan-0007..0009, q-perio-0008..0010) to the live project via the SQL editor —
+   vault is at 70 questions but live is still 64 until this runs.
+2. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
+   Radiography, Assessment, and Preventive Agents still have the fewest items; keep rotating
+   through under-covered subdomains rather than only the highest-count areas.
+3. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
    editor and seed with SQL, or run the importer from a machine with egress.
-3. Phase 7b (ongoing): keep deepening the bank — next batches on Care Planning and Perio
-   Management (high item-count areas). Bank is 40 questions (10 easy / 28 medium / 2 hard);
-   still thin relative to the real ~350-item exam.
 
 ## Stack (decided)
 - Frontend: Next.js 14 App Router · TypeScript · Tailwind · shadcn/ui · PWA (manifest + SW)
