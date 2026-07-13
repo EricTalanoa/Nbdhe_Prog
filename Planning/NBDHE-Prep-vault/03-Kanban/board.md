@@ -5,12 +5,16 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
-- [ ] Phase 6: format-accurate mock exam (two sessions, timers)
 - [ ] Phase 6: PWA manifest + service worker + offline caching
 - [ ] Phase 7: spaced repetition + flashcards + error reporting
 - [ ] Phase 7: deepen question bank (Local Anesthesia depth)
 
-## This Phase (Phase 5)
+## This Phase (Phase 6)
+
+- [x] Phase 6: format-accurate mock exam — `/mock` two timed components (A discipline / B
+      case-based) + break + readiness scoreband — `lib/mock.ts` (6a)
+
+## Done (Phase 5)
 
 - [x] Phase 5: cases + testlets + case_media tables, patient-box component,
       `/cases` + `/cases/[slug]`, one original sample case — PR #10 (5a)
