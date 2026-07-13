@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -19,10 +19,13 @@ export function PracticeSession({
   questions,
   sessionId,
   timeLimitSec,
+  stimulus,
 }: {
   questions: PracticeQuestion[];
   sessionId: string | null;
   timeLimitSec?: number;
+  // Persistent case stimulus (patient box), shown above every item in a case session.
+  stimulus?: ReactNode;
 }) {
   const [index, setIndex] = useState(0);
   const [results, setResults] = useState<boolean[]>([]);
@@ -59,13 +62,16 @@ export function PracticeSession({
 
   if (questions.length === 0) {
     return (
-      <Card className="p-8 text-center text-sm text-muted-foreground">
-        <p className="font-medium text-foreground">No questions available yet.</p>
-        <p className="mt-2">
-          Content is still being authored — check back once more items reach{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5">approved</code> status.
-        </p>
-      </Card>
+      <>
+        {stimulus}
+        <Card className="p-8 text-center text-sm text-muted-foreground">
+          <p className="font-medium text-foreground">No questions available yet.</p>
+          <p className="mt-2">
+            Content is still being authored — check back once more items reach{" "}
+            <code className="rounded bg-muted px-1.5 py-0.5">approved</code> status.
+          </p>
+        </Card>
+      </>
     );
   }
 
@@ -75,27 +81,30 @@ export function PracticeSession({
     const pct = total === 0 ? 0 : Math.round((correctCount / total) * 100);
     const ranOutOfTime = Boolean(timeLimitSec) && remaining <= 0;
     return (
-      <Card className="p-8 text-center">
-        <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
-          {timeLimitSec ? "Timed test complete" : "Practice set complete"}
-        </p>
-        <p className="mt-2 text-4xl font-semibold tracking-tight">
-          {correctCount}/{total}
-        </p>
-        <p className="mt-1 text-sm text-muted-foreground">
-          {pct}% correct
-          {ranOutOfTime && " · time expired"}
-          {total < questions.length && !ranOutOfTime && " · ended early"}
-        </p>
-        <div className="mt-6 flex justify-center gap-3">
-          <Button asChild variant="outline">
-            <Link href="/dashboard">Back to dashboard</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/practice">Start another set</Link>
-          </Button>
-        </div>
-      </Card>
+      <>
+        {stimulus}
+        <Card className="p-8 text-center">
+          <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+            {timeLimitSec ? "Timed test complete" : "Practice set complete"}
+          </p>
+          <p className="mt-2 text-4xl font-semibold tracking-tight">
+            {correctCount}/{total}
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {pct}% correct
+            {ranOutOfTime && " · time expired"}
+            {total < questions.length && !ranOutOfTime && " · ended early"}
+          </p>
+          <div className="mt-6 flex justify-center gap-3">
+            <Button asChild variant="outline">
+              <Link href="/dashboard">Back to dashboard</Link>
+            </Button>
+            <Button asChild>
+              <Link href="/practice">Start another set</Link>
+            </Button>
+          </div>
+        </Card>
+      </>
     );
   }
 
@@ -120,6 +129,7 @@ export function PracticeSession({
 
   return (
     <div>
+      {stimulus}
       <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
         <span>
           Question {index + 1} of {questions.length}

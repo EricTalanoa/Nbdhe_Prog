@@ -1,5 +1,6 @@
 // Read-only patient-box display for a case (see 05-Dev/schema.md `cases.patient_box`).
-// Case navigation (linking these into the practice loop) is 5b-case-nav.
+// Also rendered as the persistent stimulus above each item during a case practice session
+// (see `stimulus` prop on PracticeSession, wired from /practice?case=<slug>).
 
 export type PatientBoxData = {
   demographics: string;

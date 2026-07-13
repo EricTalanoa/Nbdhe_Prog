@@ -4,7 +4,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] Phase 5: case navigation — wire case items into the practice loop (5b)
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
 - [ ] Phase 6: format-accurate mock exam (two sessions, timers)
 - [ ] Phase 6: PWA manifest + service worker + offline caching
@@ -15,6 +14,8 @@ kanban-plugin: board
 
 - [x] Phase 5: cases + testlets + case_media tables, patient-box component,
       `/cases` + `/cases/[slug]`, one original sample case — PR #10 (5a)
+- [x] Phase 5: case navigation — wire case items into the practice loop —
+      `/practice?case=<slug>` + "Start case" button — PR #11 (5b)
 
 ## Done (Phase 4)
 

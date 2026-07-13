@@ -1,6 +1,6 @@
 ---
-updated: 2026-07-12
-phase: 5 — Cases & testlets (5a-cases merged; 5b-case-nav next)
+updated: 2026-07-13
+phase: 5 — Cases & testlets (5a-cases + 5b-case-nav merged; Phase 6 next)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -14,15 +14,19 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 5 — Cases & testlets: 5a-cases merged (2026-07-12), PR #10.** `cases`/`testlets`/
+**Phase 5 — Cases & testlets: complete in code (5a PR #10, 5b PR #11).** `cases`/`testlets`/
 `case_media` tables exist (RLS matching other content tables) with `questions.case_id`/
 `testlet_id` now real FKs. The vault import pipeline parses `case-*.md` notes and resolves a
 question's `case: <slug>` frontmatter into `case_id`, validated offline in `content:check`. A
 read-only `PatientBox` component + `/cases` and `/cases/[slug]` pages are live (auth-gated,
-linked from the dashboard). One original sample case (`case-perio-0001`, Rule 0) with two linked
-items is authored. **Not yet done:** wiring case items into the actual practice/study loop —
-that's 5b-case-nav, next up. Migration `20260712000002_cases_testlets.sql` still needs a manual
-apply to the live project (see PR #10), then `npm run content:import` to seed the sample case.
+linked from the dashboard), and `/cases/[slug]` now has a "Start case" button. `/practice?case=
+<slug>` (5b-case-nav, PR #11) plays a case's linked approved items in slug order as a `case`-kind
+session, with `PatientBox` rendered as a persistent stimulus above every item via a new
+`stimulus` prop on `PracticeSession` — answering, flagging, and response recording all reuse the
+existing practice-loop machinery unchanged. One original sample case (`case-perio-0001`, Rule 0)
+with two linked items is authored. Migration `20260712000002_cases_testlets.sql` still needs a
+manual apply to the live project (see PR #10), then `npm run content:import` to seed the sample
+case, before either `/cases` or `/practice?case=case-perio-0001` can be smoke-tested live.
 
 Phase 4 (analytics + readiness) is complete: `/analytics` computes, from the user's `responses`
 joined through `questions.taxonomy_id → taxonomy.score_area`: overall accuracy, a weakest-areas
@@ -49,9 +53,10 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 
 ## Next 3 actions
 1. Apply `20260712000002_cases_testlets.sql` to the live project, run `npm run content:import`
-   to seed `case-perio-0001` + its 2 linked items, then smoke-test `/cases` on the deployed URL.
-2. Next chunk: **5b-case-nav** — case navigation (parent stimulus + linked child items); wire
-   case items into the practice loop so a case can actually be played end-to-end.
+   to seed `case-perio-0001` + its 2 linked items, then smoke-test `/cases` and
+   `/practice?case=case-perio-0001` end-to-end on the deployed URL.
+2. Next chunk: **Phase 6** — format-accurate mock exam (two sessions, timers, optional breaks,
+   final scoreband) and PWA polish (manifest + service worker, offline caching, install prompt).
 3. Phase 7b (ongoing): deepen the bank beyond one item per area — Local Anesthesia and the
    high-item-count clinical areas (Care Planning, Perio Management) get the most depth. Current
    spread is thin (e.g. difficulty is 9 easy / 25 medium / 1 hard across 35 items).
