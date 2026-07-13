@@ -90,8 +90,12 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   finishes with an overall %, a readiness band (thresholds in `lib/mock.ts`), per-component and
   per-score-area breakdowns. Persists a `mock`-kind session + responses. Dashboard links it.
   PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/13
-- [ ] **6b-pwa** — PWA manifest + service worker, offline question caching, install prompt, mobile
-  UX pass.
+- [x] **6b-pwa** — PWA manifest + service worker, offline question caching, install prompt, mobile
+  UX pass. `app/manifest.ts` (installable, standalone, SVG icons) + a dependency-free
+  `public/sw.js` (cache-first static, network-first navigations with an `/offline` fallback) +
+  `PwaManager` (registers the SW, shows an install prompt on `beforeinstallprompt`); theme-color +
+  apple-web-app metadata in the root layout; middleware allowlists the PWA assets. PR:
+  https://github.com/EricTalanoa/Nbdhe_Prog/pull/14
 
 ### Phase 7 — Content scale-up + niceties
 - [ ] **7a-review-tools** — Spaced-repetition scheduling (`review_schedule`), flashcards,

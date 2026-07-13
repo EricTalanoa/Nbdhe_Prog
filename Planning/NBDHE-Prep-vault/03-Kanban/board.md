@@ -5,7 +5,6 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
-- [ ] Phase 6: PWA manifest + service worker + offline caching
 - [ ] Phase 7: spaced repetition + flashcards + error reporting
 - [ ] Phase 7: deepen question bank (Local Anesthesia depth)
 
@@ -13,6 +12,8 @@ kanban-plugin: board
 
 - [x] Phase 6: format-accurate mock exam — `/mock` two timed components (A discipline / B
       case-based) + break + readiness scoreband — `lib/mock.ts` (6a)
+- [x] Phase 6: PWA — manifest + service worker (offline fallback) + install prompt +
+      theme-color/apple metadata — `app/manifest.ts` / `public/sw.js` / `PwaManager` (6b)
 
 ## Done (Phase 5)
 

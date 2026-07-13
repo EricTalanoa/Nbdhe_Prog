@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="NBDHE Prep">
+  <rect width="512" height="512" rx="112" fill="#18181b"/>
+  <path fill="#fafafa" d="M256 120c-58 0-100 30-100 78 0 30 12 50 12 82 0 48-16 66-16 112 0 34 18 20 34 20 20 0 26-44 44-44s24 44 44 44c16 0 34 14 34-20 0-46-16-64-16-112 0-32 12-52 12-82 0-48-42-78-100-78z"/>
+  <circle cx="200" cy="205" r="14" fill="#18181b"/>
+  <circle cx="312" cy="205" r="14" fill="#18181b"/>
+</svg>
