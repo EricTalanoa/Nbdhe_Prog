@@ -22,10 +22,10 @@ a problem" form files a `question_reports` row. Migration `20260713000001_review
 (2026-07-13)**, so `/review` persists schedules and error reports. Dashboard links "Flashcard
 review". **7b (ongoing)** — 5 batches (b1 LA PR#16, b2 Care Planning/Perio PR#20, b3 Radiography/
 Assessment PR#22, b4 Preventive/Professional/Supportive/Research PR#23, b5 +2 cases + 4 linked
-items PR#26). Vault now holds **64 questions** (12 easy / 46 medium / 6 hard) + **3 cases**
-(perio, pediatric ECC, anticoagulant). **Live is at 46/1** — batches 3-5 (18 questions + 2 cases)
-**need seeding** (SQL editor; MCP writes + `*.supabase.co` egress are blocked in Claude web
-sessions). Also shipped (features, not chunks): pre-built topic sets `/sets` + subdomain filter
+items PR#26). Vault holds **64 questions** (12 easy / 46 medium / 6 hard) + **3 cases**
+(perio, pediatric ECC, anticoagulant) — **all seeded to live (2026-07-13); live = 64/3**. (Live
+writes go through the SQL editor; MCP writes + `*.supabase.co` egress are blocked in Claude web
+sessions.) Also shipped (features, not chunks): pre-built topic sets `/sets` + subdomain filter
 (PR #25), and a seafoam & white visual refresh (PR #24).
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
