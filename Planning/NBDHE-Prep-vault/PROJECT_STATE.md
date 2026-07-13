@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-13
-phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth next)
+phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -21,8 +21,14 @@ a problem" form files a `question_reports` row. Migration `20260713000001_review
 (`review_schedule` + `question_reports`, owner-only RLS) is **applied to the live project
 (2026-07-13)**, so `/review` persists schedules and error reports. Dashboard links "Flashcard
 review". **7b (ongoing) batch 1** authored 5 original Local Anesthesia items (q-anes-0004..0008,
-Malamed-referenced) — **seeded to live (2026-07-13)**; the live bank now holds **40 questions**
-(8 anesthesia items) + 1 case. (Live writes are done via the SQL editor — MCP writes and
+Malamed-referenced) — **seeded to live (2026-07-13)**; the live bank holds **40 questions**
+(8 anesthesia items) + 1 case. **7b batch 2** (2026-07-13, vault only, not yet seeded) added 5
+Care Planning / Periodontal Disease Management items: q-plan-0003 (infection control — needle
+recapping, negative format), q-plan-0004 (caries patient education), q-plan-0005 (care-plan
+sequencing, completion format), q-perio-0006 (nonsurgical reassessment → surgical referral),
+q-perio-0007 (implant-safe instrumentation, negative format, the bank's 3rd `hard` item) —
+Wilkins/Darby & Walsh/Newman & Carranza-referenced; vault now holds **45 questions**, `npm run
+content:check` passes 45/45. (Live writes are done via the SQL editor — MCP writes and
 `*.supabase.co` egress are blocked in Claude web sessions.)
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
@@ -77,15 +83,17 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 
 ## Next 3 actions
 1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
-   Next batches on Care Planning and Perio Management (high item-count areas). Seed each batch to
-   live via the SQL editor (as done 2026-07-13) or the off-sandbox importer.
+   Batch 2 (Care Planning + Perio Management) is authored in the vault but not yet seeded to
+   live; seed it via the SQL editor (as done for batch 1 on 2026-07-13) or the off-sandbox
+   importer, then continue with remaining Care Planning / Perio Management subdomains (Treatment
+   strategies — Diagnosis/Case presentation; instruction: periodontal diseases/oral conditions;
+   Prescribed therapy — Surgical support services/Maintenance) before widening other areas.
 2. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
    editor and seed with SQL, or run the importer from a machine with egress.
-3. Phase 7b (ongoing): keep deepening the bank — next batches on Care Planning and Perio
-   Management (high item-count areas). Bank is 40 questions (10 easy / 28 medium / 2 hard);
-   still thin relative to the real ~350-item exam.
+3. Phase 7b (ongoing): keep deepening the bank — vault is 45 questions (12 easy / 30 medium /
+   3 hard); still thin relative to the real ~350-item exam. Live DB is 40 until batch 2 is seeded.
 
 ## Stack (decided)
 - Frontend: Next.js 14 App Router · TypeScript · Tailwind · shadcn/ui · PWA (manifest + SW)

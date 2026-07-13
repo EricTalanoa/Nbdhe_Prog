@@ -5,13 +5,15 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
-- [ ] Phase 7: deepen question bank — ongoing (batch 1 done: +5 Local Anesthesia, bank now 40)
+- [ ] Phase 7: deepen question bank — ongoing (batch 2 done: +5 Care Planning/Perio Management,
+      vault now 45; batch 2 not yet seeded to live)
 
 ## This Phase (Phase 7)
 
 - [x] Phase 7: review tools — SM-2-lite flashcards `/review` + `review_schedule` +
-      error reports (`question_reports`) — `lib/srs.ts` (7a) — migration pending live apply
-- [~] Phase 7: bank depth (7b, ongoing) — batch 1: +5 Local Anesthesia items (bank now 40)
+      error reports (`question_reports`) — `lib/srs.ts` (7a) — migration applied live
+- [~] Phase 7: bank depth (7b, ongoing) — batch 1: +5 Local Anesthesia (live, bank 40); batch 2:
+      +5 Care Planning/Perio Management (vault only, 45) — q-plan-0003..0005, q-perio-0006..0007
 
 ## Done (Phase 6)
 
