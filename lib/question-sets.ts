@@ -93,6 +93,10 @@ export const QUESTION_SETS: QuestionSet[] = [
   },
 ];
 
+export function getQuestionSet(slug: string): QuestionSet | undefined {
+  return QUESTION_SETS.find((s) => s.slug === slug);
+}
+
 // Build the /practice href for a set.
 export function questionSetHref(set: QuestionSet): string {
   const params = new URLSearchParams();
@@ -100,6 +104,11 @@ export function questionSetHref(set: QuestionSet): string {
   for (const s of set.subs ?? []) params.append("sub", s);
   if (set.n) params.set("n", String(set.n));
   return `/practice?${params.toString()}`;
+}
+
+// Build the /review (flashcards) href for a set — same topic, studied as flashcards.
+export function reviewSetHref(set: QuestionSet): string {
+  return `/review?set=${encodeURIComponent(set.slug)}`;
 }
 
 // Does a question (by its score_area + subdomain) belong to a set? Used to count matches.
