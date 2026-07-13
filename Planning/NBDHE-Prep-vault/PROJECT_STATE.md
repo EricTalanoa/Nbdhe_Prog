@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-13
-phase: 5 — Cases & testlets (5a-cases + 5b-case-nav merged; Phase 6 next)
+phase: 6 — Full mock exam + PWA (6a-mock merged; 6b-pwa next)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -14,7 +14,16 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 5 — Cases & testlets: complete in code (5a PR #10, 5b PR #11).** `cases`/`testlets`/
+**Phase 6 — Mock exam + PWA: 6a-mock merged (2026-07-13).** `/mock` runs a format-accurate mock:
+Component A (discipline items, shuffled) → optional break → Component B (case-based items grouped
+by case, `PatientBox` pinned above each) → results, each section on a per-item countdown
+(`lib/mock.ts`, 75 s/item) that auto-advances at zero. Finishes with overall %, a readiness band
+(Ready/Approaching/Not yet from tunable cutoffs), and per-component + per-score-area breakdowns;
+persists a `mock`-kind session + a response per item, reusing the existing practice actions and
+`QuestionRenderer`. Dashboard links "Take a mock exam". **6b-pwa is next** (manifest + service
+worker, offline caching, install prompt, mobile pass).
+
+Phase 5 (cases & testlets) is complete and live-verified: `cases`/`testlets`/
 `case_media` tables exist (RLS matching other content tables) with `questions.case_id`/
 `testlet_id` now real FKs. The vault import pipeline parses `case-*.md` notes and resolves a
 question's `case: <slug>` frontmatter into `case_id`, validated offline in `content:check`. A
@@ -52,8 +61,8 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next 3 actions
-1. Next chunk: **Phase 6** — format-accurate mock exam (two sessions, timers, optional breaks,
-   final scoreband) and PWA polish (manifest + service worker, offline caching, install prompt).
+1. Next chunk: **6b-pwa** — PWA manifest + service worker, offline question caching, install
+   prompt, mobile UX pass (Phase 6 exit: she can take the mock and install the app on her phone).
 2. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
