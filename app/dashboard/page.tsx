@@ -7,6 +7,7 @@ import {
   Flag,
   GraduationCap,
   Layers,
+  LayoutGrid,
   LogOut,
   RotateCcw,
   SlidersHorizontal,
@@ -23,6 +24,7 @@ const GROUPS: { label: string; tiles: Tile[] }[] = [
   {
     label: "Practice",
     tiles: [
+      { href: "/sets", icon: LayoutGrid, title: "Question sets", desc: "One-tap sets by topic (LA, perio, radiology…)" },
       { href: "/practice/build", icon: SlidersHorizontal, title: "Build a set", desc: "Pick areas, difficulty, size, and a timer" },
       { href: "/practice", icon: Zap, title: "Quick set", desc: "10 random questions, study mode" },
     ],

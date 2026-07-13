@@ -23,8 +23,10 @@ type RawQuestion = {
   case_id: string | null;
   options: PracticeOption[];
   rationales: { correct_explanation: string } | { correct_explanation: string }[] | null;
-  taxonomy: { score_area: string } | { score_area: string }[] | null;
+  taxonomy: TaxonomyRef | TaxonomyRef[] | null;
 };
+
+type TaxonomyRef = { score_area: string; subdomain: string | null };
 
 type CaseInfo = {
   title: string;
@@ -79,7 +81,7 @@ function parseTimeLimit(raw: string | string[] | undefined): number {
   return Math.min(n, MAX_TIME_LIMIT_SEC);
 }
 
-function firstTaxonomy(t: RawQuestion["taxonomy"]): { score_area: string } | null {
+function firstTaxonomy(t: RawQuestion["taxonomy"]): TaxonomyRef | null {
   if (!t) return null;
   return Array.isArray(t) ? t[0] ?? null : t;
 }
@@ -102,6 +104,7 @@ export default async function PracticePage({
     n?: string;
     difficulty?: string;
     areas?: string | string[];
+    sub?: string | string[];
     mode?: string;
     t?: string;
     case?: string;
@@ -115,6 +118,7 @@ export default async function PracticePage({
 
   const setSize = parseSetSize(searchParams.n);
   const areas = parseList(searchParams.areas);
+  const subs = parseList(searchParams.sub);
   const difficulty = parseDifficulty(searchParams.difficulty);
   const mode = parseMode(searchParams.mode);
   const timeLimitSec = parseTimeLimit(searchParams.t);
@@ -153,7 +157,7 @@ export default async function PracticePage({
   const { data, error } = await supabase
     .from("questions")
     .select(
-      "id, slug, format, stem, difficulty, case_id, options(id, label, body, is_correct, distractor_rationale, sort_order), rationales(correct_explanation), taxonomy(score_area)"
+      "id, slug, format, stem, difficulty, case_id, options(id, label, body, is_correct, distractor_rationale, sort_order), rationales(correct_explanation), taxonomy(score_area, subdomain)"
     )
     .in("status", ["approved", "live"]);
 
@@ -179,17 +183,17 @@ export default async function PracticePage({
 
   const raw = (data ?? []) as unknown as RawQuestion[];
   const areaSet = new Set(areas);
+  const subSet = new Set(subs);
   const pool: PracticeQuestion[] = raw
     .filter((q) => {
       // Case mode: only this case's linked items, ignoring the builder's other filters.
       if (caseId) return q.case_id === caseId;
       if (queueIds) return queueIds.has(q.id);
-      // Filtered practice (no queue): apply the builder's area/difficulty choices.
+      // Filtered practice (no queue): apply the builder's / question-set filters.
       if (difficulty && q.difficulty !== difficulty) return false;
-      if (areaSet.size > 0) {
-        const scoreArea = firstTaxonomy(q.taxonomy)?.score_area;
-        if (!scoreArea || !areaSet.has(scoreArea)) return false;
-      }
+      const tax = firstTaxonomy(q.taxonomy);
+      if (areaSet.size > 0 && (!tax?.score_area || !areaSet.has(tax.score_area))) return false;
+      if (subSet.size > 0 && (!tax?.subdomain || !subSet.has(tax.subdomain))) return false;
       return true;
     })
     .map((q) => {
@@ -230,6 +234,7 @@ export default async function PracticePage({
                 requested: setSize,
                 available: pool.length,
                 areas: areas.length > 0 ? areas : "all",
+                subdomains: subs.length > 0 ? subs : "all",
                 difficulty: difficulty ?? "any",
                 mode: mode ?? "practice",
                 time_limit_sec: timeLimitSec || null,
@@ -245,7 +250,7 @@ export default async function PracticePage({
       : timeLimitSec > 0
         ? "Timed test"
         : "Practice";
-  const filtered = areas.length > 0 || difficulty !== null;
+  const filtered = areas.length > 0 || subs.length > 0 || difficulty !== null;
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
