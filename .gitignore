@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Obsidian local UI state (churns constantly)
+Planning/NBDHE-Prep-vault/.obsidian/workspace.json
+Planning/NBDHE-Prep-vault/.obsidian/workspace-mobile.json
