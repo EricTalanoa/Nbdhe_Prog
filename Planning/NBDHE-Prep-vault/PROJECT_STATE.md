@@ -22,13 +22,16 @@ a problem" form files a `question_reports` row. Migration `20260713000001_review
 (2026-07-13)**, so `/review` persists schedules and error reports. Dashboard links "Flashcard
 review". **7b (ongoing)** — 6 batches (b1 LA PR#16, b2 Care Planning/Perio PR#20, b3 Radiography/
 Assessment PR#22, b4 Preventive/Professional/Supportive/Research PR#23, b5 +2 cases + 4 linked
-items PR#26, b6 2nd-pass Care Planning/Perio subdomains — this PR). Vault holds **70 questions**
-(14 easy / 49 medium / 7 hard) + **3 cases** (perio, pediatric ECC, anticoagulant) — **batch 6 is
-authored + validated in the vault but not yet seeded to live** (live still = 64/3 as of
-2026-07-13; seed via SQL editor next). (Live writes go through the SQL editor; MCP writes +
-`*.supabase.co` egress are blocked in Claude web sessions.) Also shipped (features, not chunks):
-pre-built topic sets `/sets` + subdomain filter (PR #25), and a seafoam & white visual refresh
-(PR #24).
+items PR#26, b6 2nd-pass Care Planning/Perio subdomains). Vault holds **70 questions** (14 easy /
+49 medium / 7 hard) + **3 cases** (perio, pediatric ECC, anticoagulant). Also shipped (features,
+not chunks): seafoam & white visual refresh (PR #24); topic sets `/sets` + subdomain filter
+(PR #25); flashcard categories — study a topic set as flashcards (PR #29); **dedicated flashcards**
+— a `flashcards` content type (term→concept) with its own SM-2 schedule, `fc-*.md` importer
+support, and 10 authored cards merged into `/review` (PR #30). **Pending live apply/seed** (live
+= 64/3 as of 2026-07-13): batch-6 questions, migration `20260713000002_flashcards.sql`, and the 10
+`fc-*` cards — via SQL editor, or the off-sandbox importer (MCP writes + `*.supabase.co` egress are
+blocked in Claude web sessions). `/review` degrades gracefully until the flashcards migration is
+applied.
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,

@@ -259,6 +259,42 @@ function parseCaseNote(filename, raw) {
   };
 }
 
+// Parse an `fc-*.md` dedicated flashcard note: frontmatter taxonomy + `# Front` / `# Back`.
+function parseFlashcardNote(filename, raw) {
+  const errors = [];
+  const { data, body } = parseFrontmatter(raw);
+  const sections = splitSections(body);
+
+  const slug = data.id?.trim();
+  const front = stripComments(sections["front"]);
+  const back = stripComments(sections["back"]);
+
+  if (!slug) errors.push("missing frontmatter `id` (used as slug)");
+  if (!STATUSES.has(data.status)) errors.push(`status must be one of ${[...STATUSES].join("/")}`);
+  if (!data.area) errors.push("missing `area`");
+  if (!data.domain) errors.push("missing `domain`");
+  if (!front) errors.push("empty Front section");
+  if (!back) errors.push("empty Back section");
+
+  return {
+    filename,
+    slug,
+    flashcard: {
+      slug,
+      front,
+      back,
+      status: data.status,
+      reference: data.reference || null,
+    },
+    taxonomy: {
+      area: data.area || "",
+      domain: data.domain || "",
+      subdomain: data.subdomain || "",
+    },
+    errors,
+  };
+}
+
 async function loadContentFiles() {
   return await readdir(CONTENT_DIR);
 }
@@ -279,6 +315,16 @@ async function loadCaseNotes(files) {
   for (const f of caseFiles) {
     const raw = await readFile(join(CONTENT_DIR, f), "utf8");
     notes.push(parseCaseNote(f, raw));
+  }
+  return notes;
+}
+
+async function loadFlashcardNotes(files) {
+  const fcFiles = files.filter((f) => /^fc-.*\.md$/.test(f)).sort();
+  const notes = [];
+  for (const f of fcFiles) {
+    const raw = await readFile(join(CONTENT_DIR, f), "utf8");
+    notes.push(parseFlashcardNote(f, raw));
   }
   return notes;
 }
@@ -340,7 +386,7 @@ async function loadEnvLocal() {
   }
 }
 
-async function upsertAll(notes, caseNotes) {
+async function upsertAll(notes, caseNotes, flashcardNotes = []) {
   const { createClient } = await import("@supabase/supabase-js");
   await loadEnvLocal();
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -454,12 +500,42 @@ async function upsertAll(notes, caseNotes) {
     imported++;
   }
   console.log(`\nImported ${imported}/${notes.length} note(s).`);
+
+  // Dedicated flashcards (fc-*.md) → flashcards table.
+  let fcImported = 0;
+  for (const fc of flashcardNotes) {
+    const taxonomyId = taxMap.get(
+      taxKey(fc.taxonomy.area, fc.taxonomy.domain, fc.taxonomy.subdomain)
+    );
+    if (!taxonomyId) {
+      console.error(
+        `  ✗ ${fc.slug}: no taxonomy row for area="${fc.taxonomy.area}" domain="${fc.taxonomy.domain}" subdomain="${fc.taxonomy.subdomain}"`
+      );
+      process.exitCode = 1;
+      continue;
+    }
+    const { error: fcErr } = await db.from("flashcards").upsert(
+      { ...fc.flashcard, taxonomy_id: taxonomyId, updated_at: new Date().toISOString() },
+      { onConflict: "slug" }
+    );
+    if (fcErr) {
+      console.error(`  ✗ ${fc.slug} (flashcard): ${fcErr.message}`);
+      process.exitCode = 1;
+      continue;
+    }
+    console.log(`  ✓ flashcard ${fc.slug}  [${fc.flashcard.status}]`);
+    fcImported++;
+  }
+  if (flashcardNotes.length > 0) {
+    console.log(`Imported ${fcImported}/${flashcardNotes.length} flashcard(s).`);
+  }
 }
 
 async function main() {
   const files = await loadContentFiles();
   const notes = await loadNotes(files);
   const caseNotes = await loadCaseNotes(files);
+  const flashcardNotes = await loadFlashcardNotes(files);
   if (notes.length === 0) {
     console.error(`No q-*.md notes found in ${CONTENT_DIR}`);
     process.exit(1);
@@ -468,7 +544,7 @@ async function main() {
   // Cross-check every note's taxonomy tagging against the seed migration (offline). This
   // catches subdomain string drift — e.g. a hyphen where the blueprint uses an em dash.
   const taxKeys = await loadTaxonomyKeysFromMigration();
-  for (const n of notes) {
+  const checkTaxonomy = (n) => {
     if (n.errors.length === 0 || !n.errors.some((e) => e.startsWith("missing `"))) {
       const key = taxKey(n.taxonomy.area, n.taxonomy.domain, n.taxonomy.subdomain);
       if (!taxKeys.has(key)) {
@@ -477,7 +553,9 @@ async function main() {
         );
       }
     }
-  }
+  };
+  for (const n of notes) checkTaxonomy(n);
+  for (const n of flashcardNotes) checkTaxonomy(n);
 
   // A question note can link to a case (frontmatter `case: <slug>`) — verify it points at
   // a case note that actually exists, entirely offline.
@@ -497,6 +575,17 @@ async function main() {
     console.log(`${caseNotes.length - invalidCases.length}/${caseNotes.length} case note(s) valid.`);
   }
 
+  const invalidFlashcards = flashcardNotes.filter((n) => n.errors.length > 0);
+  for (const n of invalidFlashcards) {
+    console.error(`✗ ${n.filename}`);
+    for (const e of n.errors) console.error(`    - ${e}`);
+  }
+  if (flashcardNotes.length > 0) {
+    console.log(
+      `${flashcardNotes.length - invalidFlashcards.length}/${flashcardNotes.length} flashcard note(s) valid.`
+    );
+  }
+
   const invalid = notes.filter((n) => n.errors.length > 0);
   for (const n of invalid) {
     console.error(`✗ ${n.filename}`);
@@ -505,9 +594,9 @@ async function main() {
   const valid = notes.length - invalid.length;
   console.log(`\n${valid}/${notes.length} note(s) valid.`);
 
-  if (invalid.length > 0 || invalidCases.length > 0) {
+  if (invalid.length > 0 || invalidCases.length > 0 || invalidFlashcards.length > 0) {
     console.error(
-      `\n${invalid.length + invalidCases.length} note(s) failed validation — nothing was written.`
+      `\n${invalid.length + invalidCases.length + invalidFlashcards.length} note(s) failed validation — nothing was written.`
     );
     process.exit(1);
   }
@@ -518,7 +607,7 @@ async function main() {
   }
 
   console.log("\nImporting to Supabase…");
-  await upsertAll(notes, caseNotes);
+  await upsertAll(notes, caseNotes, flashcardNotes);
 }
 
 main().catch((err) => {
