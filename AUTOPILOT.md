@@ -107,9 +107,11 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   https://github.com/EricTalanoa/Nbdhe_Prog/pull/15
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
-  Progress: bank now 46 questions (10 easy / 33 medium / 3 hard).
+  Progress: bank now 52 questions (11 easy / 38 medium / 3 hard).
   - Batch 1 (PR #16): 5 Local Anesthesia items (q-anes-0004..0008).
-  - Batch 2 (PR #20): 6 items — Care Planning (q-plan-0003..0006: spore/biological sterilization
-    monitoring, acute-asthma emergency, AHA endocarditis prophylaxis [hard], caries diet
-    frequency) + Perio Management (q-perio-0006 maintenance purpose, q-perio-0007 implant
-    instrumentation). Next batches: remaining Care Planning subdomains, Radiography, Assessment.
+  - Batch 2 (PR #20): 6 items — Care Planning (q-plan-0003..0006) + Perio Management
+    (q-perio-0006..0007).
+  - Batch 3 (PR #22): 6 items — Radiography (q-radi-0003..0005: radiosensitivity/Bergonié-
+    Tribondeau, most-radiopaque=enamel, foreshortening) + Patient Assessment (q-asmt-0003..0005:
+    hard-fixed lymph node, leukoplakia, Angle Class I). Next batches: Preventive Agents,
+    Professional Responsibility, Supportive Treatment, Research/Community.
