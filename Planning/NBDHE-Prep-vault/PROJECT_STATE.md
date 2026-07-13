@@ -17,14 +17,13 @@ progress syncs across her devices).
 **Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13).** `/review` is an
 SM-2-lite spaced-repetition flashcard queue (`lib/srs.ts`): pulls due + new cards, flip to reveal
 the correct answer + rationale, self-grade Again/Hard/Good/Easy to reschedule `due_at`; a "report
-a problem" form files a `question_reports` row. New migration
-`20260713000001_review_tools.sql` (`review_schedule` + `question_reports`, owner-only RLS) **needs
-a manual apply to the live project** (SQL editor, same as the cases migration — MCP writes and
-`*.supabase.co` egress are blocked in web sessions); until then `/review` degrades gracefully
-(every card is "new", grade/report are best-effort no-ops). Dashboard links "Flashcard review".
-**7b (ongoing) batch 1** authored 5 more original Local Anesthesia items (q-anes-0004..0008,
-Malamed-referenced) — vault now holds 40 questions; these need seeding to live (SQL editor / off-
-sandbox importer) along with the 7a migration.
+a problem" form files a `question_reports` row. Migration `20260713000001_review_tools.sql`
+(`review_schedule` + `question_reports`, owner-only RLS) is **applied to the live project
+(2026-07-13)**, so `/review` persists schedules and error reports. Dashboard links "Flashcard
+review". **7b (ongoing) batch 1** authored 5 original Local Anesthesia items (q-anes-0004..0008,
+Malamed-referenced) — **seeded to live (2026-07-13)**; the live bank now holds **40 questions**
+(8 anesthesia items) + 1 case. (Live writes are done via the SQL editor — MCP writes and
+`*.supabase.co` egress are blocked in Claude web sessions.)
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
@@ -77,13 +76,13 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next 3 actions
-1. Apply `20260713000001_review_tools.sql` to the live project (SQL editor), so `/review`
-   persists the schedule and error reports. Then next chunk: **7b-bank-depth** — deepen the
-   question bank (wide→deep; Local Anesthesia + high-count clinical areas), one focused batch/run.
+1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
+   Next batches on Care Planning and Perio Management (high item-count areas). Seed each batch to
+   live via the SQL editor (as done 2026-07-13) or the off-sandbox importer.
 2. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
-   editor and seed with SQL (as 5a was), or run the importer from a machine with egress.
+   editor and seed with SQL, or run the importer from a machine with egress.
 3. Phase 7b (ongoing): keep deepening the bank — next batches on Care Planning and Perio
    Management (high item-count areas). Bank is 40 questions (10 easy / 28 medium / 2 hard);
    still thin relative to the real ~350-item exam.
