@@ -1,7 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/login", "/auth"];
+// PWA assets must be fetchable without auth: the service worker, manifest, and offline
+// fallback are requested by the browser before/independently of any session.
+const PUBLIC_PATHS = ["/login", "/auth", "/sw.js", "/manifest.webmanifest", "/offline", "/icon.svg"];
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });

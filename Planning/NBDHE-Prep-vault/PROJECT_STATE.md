@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-13
-phase: 6 — Full mock exam + PWA (6a-mock merged; 6b-pwa next)
+phase: 6 — Full mock exam + PWA (6a + 6b merged; Phase 6 complete, Phase 7 next)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -14,14 +14,18 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 6 — Mock exam + PWA: 6a-mock merged (2026-07-13).** `/mock` runs a format-accurate mock:
-Component A (discipline items, shuffled) → optional break → Component B (case-based items grouped
-by case, `PatientBox` pinned above each) → results, each section on a per-item countdown
-(`lib/mock.ts`, 75 s/item) that auto-advances at zero. Finishes with overall %, a readiness band
-(Ready/Approaching/Not yet from tunable cutoffs), and per-component + per-score-area breakdowns;
-persists a `mock`-kind session + a response per item, reusing the existing practice actions and
-`QuestionRenderer`. Dashboard links "Take a mock exam". **6b-pwa is next** (manifest + service
-worker, offline caching, install prompt, mobile pass).
+**Phase 6 — Mock exam + PWA: complete (6a + 6b merged, 2026-07-13).** `/mock` runs a
+format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
+`PatientBox` pinned above each) → results, each section on a per-item countdown (`lib/mock.ts`)
+that auto-advances at zero; finishes with overall %, a readiness band, and per-component +
+per-score-area breakdowns (persists a `mock`-kind session). 6b-pwa makes the app installable:
+`app/manifest.ts` (standalone, SVG icons), a dependency-free `public/sw.js` (cache-first static,
+network-first navigations with an `/offline` fallback), a `PwaManager` that registers the SW and
+shows an install prompt, theme-color + apple-web-app metadata in the root layout, and the PWA
+assets allowlisted in the auth middleware. Runtime-verified locally: `/manifest.webmanifest`,
+`/sw.js` (correct MIME), `/icon.svg`, `/offline` all serve public while `/dashboard` still
+auth-redirects. **Next: Phase 7** (content depth + review tools). NBDHE app is feature-complete
+through Phase 6.
 
 Phase 5 (cases & testlets) is complete and live-verified: `cases`/`testlets`/
 `case_media` tables exist (RLS matching other content tables) with `questions.case_id`/
@@ -61,8 +65,8 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next 3 actions
-1. Next chunk: **6b-pwa** — PWA manifest + service worker, offline question caching, install
-   prompt, mobile UX pass (Phase 6 exit: she can take the mock and install the app on her phone).
+1. Next chunk: **7a-review-tools** — spaced-repetition scheduling (`review_schedule` table +
+   migration), flashcards, and an error-reporting workflow. (Then 7b: deepen the bank.)
 2. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
