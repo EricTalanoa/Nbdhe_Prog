@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ReviewSession } from "@/components/review/review-session";
 import type { ReviewCard } from "@/components/review/flashcard";
+import { PageHeader } from "@/components/ui/page-header";
 
 const DECK_SIZE = 20;
 
@@ -74,18 +74,14 @@ export default async function ReviewPage() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
-      <div className="mb-8 flex items-baseline justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Flashcard review</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Spaced repetition · {dueCount} due
-            {newCount > 0 && ` · ${newCount} new`}
-          </p>
-        </div>
-        <Link href="/dashboard" className="text-sm text-muted-foreground underline underline-offset-4">
-          ← Dashboard
-        </Link>
-      </div>
+      <PageHeader
+        title="Flashcard review"
+        subtitle={
+          <>
+            Spaced repetition · {dueCount} due{newCount > 0 && ` · ${newCount} new`}
+          </>
+        }
+      />
 
       {error ? (
         <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">

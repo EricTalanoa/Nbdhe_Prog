@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { startSession, type SessionKind } from "@/app/practice/actions";
 import { PracticeSession } from "@/components/practice/practice-session";
 import { PatientBox, type CaseMediaItem, type PatientBoxData } from "@/components/cases/patient-box";
+import { PageHeader } from "@/components/ui/page-header";
 import type { PracticeOption, PracticeQuestion } from "@/components/practice/types";
 
 const DEFAULT_SET_SIZE = 10;
@@ -248,39 +249,32 @@ export default async function PracticePage({
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
-      <div className="mb-8 flex items-baseline justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">{heading}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {caseInfo ? (
-              <>
-                Case mode · {practiceSet.length} linked item{practiceSet.length === 1 ? "" : "s"}
-              </>
-            ) : (
-              <>
-                {mode ? "Review mode" : "Study mode"} · {practiceSet.length} of {pool.length}{" "}
-                {mode ? "queued" : "matching"} question{pool.length === 1 ? "" : "s"}
-                {timeLimitSec > 0 && <> · {Math.round(timeLimitSec / 60)} min</>}
-                {!mode && filtered && (
-                  <>
-                    {" "}
-                    ·{" "}
-                    <Link href="/practice/build" className="underline underline-offset-4">
-                      change filters
-                    </Link>
-                  </>
-                )}
-              </>
-            )}
-          </p>
-        </div>
-        <Link
-          href={caseInfo ? "/cases" : "/dashboard"}
-          className="text-sm text-muted-foreground underline underline-offset-4"
-        >
-          {caseInfo ? "← Cases" : "← Dashboard"}
-        </Link>
-      </div>
+      <PageHeader
+        title={heading}
+        backHref={caseInfo ? "/cases" : "/dashboard"}
+        backLabel={caseInfo ? "Cases" : "Dashboard"}
+        subtitle={
+          caseInfo ? (
+            <>
+              Case mode · {practiceSet.length} linked item{practiceSet.length === 1 ? "" : "s"}
+            </>
+          ) : (
+            <>
+              {mode ? "Review mode" : "Study mode"} · {practiceSet.length} of {pool.length}{" "}
+              {mode ? "queued" : "matching"} question{pool.length === 1 ? "" : "s"}
+              {timeLimitSec > 0 && <> · {Math.round(timeLimitSec / 60)} min</>}
+              {!mode && filtered && (
+                <>
+                  {" "}·{" "}
+                  <Link href="/practice/build" className="underline underline-offset-4">
+                    change filters
+                  </Link>
+                </>
+              )}
+            </>
+          )
+        }
+      />
 
       {(error || caseError) && (
         <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">

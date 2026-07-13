@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { PageHeader } from "@/components/ui/page-header";
 
 type CaseRow = {
   slug: string;
@@ -24,17 +25,14 @@ export default async function CasesPage() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
-      <div className="mb-8 flex items-baseline justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Cases</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+      <PageHeader
+        title="Cases"
+        subtitle={
+          <>
             {cases.length} case{cases.length === 1 ? "" : "s"} · patient-based item sets
-          </p>
-        </div>
-        <Link href="/dashboard" className="text-sm text-muted-foreground underline underline-offset-4">
-          ← Dashboard
-        </Link>
-      </div>
+          </>
+        }
+      />
 
       {error && (
         <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">

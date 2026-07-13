@@ -1,9 +1,9 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { startSession } from "@/app/practice/actions";
 import { MockExam, type MockItem } from "@/components/mock/mock-exam";
 import { MOCK } from "@/lib/mock";
+import { PageHeader } from "@/components/ui/page-header";
 import type { PatientBoxData } from "@/components/cases/patient-box";
 import type { PracticeOption, PracticeQuestion } from "@/components/practice/types";
 
@@ -124,17 +124,10 @@ export default async function MockPage() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
-      <div className="mb-8 flex items-baseline justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Mock exam</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Two timed components with a break — NBDHE format, scaled to the approved bank.
-          </p>
-        </div>
-        <Link href="/dashboard" className="text-sm text-muted-foreground underline underline-offset-4">
-          ← Dashboard
-        </Link>
-      </div>
+      <PageHeader
+        title="Mock exam"
+        subtitle="Two timed components with a break — NBDHE format, scaled to the approved bank."
+      />
 
       {error && (
         <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">

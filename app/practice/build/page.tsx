@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
+import { PageHeader } from "@/components/ui/page-header";
 
 const SET_SIZES = [5, 10, 20, 30, 50] as const;
 const DEFAULT_SET_SIZE = 10;
@@ -60,18 +61,15 @@ export default async function PracticeBuilderPage() {
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
-      <div className="mb-8 flex items-baseline justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Build a practice set</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+      <PageHeader
+        title="Build a practice set"
+        subtitle={
+          <>
             Pick score areas, difficulty, and how many questions. {total} question
             {total === 1 ? "" : "s"} in the approved bank.
-          </p>
-        </div>
-        <Link href="/dashboard" className="text-sm text-muted-foreground underline underline-offset-4">
-          ← Dashboard
-        </Link>
-      </div>
+          </>
+        }
+      />
 
       {error && (
         <div className="mb-6 rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">

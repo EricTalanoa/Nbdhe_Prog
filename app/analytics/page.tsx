@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { readinessBand, BAND_META, READINESS, type Band } from "@/lib/readiness";
+import { PageHeader } from "@/components/ui/page-header";
 
 // Phase 4a/4b — per-score-area roll-up, accuracy trend, weak-area ranking, and a readiness band
 // per area (coverage % + recent accuracy) with "study next" suggestions. Computed from the user's
@@ -195,17 +196,10 @@ export default async function AnalyticsPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
-      <div className="mb-8 flex items-baseline justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Progress</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Readiness by score area, weak spots, and a recent trend — from your answered questions.
-          </p>
-        </div>
-        <Link href="/dashboard" className="text-sm text-muted-foreground underline underline-offset-4">
-          ← Dashboard
-        </Link>
-      </div>
+      <PageHeader
+        title="Progress"
+        subtitle="Readiness by score area, weak spots, and a recent trend — from your answered questions."
+      />
 
       {error && (
         <div className="mb-6 rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">

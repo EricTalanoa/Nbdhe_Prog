@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { PageHeader } from "@/components/ui/page-header";
 
 // Phase 1 raw content browser: proves seeded questions are visible end-to-end.
 // Not the study UI — that's Phase 2. This just lists what's in the bank, grouped by
@@ -69,18 +69,15 @@ export default async function QuestionsPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
-      <div className="mb-8 flex items-baseline justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Question bank</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+      <PageHeader
+        title="Question bank"
+        subtitle={
+          <>
             {questions.length} question{questions.length === 1 ? "" : "s"} across{" "}
-            {orderedGroups.length} score area{orderedGroups.length === 1 ? "" : "s"} · raw Phase 1 view
-          </p>
-        </div>
-        <Link href="/dashboard" className="text-sm text-muted-foreground underline underline-offset-4">
-          ← Dashboard
-        </Link>
-      </div>
+            {orderedGroups.length} score area{orderedGroups.length === 1 ? "" : "s"}
+          </>
+        }
+      />
 
       {error && (
         <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">
