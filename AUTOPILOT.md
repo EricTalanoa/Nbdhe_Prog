@@ -121,5 +121,9 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     control-general, treatment-plan sequencing; q-perio-0008..0010: surgical support services,
     reassessment and evaluation, a 2nd maintenance item).
 
-  Feature (not a chunk): pre-built topic sets — `/sets` + subdomain filtering in `/practice`
-  (`lib/question-sets.ts`, PR #25). And a seafoam & white visual refresh (PR #24).
+  Features (not chunks): seafoam & white visual refresh (PR #24); pre-built topic sets `/sets` +
+  subdomain filtering (PR #25); flashcard categories — study any topic set as flashcards
+  (`/review?set=…`, PR #29); dedicated flashcards content type — `flashcards` +
+  `flashcard_schedule` tables (migration `..._flashcards.sql`), `fc-*.md` importer support, 10
+  authored cards, merged into `/review` with their own SM-2 schedule (PR #30). New migration +
+  10 cards need a live apply/seed.

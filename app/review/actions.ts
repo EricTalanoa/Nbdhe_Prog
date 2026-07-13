@@ -54,6 +54,44 @@ export async function gradeReview(questionId: string, grade: Grade): Promise<Gra
   return { ok: true, intervalDays: next.intervalDays };
 }
 
+export async function gradeFlashcard(flashcardId: string, grade: Grade): Promise<GradeResult> {
+  const supabase = createClient();
+  const userId = await currentUserId(supabase);
+  if (!userId) return { ok: false, intervalDays: 0 };
+
+  const { data: existing } = await supabase
+    .from("flashcard_schedule")
+    .select("ease, interval_days")
+    .eq("user_id", userId)
+    .eq("flashcard_id", flashcardId)
+    .maybeSingle();
+
+  const current: CardState = existing
+    ? { ease: existing.ease as number, intervalDays: existing.interval_days as number }
+    : { ease: 2.5, intervalDays: 0 };
+
+  const next = schedule(current, grade);
+
+  const { error } = await supabase.from("flashcard_schedule").upsert(
+    {
+      user_id: userId,
+      flashcard_id: flashcardId,
+      ease: next.ease,
+      interval_days: next.intervalDays,
+      due_at: next.dueAt.toISOString(),
+      last_result: next.lastResult,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "user_id,flashcard_id" }
+  );
+
+  if (error) {
+    console.error("gradeFlashcard: could not persist (migration not applied yet?)", error.message);
+    return { ok: false, intervalDays: next.intervalDays };
+  }
+  return { ok: true, intervalDays: next.intervalDays };
+}
+
 const VALID_REASONS = new Set(["wrong_answer", "typo", "ambiguous", "other"]);
 
 export async function reportQuestion(

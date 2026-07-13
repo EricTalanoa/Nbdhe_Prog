@@ -3,15 +3,15 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { gradeReview, reportQuestion } from "@/app/review/actions";
+import { gradeReview, gradeFlashcard, reportQuestion } from "@/app/review/actions";
 import { GRADES, type Grade } from "@/lib/srs";
 
 export type ReviewCard = {
   id: string;
-  stem: string;
-  correctLabel: string;
-  correctBody: string;
-  correctExplanation: string | null;
+  kind: "question" | "flashcard";
+  front: string;
+  back: string;
+  note: string | null; // correct-answer rationale for question cards; null for dedicated cards
 };
 
 const REPORT_REASONS = [
@@ -85,14 +85,17 @@ export function Flashcard({
   async function grade(g: Grade) {
     if (grading) return;
     setGrading(true);
-    await gradeReview(card.id, g);
+    if (card.kind === "flashcard") await gradeFlashcard(card.id, g);
+    else await gradeReview(card.id, g);
     onGraded(g);
   }
 
   return (
     <Card className="p-6">
-      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Recall</p>
-      <p className="mt-3 text-base leading-relaxed">{card.stem}</p>
+      <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+        {card.kind === "flashcard" ? "Flashcard" : "Recall"}
+      </p>
+      <p className="mt-3 text-base leading-relaxed">{card.front}</p>
 
       {!revealed ? (
         <Button className="mt-5" onClick={() => setRevealed(true)}>
@@ -101,12 +104,8 @@ export function Flashcard({
       ) : (
         <div className="mt-5">
           <div className="rounded-lg border border-emerald-500 bg-emerald-50 px-4 py-3 dark:bg-emerald-950/40">
-            <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-300">
-              {card.correctLabel}. {card.correctBody}
-            </p>
-            {card.correctExplanation && (
-              <p className="mt-2 text-sm text-muted-foreground">{card.correctExplanation}</p>
-            )}
+            <p className="text-sm font-medium text-emerald-800 dark:text-emerald-300">{card.back}</p>
+            {card.note && <p className="mt-2 text-sm text-muted-foreground">{card.note}</p>}
           </div>
 
           <p className="mt-5 text-xs text-muted-foreground">How well did you recall it?</p>
@@ -126,19 +125,21 @@ export function Flashcard({
         </div>
       )}
 
-      <div className="mt-4 border-t pt-3">
-        {!reporting ? (
-          <button
-            type="button"
-            onClick={() => setReporting(true)}
-            className="text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground"
-          >
-            Report a problem with this question
-          </button>
-        ) : (
-          <ReportForm questionId={card.id} onDone={() => setReporting(false)} />
-        )}
-      </div>
+      {card.kind === "question" && (
+        <div className="mt-4 border-t pt-3">
+          {!reporting ? (
+            <button
+              type="button"
+              onClick={() => setReporting(true)}
+              className="text-xs text-muted-foreground underline underline-offset-4 hover:text-foreground"
+            >
+              Report a problem with this question
+            </button>
+          ) : (
+            <ReportForm questionId={card.id} onDone={() => setReporting(false)} />
+          )}
+        </div>
+      )}
     </Card>
   );
 }
