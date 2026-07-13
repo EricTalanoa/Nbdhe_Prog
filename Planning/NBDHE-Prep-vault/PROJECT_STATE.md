@@ -27,11 +27,9 @@ items PR#26, b6 2nd-pass Care Planning/Perio subdomains). Vault holds **70 quest
 not chunks): seafoam & white visual refresh (PR #24); topic sets `/sets` + subdomain filter
 (PR #25); flashcard categories — study a topic set as flashcards (PR #29); **dedicated flashcards**
 — a `flashcards` content type (term→concept) with its own SM-2 schedule, `fc-*.md` importer
-support, and 10 authored cards merged into `/review` (PR #30). **Pending live apply/seed** (live
-= 64/3 as of 2026-07-13): batch-6 questions, migration `20260713000002_flashcards.sql`, and the 10
-`fc-*` cards — via SQL editor, or the off-sandbox importer (MCP writes + `*.supabase.co` egress are
-blocked in Claude web sessions). `/review` degrades gracefully until the flashcards migration is
-applied.
+support, and 10 authored cards merged into `/review` (PR #30). **All seeded to live (2026-07-13):
+70 questions / 3 cases / 10 flashcards** (flashcards migration `20260713000002_flashcards.sql`
+applied; batch-6 questions + `fc-*` cards seeded via SQL editor). Live now matches the vault.
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
@@ -84,11 +82,10 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next 3 actions
-1. Seed batch 6 (q-plan-0007..0009, q-perio-0008..0010) to the live project via the SQL editor —
-   vault is at 70 questions but live is still 64 until this runs.
-2. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
+1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
    Radiography, Assessment, and Preventive Agents still have the fewest items; keep rotating
-   through under-covered subdomains rather than only the highest-count areas.
+   through under-covered subdomains rather than only the highest-count areas. Also: author more
+   dedicated flashcards (`fc-*.md`) alongside questions.
 3. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
