@@ -107,12 +107,15 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   https://github.com/EricTalanoa/Nbdhe_Prog/pull/15
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
-  Progress: bank now 60 questions (12 easy / 44 medium / 4 hard).
+  Progress: bank now 64 questions (12 easy / 46 medium / 6 hard) + 3 cases.
   - Batch 1 (PR #16): 5 Local Anesthesia (q-anes-0004..0008).
   - Batch 2 (PR #20): 6 Care Planning + Perio (q-plan-0003..0006, q-perio-0006..0007).
   - Batch 3 (PR #22): 6 Radiography + Assessment (q-radi-0003..0005, q-asmt-0003..0005).
-  - Batch 4 (PR #23): 8 items — Preventive Agents (q-prev-0003..0004: fluoride toxicology,
-    varnish), Professional Responsibility (q-prof-0003..0004: HIPAA minimum-necessary,
-    motivational interviewing), Supportive Treatment (q-supp-0003..0004: gypsum W/P ratio, air-
-    polishing contraindication), Research/Community (q-rsch-0003 sensitivity, q-comm-0002 DMFT).
-    Now ≥1 deepening item in every score area. Next: 2nd-pass depth on thin high-count areas.
+  - Batch 4 (PR #23): 8 items across Preventive/Professional/Supportive/Research (q-prev-0003..0004,
+    q-prof-0003..0004, q-supp-0003..0004, q-rsch-0003, q-comm-0002) — ≥1 item in every score area.
+  - Batch 5 (PR #26): +2 cases (case-pedo-0001 pediatric ECC, case-med-0001 anticoagulant/
+    warfarin) + 4 linked items (q-pedo-0001..0002, q-med-0001..0002). Next: 2nd-pass depth on
+    high-count areas + more cases.
+
+  Feature (not a chunk): pre-built topic sets — `/sets` + subdomain filtering in `/practice`
+  (`lib/question-sets.ts`, PR #25). And a seafoam & white visual refresh (PR #24).

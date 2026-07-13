@@ -20,11 +20,13 @@ the correct answer + rationale, self-grade Again/Hard/Good/Easy to reschedule `d
 a problem" form files a `question_reports` row. Migration `20260713000001_review_tools.sql`
 (`review_schedule` + `question_reports`, owner-only RLS) is **applied to the live project
 (2026-07-13)**, so `/review` persists schedules and error reports. Dashboard links "Flashcard
-review". **7b (ongoing)** — 4 batches: b1 (+5 Local Anesthesia, PR #16), b2 (+6 Care Planning/Perio,
-PR #20), b3 (+6 Radiography/Assessment, PR #22), b4 (+8 Preventive/Professional/Supportive/
-Research, PR #23). Vault now holds **60 questions** (12 easy / 44 medium / 4 hard) + 1 case, with at
-least one deepening item in every score area; batches 1-2 (46) are live, **batches 3-4 need seeding**
-(SQL editor — MCP writes and `*.supabase.co` egress are blocked in Claude web sessions).
+review". **7b (ongoing)** — 5 batches (b1 LA PR#16, b2 Care Planning/Perio PR#20, b3 Radiography/
+Assessment PR#22, b4 Preventive/Professional/Supportive/Research PR#23, b5 +2 cases + 4 linked
+items PR#26). Vault now holds **64 questions** (12 easy / 46 medium / 6 hard) + **3 cases**
+(perio, pediatric ECC, anticoagulant). **Live is at 46/1** — batches 3-5 (18 questions + 2 cases)
+**need seeding** (SQL editor; MCP writes + `*.supabase.co` egress are blocked in Claude web
+sessions). Also shipped (features, not chunks): pre-built topic sets `/sets` + subdomain filter
+(PR #25), and a seafoam & white visual refresh (PR #24).
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
