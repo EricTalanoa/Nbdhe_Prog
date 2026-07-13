@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-13
-phase: 6 — Full mock exam + PWA (6a + 6b merged; Phase 6 complete, Phase 7 next)
+phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth next)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -14,7 +14,17 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 6 — Mock exam + PWA: complete (6a + 6b merged, 2026-07-13).** `/mock` runs a
+**Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13).** `/review` is an
+SM-2-lite spaced-repetition flashcard queue (`lib/srs.ts`): pulls due + new cards, flip to reveal
+the correct answer + rationale, self-grade Again/Hard/Good/Easy to reschedule `due_at`; a "report
+a problem" form files a `question_reports` row. New migration
+`20260713000001_review_tools.sql` (`review_schedule` + `question_reports`, owner-only RLS) **needs
+a manual apply to the live project** (SQL editor, same as the cases migration — MCP writes and
+`*.supabase.co` egress are blocked in web sessions); until then `/review` degrades gracefully
+(every card is "new", grade/report are best-effort no-ops). Dashboard links "Flashcard review".
+**Next: 7b** — deepen the question bank (wide→deep; Local Anesthesia + high-count clinical areas).
+
+Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
 `PatientBox` pinned above each) → results, each section on a per-item countdown (`lib/mock.ts`)
 that auto-advances at zero; finishes with overall %, a readiness band, and per-component +
@@ -65,8 +75,9 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next 3 actions
-1. Next chunk: **7a-review-tools** — spaced-repetition scheduling (`review_schedule` table +
-   migration), flashcards, and an error-reporting workflow. (Then 7b: deepen the bank.)
+1. Apply `20260713000001_review_tools.sql` to the live project (SQL editor), so `/review`
+   persists the schedule and error reports. Then next chunk: **7b-bank-depth** — deepen the
+   question bank (wide→deep; Local Anesthesia + high-count clinical areas), one focused batch/run.
 2. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL

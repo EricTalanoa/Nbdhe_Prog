@@ -37,6 +37,9 @@ export default async function DashboardPage() {
       <Link href="/practice?mode=flagged" className="text-sm underline underline-offset-4">
         Review flagged questions
       </Link>
+      <Link href="/review" className="text-sm underline underline-offset-4">
+        Flashcard review
+      </Link>
       <Link href="/mock" className="text-sm underline underline-offset-4">
         Take a mock exam
       </Link>

@@ -98,7 +98,12 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   https://github.com/EricTalanoa/Nbdhe_Prog/pull/14
 
 ### Phase 7 — Content scale-up + niceties
-- [ ] **7a-review-tools** — Spaced-repetition scheduling (`review_schedule`), flashcards,
-  error-reporting workflow.
+- [x] **7a-review-tools** — Spaced-repetition scheduling (`review_schedule`), flashcards,
+  error-reporting workflow. Migration `..._review_tools.sql` adds `review_schedule` +
+  `question_reports` (owner-only RLS). `/review` is an SM-2-lite flashcard queue (`lib/srs.ts`):
+  flip to reveal the key + rationale, self-grade Again/Hard/Good/Easy → reschedules `due_at`; a
+  "report a problem" form writes `question_reports`. Degrades gracefully (every card treated as
+  new; grade/report are no-ops) until the migration is applied. PR:
+  https://github.com/EricTalanoa/Nbdhe_Prog/pull/15
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
