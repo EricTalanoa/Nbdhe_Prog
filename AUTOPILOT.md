@@ -77,8 +77,11 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [x] **5a-cases** — `cases` + `testlets` tables + patient-box component; media via Supabase
   Storage (static images ok). Author one original sample case (Rule 0). PR:
   https://github.com/EricTalanoa/Nbdhe_Prog/pull/10
-- [ ] **5b-case-nav** — Case navigation: parent stimulus + linked child items; wire case items into
-  the practice loop.
+- [x] **5b-case-nav** — Case navigation: parent stimulus + linked child items; wire case items into
+  the practice loop. `/practice?case=<slug>` plays a case's approved items in slug order as a
+  `case`-kind session, with `PatientBox` shown as a persistent stimulus above every item (new
+  `stimulus` prop on `PracticeSession`); `/cases/[slug]` gained a "Start case" button.
+  PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/11
 
 ### Phase 6 — Full mock exam + PWA
 - [ ] **6a-mock** — Format-accurate mock: two sessions, timers, optional breaks, final scoreband.
