@@ -5,13 +5,13 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
-- [ ] Phase 7: deepen question bank — ongoing (batches 1-3: +5 LA, +6 Care Planning/Perio, +6 Radiography/Assessment; bank now 52)
+- [ ] Phase 7: deepen question bank — ongoing (batches 1-4; bank now 60 (LA, Care Planning, Perio, Radiography, Assessment, Preventive, Professional, Supportive, Research))
 
 ## This Phase (Phase 7)
 
 - [x] Phase 7: review tools — SM-2-lite flashcards `/review` + `review_schedule` +
-      error reports (`question_reports`) — `lib/srs.ts` (7a) — migration pending live apply
-- [~] Phase 7: bank depth (7b, ongoing) — b1 (+5 LA), b2 (+6 Care Planning/Perio), b3 (+6 Radiography/Assessment); bank now 52
+      error reports (`question_reports`) — `lib/srs.ts` (7a) — migration applied live
+- [~] Phase 7: bank depth (7b, ongoing) — b1-b4 across all score areas; bank now 60
 
 ## Done (Phase 6)
 
