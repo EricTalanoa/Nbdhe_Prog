@@ -89,6 +89,7 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   box pinned above each item) → results, each section on a per-item countdown that auto-advances;
   finishes with an overall %, a readiness band (thresholds in `lib/mock.ts`), per-component and
   per-score-area breakdowns. Persists a `mock`-kind session + responses. Dashboard links it.
+  PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/13
 - [ ] **6b-pwa** — PWA manifest + service worker, offline question caching, install prompt, mobile
   UX pass.
 
