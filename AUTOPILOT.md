@@ -114,5 +114,6 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   items (q-plan-0003..0005: infection control, caries patient education, care-plan sequencing;
   q-perio-0006..0007: nonsurgical reassessment/referral to surgery, implant-safe instrumentation)
   — Wilkins/Darby & Walsh/Newman & Carranza-referenced, incl. the bank's 3rd `hard` item. Not yet
-  seeded to live (needs SQL-editor apply, same as batch 1). Next batches: continue Care Planning &
+  seeded to live (needs SQL-editor apply, same as batch 1). PR:
+  https://github.com/EricTalanoa/Nbdhe_Prog/pull/18. Next batches: continue Care Planning &
   Perio Management depth (still several uncovered subdomains), then widen other clinical areas.
