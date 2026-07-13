@@ -21,9 +21,14 @@ a problem" form files a `question_reports` row. Migration `20260713000001_review
 (`review_schedule` + `question_reports`, owner-only RLS) is **applied to the live project
 (2026-07-13)**, so `/review` persists schedules and error reports. Dashboard links "Flashcard
 review". **7b (ongoing) batch 1** authored 5 original Local Anesthesia items (q-anes-0004..0008,
-Malamed-referenced) — **seeded to live (2026-07-13)**; the live bank now holds **40 questions**
-(8 anesthesia items) + 1 case. (Live writes are done via the SQL editor — MCP writes and
-`*.supabase.co` egress are blocked in Claude web sessions.)
+Malamed-referenced) — **seeded to live (2026-07-13)**; the live bank held 40 questions
+(8 anesthesia items) + 1 case after batch 1. **Batch 2 (2026-07-13, not yet seeded live)** added
+5 items on previously-thin subdomains: q-plan-0003/0004/0005 (Care Planning: treatment-plan
+sequencing, periodontal patient education, infection control) and q-perio-0006/0007 (Perio
+Management: surgical aftercare, maintenance intervals) — Darby & Walsh / Wilkins / CDC / Newman &
+Carranza referenced. Vault + `content:check` now hold **45 questions**; live DB still at 40 pending
+a seed pass. (Live writes are done via the SQL editor — MCP writes and `*.supabase.co` egress are
+blocked in Claude web sessions.)
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
@@ -76,16 +81,15 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next 3 actions
-1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
-   Next batches on Care Planning and Perio Management (high item-count areas). Seed each batch to
-   live via the SQL editor (as done 2026-07-13) or the off-sandbox importer.
-2. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
+1. Seed batch 2 (q-plan-0003..0005, q-perio-0006/0007) to the live DB via the SQL editor (or the
+   off-sandbox importer) — vault/`content:check` are at 45 questions but live is still 40.
+2. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
+   Remaining thin spots: Care Planning (patient-education variants, Treatment strategies —
+   Diagnosis/Case presentation), Perio (Implant care, Reassessment and evaluation).
+3. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
    editor and seed with SQL, or run the importer from a machine with egress.
-3. Phase 7b (ongoing): keep deepening the bank — next batches on Care Planning and Perio
-   Management (high item-count areas). Bank is 40 questions (10 easy / 28 medium / 2 hard);
-   still thin relative to the real ~350-item exam.
 
 ## Stack (decided)
 - Frontend: Next.js 14 App Router · TypeScript · Tailwind · shadcn/ui · PWA (manifest + SW)

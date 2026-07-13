@@ -107,7 +107,14 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   https://github.com/EricTalanoa/Nbdhe_Prog/pull/15
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
-  Progress: bank now 40 questions. Batch 1 (2026-07-13, PR #16) added 5 original Local Anesthesia
+  Progress: bank now 45 questions. Batch 1 (2026-07-13, PR #16) added 5 original Local Anesthesia
   items (q-anes-0004..0008: max-dose basis, articaine plasma hydrolysis, prilocaine/
   methemoglobinemia, pKa & onset, epinephrine in cardiovascular disease) — Malamed-referenced,
-  incl. the bank's 2nd `hard` item. Next batches: Care Planning & Perio Management depth.
+  incl. the bank's 2nd `hard` item. Batch 2 (2026-07-13) added 5 items covering previously-thin
+  subdomains: q-plan-0003 (Treatment strategies — Treatment plan), q-plan-0004 (Individualized
+  patient education — instruction: periodontal diseases), q-plan-0005 (Infection control
+  application, negative-format), q-perio-0006 (Prescribed therapy — Surgical support services),
+  q-perio-0007 (Maintenance) — Darby & Walsh / Wilkins / CDC infection-control / Newman & Carranza
+  referenced. Next batches: remaining Care Planning subdomains (patient-education variants,
+  Treatment strategies — Diagnosis/Case presentation) and Perio (Implant care, Reassessment and
+  evaluation), plus other under-2-item areas.
