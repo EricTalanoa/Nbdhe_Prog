@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { Button } from "@/components/ui/button";
 import { PatientBox, type CaseMediaItem, type PatientBoxData } from "@/components/cases/patient-box";
 
 type CaseDetailRow = {
@@ -74,9 +75,16 @@ export default async function CaseDetailPage({ params }: { params: { slug: strin
       />
 
       <section className="mt-8">
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-          Linked items · {items.length}
-        </h2>
+        <div className="mb-3 flex items-center justify-between gap-4">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
+            Linked items · {items.length}
+          </h2>
+          {items.length > 0 && (
+            <Button asChild size="sm">
+              <Link href={`/practice?case=${typedCase.slug}`}>Start case</Link>
+            </Button>
+          )}
+        </div>
         {items.length === 0 ? (
           <p className="text-sm text-muted-foreground">No items linked to this case yet.</p>
         ) : (
@@ -89,9 +97,6 @@ export default async function CaseDetailPage({ params }: { params: { slug: strin
             ))}
           </ul>
         )}
-        <p className="mt-3 text-xs text-muted-foreground">
-          Answering these items in sequence inside the practice loop lands in 5b-case-nav.
-        </p>
       </section>
     </main>
   );

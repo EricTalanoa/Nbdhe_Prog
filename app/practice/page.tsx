@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { startSession, type SessionKind } from "@/app/practice/actions";
 import { PracticeSession } from "@/components/practice/practice-session";
+import { PatientBox, type CaseMediaItem, type PatientBoxData } from "@/components/cases/patient-box";
 import type { PracticeOption, PracticeQuestion } from "@/components/practice/types";
 
 const DEFAULT_SET_SIZE = 10;
@@ -18,9 +19,17 @@ type RawQuestion = {
   format: PracticeQuestion["format"];
   stem: string;
   difficulty: string;
+  case_id: string | null;
   options: PracticeOption[];
   rationales: { correct_explanation: string } | { correct_explanation: string }[] | null;
   taxonomy: { score_area: string } | { score_area: string }[] | null;
+};
+
+type CaseInfo = {
+  title: string;
+  patientType: string | null;
+  patientBox: PatientBoxData;
+  media: CaseMediaItem[];
 };
 
 function shuffle<T>(items: T[]): T[] {
@@ -56,6 +65,12 @@ function parseMode(raw: string | string[] | undefined): Mode | null {
   return value && (MODES as readonly string[]).includes(value) ? (value as Mode) : null;
 }
 
+function parseCaseSlug(raw: string | string[] | undefined): string | null {
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : null;
+}
+
 function parseTimeLimit(raw: string | string[] | undefined): number {
   const value = Array.isArray(raw) ? raw[0] : raw;
   const n = Number.parseInt(value ?? "", 10);
@@ -88,6 +103,7 @@ export default async function PracticePage({
     areas?: string | string[];
     mode?: string;
     t?: string;
+    case?: string;
   };
 }) {
   const supabase = createClient();
@@ -101,11 +117,42 @@ export default async function PracticePage({
   const difficulty = parseDifficulty(searchParams.difficulty);
   const mode = parseMode(searchParams.mode);
   const timeLimitSec = parseTimeLimit(searchParams.t);
+  const caseSlug = parseCaseSlug(searchParams.case);
+
+  let caseInfo: CaseInfo | null = null;
+  let caseError: string | null = null;
+  let caseId: string | null = null;
+
+  if (caseSlug) {
+    const { data: caseRow, error: caseErr } = await supabase
+      .from("cases")
+      .select("id, title, patient_type, patient_box")
+      .eq("slug", caseSlug)
+      .maybeSingle();
+    if (caseErr) {
+      caseError = caseErr.message;
+    } else if (!caseRow) {
+      notFound();
+    } else {
+      caseId = caseRow.id as string;
+      const { data: mediaRows } = await supabase
+        .from("case_media")
+        .select("id, kind, storage_path, caption")
+        .eq("case_id", caseId)
+        .order("sort_order", { ascending: true });
+      caseInfo = {
+        title: caseRow.title as string,
+        patientType: caseRow.patient_type as string | null,
+        patientBox: caseRow.patient_box as PatientBoxData,
+        media: (mediaRows ?? []) as CaseMediaItem[],
+      };
+    }
+  }
 
   const { data, error } = await supabase
     .from("questions")
     .select(
-      "id, slug, format, stem, difficulty, options(id, label, body, is_correct, distractor_rationale, sort_order), rationales(correct_explanation), taxonomy(score_area)"
+      "id, slug, format, stem, difficulty, case_id, options(id, label, body, is_correct, distractor_rationale, sort_order), rationales(correct_explanation), taxonomy(score_area)"
     )
     .in("status", ["approved", "live"]);
 
@@ -133,6 +180,8 @@ export default async function PracticePage({
   const areaSet = new Set(areas);
   const pool: PracticeQuestion[] = raw
     .filter((q) => {
+      // Case mode: only this case's linked items, ignoring the builder's other filters.
+      if (caseId) return q.case_id === caseId;
       if (queueIds) return queueIds.has(q.id);
       // Filtered practice (no queue): apply the builder's area/difficulty choices.
       if (difficulty && q.difficulty !== difficulty) return false;
@@ -156,32 +205,45 @@ export default async function PracticePage({
       };
     });
 
-  const practiceSet = shuffle(pool).slice(0, setSize);
+  // Case items play in a fixed (slug) order, all of them — no shuffle, no set-size cap.
+  const practiceSet = caseId
+    ? [...pool].sort((a, b) => a.slug.localeCompare(b.slug))
+    : shuffle(pool).slice(0, setSize);
 
-  const kind: SessionKind = mode
-    ? mode === "missed"
-      ? "review_missed"
-      : "review_flagged"
-    : timeLimitSec > 0
-      ? "timed"
-      : "practice";
+  const kind: SessionKind = caseId
+    ? "case"
+    : mode
+      ? mode === "missed"
+        ? "review_missed"
+        : "review_flagged"
+      : timeLimitSec > 0
+        ? "timed"
+        : "practice";
 
   const sessionId =
-    !error && practiceSet.length > 0
+    !error && !caseError && practiceSet.length > 0
       ? await startSession(
-          {
-            requested: setSize,
-            available: pool.length,
-            areas: areas.length > 0 ? areas : "all",
-            difficulty: difficulty ?? "any",
-            mode: mode ?? "practice",
-            time_limit_sec: timeLimitSec || null,
-          },
+          caseId
+            ? { case_slug: caseSlug }
+            : {
+                requested: setSize,
+                available: pool.length,
+                areas: areas.length > 0 ? areas : "all",
+                difficulty: difficulty ?? "any",
+                mode: mode ?? "practice",
+                time_limit_sec: timeLimitSec || null,
+              },
           kind
         )
       : null;
 
-  const heading = mode ? MODE_COPY[mode].title : timeLimitSec > 0 ? "Timed test" : "Practice";
+  const heading = caseInfo
+    ? caseInfo.title
+    : mode
+      ? MODE_COPY[mode].title
+      : timeLimitSec > 0
+        ? "Timed test"
+        : "Practice";
   const filtered = areas.length > 0 || difficulty !== null;
 
   return (
@@ -190,48 +252,77 @@ export default async function PracticePage({
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">{heading}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {mode ? "Review mode" : "Study mode"} · {practiceSet.length} of {pool.length}{" "}
-            {mode ? "queued" : "matching"} question{pool.length === 1 ? "" : "s"}
-            {timeLimitSec > 0 && <> · {Math.round(timeLimitSec / 60)} min</>}
-            {!mode && filtered && (
+            {caseInfo ? (
               <>
-                {" "}
-                ·{" "}
-                <Link href="/practice/build" className="underline underline-offset-4">
-                  change filters
-                </Link>
+                Case mode · {practiceSet.length} linked item{practiceSet.length === 1 ? "" : "s"}
+              </>
+            ) : (
+              <>
+                {mode ? "Review mode" : "Study mode"} · {practiceSet.length} of {pool.length}{" "}
+                {mode ? "queued" : "matching"} question{pool.length === 1 ? "" : "s"}
+                {timeLimitSec > 0 && <> · {Math.round(timeLimitSec / 60)} min</>}
+                {!mode && filtered && (
+                  <>
+                    {" "}
+                    ·{" "}
+                    <Link href="/practice/build" className="underline underline-offset-4">
+                      change filters
+                    </Link>
+                  </>
+                )}
               </>
             )}
           </p>
         </div>
-        <Link href="/dashboard" className="text-sm text-muted-foreground underline underline-offset-4">
-          ← Dashboard
+        <Link
+          href={caseInfo ? "/cases" : "/dashboard"}
+          className="text-sm text-muted-foreground underline underline-offset-4"
+        >
+          {caseInfo ? "← Cases" : "← Dashboard"}
         </Link>
       </div>
 
-      {error && (
+      {(error || caseError) && (
         <div className="rounded-lg border border-destructive/40 bg-destructive/10 p-4 text-sm">
-          Couldn&apos;t load questions: {error.message}
+          Couldn&apos;t load {caseError ? "case" : "questions"}: {caseError ?? error?.message}
         </div>
       )}
 
-      {!error && practiceSet.length === 0 && (
+      {!error && !caseError && practiceSet.length === 0 && (
         <div className="rounded-lg border bg-card p-6 text-sm text-muted-foreground">
-          <p>{mode ? MODE_COPY[mode].empty : "No approved questions match these filters yet."}</p>
+          <p>
+            {caseInfo
+              ? "This case has no approved items yet."
+              : mode
+                ? MODE_COPY[mode].empty
+                : "No approved questions match these filters yet."}
+          </p>
           <Link
-            href={mode ? "/practice" : "/practice/build"}
+            href={caseInfo ? "/cases" : mode ? "/practice" : "/practice/build"}
             className="mt-3 inline-block underline underline-offset-4"
           >
-            {mode ? "Start a practice set" : "Adjust your filters"}
+            {caseInfo ? "Back to cases" : mode ? "Start a practice set" : "Adjust your filters"}
           </Link>
         </div>
       )}
 
-      {!error && practiceSet.length > 0 && (
+      {!error && !caseError && practiceSet.length > 0 && (
         <PracticeSession
           questions={practiceSet}
           sessionId={sessionId}
           timeLimitSec={timeLimitSec > 0 ? timeLimitSec : undefined}
+          stimulus={
+            caseInfo ? (
+              <div className="mb-6">
+                <PatientBox
+                  title={caseInfo.title}
+                  patientType={caseInfo.patientType}
+                  patientBox={caseInfo.patientBox}
+                  media={caseInfo.media}
+                />
+              </div>
+            ) : undefined
+          }
         />
       )}
     </main>
