@@ -149,6 +149,14 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     complication); 2 Perio Management items (q-perio-0011 locally delivered antimicrobials,
     q-perio-0012 red-complex etiology). Bank now 100 questions + 3 cases + 11 flashcards. Every
     Dental Hygiene Care Planning subdomain now has >=1 item.
+  - Batch 11 (PR #37): 4th-pass depth on Perio Management + Local Anesthesia. 4 Perio Management
+    items bring the last thin subdomains up to 2 items each (q-perio-0013 chemotherapeutic
+    agents/host modulation-SDD, q-perio-0014 implant care/mucositis vs peri-implantitis,
+    q-perio-0015 surgical support services/periodontal dressing purpose, q-perio-0016
+    reassessment and evaluation/persistent-pocket referral); 2 Local Anesthesia items on topics
+    not yet covered (q-anes-0011 mylohyoid accessory innervation/IANB failure, q-anes-0012 ester
+    vs amide true-allergy mechanism); 2 flashcards (fc-perio-0002 host modulation, fc-anes-0003
+    mylohyoid innervation). Bank now 106 questions + 3 cases + 13 flashcards.
 
   Features (not chunks): seafoam & white visual refresh (PR #24); pre-built topic sets `/sets` +
   subdomain filtering (PR #25); flashcard categories — study any topic set as flashcards
@@ -156,3 +164,10 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   `flashcard_schedule` tables (migration `..._flashcards.sql`), `fc-*.md` importer support, 10
   authored cards, merged into `/review` with their own SM-2 schedule (PR #30). New migration +
   10 cards need a live apply/seed.
+
+  Open item for a future batch: a Community Health testlet (scenario + linked items) is still
+  unauthored — the `testlets` table exists (schema.md) and question notes already carry a
+  `testlet` frontmatter field, but `scripts/import-questions.mjs` has no testlet parser/upsert
+  yet and nothing wires a testlet's scenario into the practice-loop stimulus the way cases do.
+  Authoring a testlet note before that plumbing exists would produce content the app can't
+  serve, so this needs its own chunk (importer + practice-loop wiring) before/alongside content.
