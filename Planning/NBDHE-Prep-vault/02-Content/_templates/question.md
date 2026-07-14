@@ -37,6 +37,12 @@ testlet: ""    # slug of parent testlet, if community-health testlet item
 - C) 
 - D) 
 
+# Trap
+<!-- OPTIONAL. Include only for wording-trap items. One or two sentences naming the
+     pivotal word and what a near-miss reading would have picked. Shown to the learner
+     (when they opt in) as a "wording trap" callout after they answer. Delete this whole
+     section for ordinary items. -->
+
 ---
 <!-- Rule 0: original item, written to the blueprint from published references.
      Never a real/remembered NBDHE question. -->

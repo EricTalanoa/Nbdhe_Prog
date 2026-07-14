@@ -148,6 +148,11 @@ function parseNote(filename, raw) {
     sections["rationale"] || ""
   );
 
+  // Optional `# Trap` section: non-empty marks a wording-trap item; text is the
+  // learner-facing callout. Section absent → null (ordinary item).
+  const hasTrapSection = "trap" in sections;
+  const trapNote = hasTrapSection ? stripComments(sections["trap"]) : "";
+
   // required frontmatter
   if (!slug) errors.push("missing frontmatter `id` (used as slug)");
   if (!FORMATS.has(data.format)) errors.push(`format must be one of ${[...FORMATS].join("/")}`);
@@ -162,6 +167,7 @@ function parseNote(filename, raw) {
   if (!stem) errors.push("empty stem");
   if (options.length < 3 || options.length > 5)
     errors.push(`must have 3–5 options (found ${options.length})`);
+  if (hasTrapSection && !trapNote) errors.push("`# Trap` section is present but empty");
 
   const labels = options.map((o) => o.label);
   const expected = OPTION_LABELS.slice(0, options.length);
@@ -193,6 +199,7 @@ function parseNote(filename, raw) {
       difficulty: data.difficulty,
       status: data.status,
       reference: data.reference || null,
+      trap_note: trapNote || null,
     },
     taxonomy: {
       area: data.area || "",
