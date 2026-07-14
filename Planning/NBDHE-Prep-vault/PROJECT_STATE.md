@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-14
-phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 8)
+phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 9)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -20,20 +20,25 @@ the correct answer + rationale, self-grade Again/Hard/Good/Easy to reschedule `d
 a problem" form files a `question_reports` row. Migration `20260713000001_review_tools.sql`
 (`review_schedule` + `question_reports`, owner-only RLS) is **applied to the live project
 (2026-07-13)**, so `/review` persists schedules and error reports. Dashboard links "Flashcard
-review". **7b (ongoing)** — 8 batches (b1 LA PR#16, b2 Care Planning/Perio PR#20, b3 Radiography/
+review". **7b (ongoing)** — 9 batches (b1 LA PR#16, b2 Care Planning/Perio PR#20, b3 Radiography/
 Assessment PR#22, b4 Preventive/Professional/Supportive/Research PR#23, b5 +2 cases + 4 linked
 items PR#26, b6 2nd-pass Care Planning/Perio subdomains PR#28, b7 2nd-pass Radiography/Assessment/
 Preventive Agents + 1 flashcard PR#32, b8 Pharmacology/Microbiology/Immunology/Biochemistry/
-Physiology/Pathology/Anatomy/medically-compromised PR #34). Vault holds **84 questions**
-(17 easy / 56 medium / 11 hard) + **3 cases** (perio, pediatric ECC, anticoagulant) +
-**11 flashcards**. Also shipped (features, not chunks): seafoam & white visual refresh (PR #24);
-topic sets `/sets` + subdomain filter (PR #25); flashcard categories — study a topic set as
-flashcards (PR #29); **dedicated flashcards** — a `flashcards` content type (term→concept) with
-its own SM-2 schedule, `fc-*.md` importer support, and 10 authored cards merged into `/review`
-(PR #30). **Last confirmed seeded to live (2026-07-13): 70 questions / 3 cases / 10 flashcards**
-(flashcards migration `20260713000002_flashcards.sql` applied; batch-6 questions + `fc-*` cards
-seeded via SQL editor). **Batches 7-8 (6 questions + 1 flashcard, then 8 more questions) are
-authored in the vault but not yet seeded to live** — see Next 3 actions.
+Physiology/Pathology/Anatomy/medically-compromised PR #34, b9 2nd-pass on the last remaining
+1-item subdomains — Anatomic Sciences (root formation/cementogenesis, mandibular molar roots),
+Biochemistry and Nutrition (sugar-frequency/Stephan curve), Research Principles (p-value
+interpretation), Community Health (Health Belief Model), Pathology (hypersensitivity types),
+Patient Assessment (overjet), Dental Radiography (personnel dosimeter) — PR TBD). Vault holds
+**92 questions** (19 easy / 60 medium / 13 hard) + **3 cases** (perio, pediatric ECC,
+anticoagulant) + **11 flashcards**. Also shipped (features, not chunks): seafoam & white visual
+refresh (PR #24); topic sets `/sets` + subdomain filter (PR #25); flashcard categories — study a
+topic set as flashcards (PR #29); **dedicated flashcards** — a `flashcards` content type
+(term→concept) with its own SM-2 schedule, `fc-*.md` importer support, and 10 authored cards
+merged into `/review` (PR #30). **Last confirmed seeded to live (2026-07-13): 70 questions /
+3 cases / 10 flashcards** (flashcards migration `20260713000002_flashcards.sql` applied; batch-6
+questions + `fc-*` cards seeded via SQL editor). **Batches 7-9 (6 questions + 1 flashcard, then
+8 more questions, then 8 more questions) are authored in the vault but not yet seeded to live** —
+see Next 3 actions.
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
@@ -87,19 +92,18 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 
 ## Next 3 actions
 1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
-   Batch 8 filled the thinnest Scientific Basis subdomains: Pharmacology/General pharmacology
-   (antibiotic prophylaxis), Microbiology (red complex), Immunology (neutrophils), Biochemistry
-   (vitamin C/collagen), Physiology (autonomic salivary control), Pathology (leukoplakia),
-   Anatomy — Dental anatomy general (CEJ), plus a 3rd medically-compromised item (diabetes/perio
-   bidirectional link). Still-thin areas for the next batch: Pediatric (2), Research Principles
-   (3), Community Health (untagged separately — check taxonomy), and a 2nd pass on Anatomic
-   Sciences (Histology/root anatomy) and Biochemistry and Nutrition (Nutrition). Also: apply
-   batches 7-8 content live (see #2) and keep authoring dedicated flashcards (`fc-*.md`) alongside
-   questions.
-2. Batch 7 (6 questions + 1 flashcard, PR #32) and batch 8 (8 questions, PR #34) are authored in
-   the vault, `content:check`-clean, but **not yet imported into the live Supabase project**
-   (this container's egress blocks `*.supabase.co`, so `npm run content:import` can't run here —
-   import from a machine with egress, or hand-seed via the SQL editor as batches 5/6 were).
+   Batch 9 cleared every remaining 1-item subdomain in Anatomic Sciences, Biochemistry and
+   Nutrition, Research Principles, Community Health, Pathology, Patient Assessment, and Dental
+   Radiography with a 2nd item each. Every discipline subdomain in the blueprint now has ≥2
+   items. Next batch: keep building general depth (3rd-pass on high-yield areas — Local
+   Anesthesia, Care Planning, Perio Management), more cases/testlets (esp. a Community Health
+   testlet — none authored yet), and keep authoring dedicated flashcards (`fc-*.md`) alongside
+   questions. Also: apply batches 7-9 content live (see #2).
+2. Batch 7 (6 questions + 1 flashcard, PR #32), batch 8 (8 questions, PR #34), and batch 9
+   (8 questions, PR TBD) are authored in the vault, `content:check`-clean, but **not yet imported
+   into the live Supabase project** (this container's egress blocks `*.supabase.co`, so
+   `npm run content:import` can't run here — import from a machine with egress, or hand-seed via
+   the SQL editor as batches 5/6 were).
 3. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL

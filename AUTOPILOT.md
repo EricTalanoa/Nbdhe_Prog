@@ -107,7 +107,7 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   https://github.com/EricTalanoa/Nbdhe_Prog/pull/15
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
-  Progress: bank now 76 questions (14 easy / 52 medium / 10 hard) + 3 cases + 11 flashcards.
+  Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
   - Batch 1 (PR #16): 5 Local Anesthesia (q-anes-0004..0008).
   - Batch 2 (PR #20): 6 Care Planning + Perio (q-plan-0003..0006, q-perio-0006..0007).
   - Batch 3 (PR #22): 6 Radiography + Assessment (q-radi-0003..0005, q-asmt-0003..0005).
@@ -132,6 +132,13 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     q-path-0003 oral pathology/leukoplakia, q-anat-0004 dental anatomy general/CEJ, q-med-0003
     special-needs/diabetes-periodontal link). Bank now 84 questions (17 easy / 56 medium /
     11 hard) + 3 cases + 11 flashcards.
+  - Batch 9: 2nd-pass depth on the last remaining 1-item subdomains across Scientific Basis
+    and Research/Community (q-anat-0005 Histology and Embryology/root formation-cementogenesis,
+    q-anat-0006 dental anatomy root/mandibular first molar roots, q-bioc-0004 Nutrition/sugar
+    frequency-Stephan curve, q-rsch-0004 statistical concepts/p-value interpretation, q-comm-0003
+    Community Health/Health Belief Model, q-path-0004 general pathology/hypersensitivity types,
+    q-asmt-0008 occlusal evaluation/overjet, q-radi-0008 radiologic health/personnel dosimeter).
+    Bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
 
   Features (not chunks): seafoam & white visual refresh (PR #24); pre-built topic sets `/sets` +
   subdomain filtering (PR #25); flashcard categories — study any topic set as flashcards
