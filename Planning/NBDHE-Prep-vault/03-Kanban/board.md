@@ -5,16 +5,18 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
-- [ ] Phase 7: deepen question bank — ongoing (batches 1-10 + sets feature; bank now 100 + 3 cases +
-      11 flashcards; batches 6-10 not yet seeded to live)
+- [ ] Phase 7: deepen question bank — ongoing (batches 1-11 + sets feature; bank now 106 + 3 cases +
+      13 flashcards; batches 6-11 not yet seeded to live)
+- [ ] Phase 7: testlet infra (importer parser/upsert + practice-loop stimulus wiring) — needed
+      before a Community Health testlet can be authored
 
 ## This Phase (Phase 7)
 
 - [x] Phase 7: review tools — SM-2-lite flashcards `/review` + `review_schedule` +
       error reports (`question_reports`) — `lib/srs.ts` (7a) — migration applied live
-- [~] Phase 7: bank depth (7b, ongoing) — b1-b10 across all areas + 3 cases; bank now 100
-      (batch 10: 3rd-pass on Local Anesthesia/Care Planning/Perio Management — every Dental
-      Hygiene Care Planning subdomain now has ≥1 item)
+- [~] Phase 7: bank depth (7b, ongoing) — b1-b11 across all areas + 3 cases; bank now 106
+      (batch 11: 4th-pass on Perio Management/Local Anesthesia — every Periodontal Disease
+      Management subdomain now has ≥2 items)
 
 ## Done (Phase 6)
 
