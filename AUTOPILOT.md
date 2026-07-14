@@ -140,6 +140,15 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     pathology/hypersensitivity types, q-asmt-0008 occlusal evaluation/overjet, q-radi-0008
     radiologic health/personnel dosimeter). Every discipline subdomain now has >=2 items. Bank
     now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
+  - Batch 10 (PR TBD): 3rd-pass depth on the high-yield areas called out in Next 3 actions — Local
+    Anesthesia, Care Planning, Perio Management. 4 Care Planning items filled the last previously
+    untouched subdomains (q-plan-0010 planning of individualized instruction, q-plan-0011
+    instruction: oral conditions/xerostomia, q-plan-0012 treatment strategies-diagnosis,
+    q-plan-0013 treatment strategies-case presentation/informed consent); 2 Local Anesthesia items
+    (q-anes-0009 mechanism of action/sodium channel blockade, q-anes-0010 PSA block hematoma
+    complication); 2 Perio Management items (q-perio-0011 locally delivered antimicrobials,
+    q-perio-0012 red-complex etiology). Bank now 100 questions + 3 cases + 11 flashcards. Every
+    Dental Hygiene Care Planning subdomain now has >=1 item.
 
   Features (not chunks): seafoam & white visual refresh (PR #24); pre-built topic sets `/sets` +
   subdomain filtering (PR #25); flashcard categories — study any topic set as flashcards
