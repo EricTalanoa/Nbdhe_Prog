@@ -5,16 +5,16 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
-- [ ] Phase 7: deepen question bank — ongoing (batches 1-7 + sets feature; bank now 76 + 3 cases +
-      11 flashcards; batches 6-7 not yet seeded to live)
+- [ ] Phase 7: deepen question bank — ongoing (batches 1-8 + sets feature; bank now 84 + 3 cases +
+      11 flashcards; batches 6-8 not yet seeded to live)
 
 ## This Phase (Phase 7)
 
 - [x] Phase 7: review tools — SM-2-lite flashcards `/review` + `review_schedule` +
       error reports (`question_reports`) — `lib/srs.ts` (7a) — migration applied live
-- [~] Phase 7: bank depth (7b, ongoing) — b1-b7 across all areas + 3 cases; bank now 76
-      (batch 7: 2nd-pass Radiography/Assessment + Preventive Agents "other agents" subdomain +
-      1 flashcard)
+- [~] Phase 7: bank depth (7b, ongoing) — b1-b8 across all areas + 3 cases; bank now 84
+      (batch 8: Pharmacology/Microbiology/Immunology/Biochemistry/Physiology/Pathology/Anatomy
+      2nd-pass + a 3rd medically-compromised item)
 
 ## Done (Phase 6)
 

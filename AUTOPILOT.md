@@ -125,6 +125,13 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     radiophysics-contrast factors; q-asmt-0006 2nd-pass medical history/ASA classification,
     q-asmt-0007 2nd-pass periodontal evaluation/Glickman furcation; q-prev-0005 other preventive
     agents/SDF, q-prev-0006 2nd-pass fluoride mechanisms) + 1 flashcard (fc-prev-0002 SDF).
+  - Batch 8 (PR TBD): 8 items filling the thinnest Scientific Basis subdomains + a 3rd
+    medically-compromised item (q-phar-0002 general pharmacology/antibiotic prophylaxis,
+    q-micr-0002 microbiology/red complex, q-immu-0002 immunology/neutrophils, q-bioc-0003
+    biochemistry/vitamin C-collagen, q-phys-0003 physiology/autonomic salivary control,
+    q-path-0003 oral pathology/leukoplakia, q-anat-0004 dental anatomy general/CEJ, q-med-0003
+    special-needs/diabetes-periodontal link). Bank now 84 questions (17 easy / 56 medium /
+    11 hard) + 3 cases + 11 flashcards.
 
   Features (not chunks): seafoam & white visual refresh (PR #24); pre-built topic sets `/sets` +
   subdomain filtering (PR #25); flashcard categories — study any topic set as flashcards
