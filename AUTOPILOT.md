@@ -132,13 +132,14 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     q-path-0003 oral pathology/leukoplakia, q-anat-0004 dental anatomy general/CEJ, q-med-0003
     special-needs/diabetes-periodontal link). Bank now 84 questions (17 easy / 56 medium /
     11 hard) + 3 cases + 11 flashcards.
-  - Batch 9: 2nd-pass depth on the last remaining 1-item subdomains across Scientific Basis
-    and Research/Community (q-anat-0005 Histology and Embryology/root formation-cementogenesis,
-    q-anat-0006 dental anatomy root/mandibular first molar roots, q-bioc-0004 Nutrition/sugar
-    frequency-Stephan curve, q-rsch-0004 statistical concepts/p-value interpretation, q-comm-0003
-    Community Health/Health Belief Model, q-path-0004 general pathology/hypersensitivity types,
-    q-asmt-0008 occlusal evaluation/overjet, q-radi-0008 radiologic health/personnel dosimeter).
-    Bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
+  - Batch 9 (PR #35): 2nd-pass depth on the last remaining 1-item subdomains across Scientific
+    Basis and Research/Community (q-anat-0005 Histology and Embryology/root formation-
+    cementogenesis, q-anat-0006 dental anatomy root/mandibular first molar roots, q-bioc-0004
+    Nutrition/sugar frequency-Stephan curve, q-rsch-0004 statistical concepts/p-value
+    interpretation, q-comm-0003 Community Health/Health Belief Model, q-path-0004 general
+    pathology/hypersensitivity types, q-asmt-0008 occlusal evaluation/overjet, q-radi-0008
+    radiologic health/personnel dosimeter). Every discipline subdomain now has >=2 items. Bank
+    now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
 
   Features (not chunks): seafoam & white visual refresh (PR #24); pre-built topic sets `/sets` +
   subdomain filtering (PR #25); flashcard categories — study any topic set as flashcards
