@@ -24,7 +24,7 @@ review". **7b (ongoing)** — 8 batches (b1 LA PR#16, b2 Care Planning/Perio PR#
 Assessment PR#22, b4 Preventive/Professional/Supportive/Research PR#23, b5 +2 cases + 4 linked
 items PR#26, b6 2nd-pass Care Planning/Perio subdomains PR#28, b7 2nd-pass Radiography/Assessment/
 Preventive Agents + 1 flashcard PR#32, b8 Pharmacology/Microbiology/Immunology/Biochemistry/
-Physiology/Pathology/Anatomy/medically-compromised PR TBD). Vault holds **84 questions**
+Physiology/Pathology/Anatomy/medically-compromised PR #34). Vault holds **84 questions**
 (17 easy / 56 medium / 11 hard) + **3 cases** (perio, pediatric ECC, anticoagulant) +
 **11 flashcards**. Also shipped (features, not chunks): seafoam & white visual refresh (PR #24);
 topic sets `/sets` + subdomain filter (PR #25); flashcard categories — study a topic set as
@@ -96,7 +96,7 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    Sciences (Histology/root anatomy) and Biochemistry and Nutrition (Nutrition). Also: apply
    batches 7-8 content live (see #2) and keep authoring dedicated flashcards (`fc-*.md`) alongside
    questions.
-2. Batch 7 (6 questions + 1 flashcard, PR #32) and batch 8 (8 questions, PR TBD) are authored in
+2. Batch 7 (6 questions + 1 flashcard, PR #32) and batch 8 (8 questions, PR #34) are authored in
    the vault, `content:check`-clean, but **not yet imported into the live Supabase project**
    (this container's egress blocks `*.supabase.co`, so `npm run content:import` can't run here —
    import from a machine with egress, or hand-seed via the SQL editor as batches 5/6 were).
