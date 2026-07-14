@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-13
-phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 6)
+phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 7)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -22,16 +22,25 @@ a problem" form files a `question_reports` row. Migration `20260713000001_review
 (2026-07-13)**, so `/review` persists schedules and error reports. Dashboard links "Flashcard
 review". **7b (ongoing)** — 6 batches (b1 LA PR#16, b2 Care Planning/Perio PR#20, b3 Radiography/
 Assessment PR#22, b4 Preventive/Professional/Supportive/Research PR#23, b5 +2 cases + 4 linked
-items PR#26, b6 2nd-pass Care Planning/Perio subdomains). Vault holds **70 questions** (14 easy /
+items PR#26, b6 2nd-pass Care Planning/Perio subdomains, b7 16 word-trap items + trick-question
+hints toggle, branch `feat/word-trap-questions`). Vault holds **86 questions** (was 70:
 49 medium / 7 hard) + **3 cases** (perio, pediatric ECC, anticoagulant). Also shipped (features,
 not chunks): seafoam & white visual refresh (PR #24); topic sets `/sets` + subdomain filter
 (PR #25); flashcard categories — study a topic set as flashcards (PR #29); **dedicated flashcards**
 — a `flashcards` content type (term→concept) with its own SM-2 schedule, `fc-*.md` importer
-support, and 10 authored cards merged into `/review` (PR #30). **Pending live apply/seed** (live
-= 64/3 as of 2026-07-13): batch-6 questions, migration `20260713000002_flashcards.sql`, and the 10
-`fc-*` cards — via SQL editor, or the off-sandbox importer (MCP writes + `*.supabase.co` egress are
-blocked in Claude web sessions). `/review` degrades gracefully until the flashcards migration is
-applied.
+support, and 10 authored cards merged into `/review` (PR #30). **7b batch 7 (branch
+`feat/word-trap-questions`)** — 16 original "word-trap" items (close distractors / one-word pivots)
+across all 13 discipline score areas + Research + Community Health, each with a `# Trap` note; plus
+an opt-in **trick-question hints** feature: `questions.trap_note` + `profiles.show_trap_hints`
+(migration `20260713000003_trap_questions.sql`), a `/settings` toggle, and a "Wording trap" badge
+(pre-answer) + callout (post-answer) in `/practice` that stays hidden unless the user opts in and
+never shows in `/mock`. Verified via `content:check`, `tsc --noEmit`, `lint`, `next build`;
+interactive in-app verification pending a Supabase-connected environment. **Pending live apply/seed**
+(live = 64/3 as of 2026-07-13): batch-6 questions, the 16 batch-7 questions, migrations
+`20260713000002_flashcards.sql` + `20260713000003_trap_questions.sql`, and the 10 `fc-*` cards — via
+SQL editor, or the off-sandbox importer (MCP writes + `*.supabase.co` egress are blocked in Claude
+web sessions). `/review` degrades gracefully until the flashcards migration is applied; trap hints
+degrade gracefully (badge never shows) until `20260713000003` is applied.
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
@@ -84,8 +93,10 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next 3 actions
-1. Seed batch 6 (q-plan-0007..0009, q-perio-0008..0010) to the live project via the SQL editor —
-   vault is at 70 questions but live is still 64 until this runs.
+1. Apply migration `20260713000003_trap_questions.sql` and seed batch 6 (q-plan-0007..0009,
+   q-perio-0008..0010) + the 16 batch-7 word-trap items to the live project via the SQL editor —
+   vault is at 86 questions but live is still 64 until this runs. Promote the batch-7 items
+   review→approved after the accuracy/Rule 0 second look so they enter the practice pool.
 2. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
    Radiography, Assessment, and Preventive Agents still have the fewest items; keep rotating
    through under-covered subdomains rather than only the highest-count areas.

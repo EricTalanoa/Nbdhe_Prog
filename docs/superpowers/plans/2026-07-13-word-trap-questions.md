@@ -522,20 +522,41 @@ Find the `<PracticeSession ... />` render (~line 308–326) and add the prop:
         />
 ```
 
-- [ ] **Step 7: Typecheck the whole feature wiring**
+- [ ] **Step 7: Add `trap_note` to the mock question builder**
+
+Making `trap_note` required on `PracticeQuestion` also constrains `app/mock/page.tsx`, which builds a `PracticeQuestion` in `toPracticeQuestion`. Mocks deliberately never reveal traps, so hard-code `null` there. Find (~line 52–54):
+
+```tsx
+    options: [...q.options].sort((a, b) => a.sort_order - b.sort_order),
+    correct_explanation: rationale?.correct_explanation ?? null,
+    flagged: flaggedIds.has(q.id),
+```
+
+Change to:
+
+```tsx
+    options: [...q.options].sort((a, b) => a.sort_order - b.sort_order),
+    correct_explanation: rationale?.correct_explanation ?? null,
+    trap_note: null,
+    flagged: flaggedIds.has(q.id),
+```
+
+Do NOT add `trap_note` to the mock's DB select or pass `showTrapHints` in mock — the `null` literal is intentional and keeps mocks trap-free.
+
+- [ ] **Step 8: Typecheck the whole feature wiring**
 
 Run: `npx tsc --noEmit`
-Expected: PASS (exit 0, no output). `trap_note` now flows type-safely from the query to the renderer; `/mock` calls `QuestionRenderer` without the prop, which defaults to `false`.
+Expected: PASS (exit 0, no output). `trap_note` now flows type-safely from the query to the renderer; `/mock` builds it as `null` and calls `QuestionRenderer` without the prop, which defaults to `false`.
 
-- [ ] **Step 8: Lint**
+- [ ] **Step 9: Lint**
 
 Run: `npm run lint`
 Expected: no new errors in the touched files.
 
-- [ ] **Step 9: Commit Tasks 3–5 together**
+- [ ] **Step 10: Commit Tasks 3–5 together**
 
 ```bash
-git add components/practice/types.ts components/practice/question-renderer.tsx components/practice/practice-session.tsx app/practice/page.tsx
+git add components/practice/types.ts components/practice/question-renderer.tsx components/practice/practice-session.tsx app/practice/page.tsx app/mock/page.tsx
 git commit -m "feat(practice): reveal wording-trap badge + callout when opted in"
 ```
 
