@@ -1,6 +1,6 @@
 ---
-updated: 2026-07-13
-phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 6)
+updated: 2026-07-14
+phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 7)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -20,16 +20,19 @@ the correct answer + rationale, self-grade Again/Hard/Good/Easy to reschedule `d
 a problem" form files a `question_reports` row. Migration `20260713000001_review_tools.sql`
 (`review_schedule` + `question_reports`, owner-only RLS) is **applied to the live project
 (2026-07-13)**, so `/review` persists schedules and error reports. Dashboard links "Flashcard
-review". **7b (ongoing)** — 6 batches (b1 LA PR#16, b2 Care Planning/Perio PR#20, b3 Radiography/
+review". **7b (ongoing)** — 7 batches (b1 LA PR#16, b2 Care Planning/Perio PR#20, b3 Radiography/
 Assessment PR#22, b4 Preventive/Professional/Supportive/Research PR#23, b5 +2 cases + 4 linked
-items PR#26, b6 2nd-pass Care Planning/Perio subdomains). Vault holds **70 questions** (14 easy /
-49 medium / 7 hard) + **3 cases** (perio, pediatric ECC, anticoagulant). Also shipped (features,
+items PR#26, b6 2nd-pass Care Planning/Perio subdomains PR#28, b7 2nd-pass Radiography/Assessment/
+Preventive Agents + 1 flashcard PR#32). Vault holds **76 questions** (14 easy / 52 medium / 10 hard) +
+**3 cases** (perio, pediatric ECC, anticoagulant) + **11 flashcards**. Also shipped (features,
 not chunks): seafoam & white visual refresh (PR #24); topic sets `/sets` + subdomain filter
 (PR #25); flashcard categories — study a topic set as flashcards (PR #29); **dedicated flashcards**
 — a `flashcards` content type (term→concept) with its own SM-2 schedule, `fc-*.md` importer
-support, and 10 authored cards merged into `/review` (PR #30). **All seeded to live (2026-07-13):
-70 questions / 3 cases / 10 flashcards** (flashcards migration `20260713000002_flashcards.sql`
-applied; batch-6 questions + `fc-*` cards seeded via SQL editor). Live now matches the vault.
+support, and 10 authored cards merged into `/review` (PR #30). **Last confirmed seeded to live
+(2026-07-13): 70 questions / 3 cases / 10 flashcards** (flashcards migration
+`20260713000002_flashcards.sql` applied; batch-6 questions + `fc-*` cards seeded via SQL editor).
+**Batch 7 (6 questions + 1 flashcard) is authored in the vault but not yet seeded to live** — see
+Next 3 actions.
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
@@ -83,9 +86,17 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 
 ## Next 3 actions
 1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
-   Radiography, Assessment, and Preventive Agents still have the fewest items; keep rotating
-   through under-covered subdomains rather than only the highest-count areas. Also: author more
+   Batch 7 filled Radiography (`Emerging technologies`, 2nd-pass radiophysics), Assessment
+   (2nd-pass medical history + periodontal evaluation), and Preventive Agents (`Other preventive
+   agents`, 2nd-pass fluoride mechanisms) + 1 flashcard (fc-prev-0002). Still-thin areas for the
+   next batch: Pharmacology/general (1 item), Microbiology (1), Immunology (1), Biochemistry (2),
+   Physiology (2), Pathology (2), Medically-compromised (2), Pediatric (2), Anatomy (3),
+   Research Principles (3). Also: apply batch-7 content live (see #2) and keep authoring
    dedicated flashcards (`fc-*.md`) alongside questions.
+2. Batch 7's 6 questions + 1 flashcard are authored in the vault, `content:check`-clean, and open
+   as PR #32 (`feat/7b-bank-depth-batch7`), but **not yet imported into the live Supabase project**
+   (this container's egress blocks `*.supabase.co`, so `npm run content:import` can't run here —
+   import from a machine with egress, or hand-seed via the SQL editor as batches 5/6 were).
 3. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
