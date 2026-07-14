@@ -33,7 +33,7 @@ Local Anesthesia/Care Planning/Perio Management — 4 Care Planning items fillin
 subdomains (planning of individualized instruction, instruction: oral conditions, treatment
 strategies-diagnosis, treatment strategies-case presentation), 2 Local Anesthesia (mechanism of
 action, PSA-block hematoma), 2 Perio Management (locally delivered antimicrobials, red-complex
-etiology) — PR TBD). Vault holds **100 questions** (21 easy / 64 medium / 15 hard) + **3 cases**
+etiology) — PR #36). Vault holds **100 questions** (21 easy / 64 medium / 15 hard) + **3 cases**
 (perio, pediatric ECC, anticoagulant) + **11 flashcards**. Every Dental Hygiene Care Planning
 subdomain now has ≥1 item. Also shipped (features, not chunks): seafoam & white visual refresh
 (PR #24); topic sets `/sets` + subdomain filter (PR #25); flashcard categories — study a topic set
@@ -102,7 +102,7 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    Perio Management and Local Anesthesia, and keep authoring dedicated flashcards (`fc-*.md`)
    alongside questions. Also: apply batches 7-10 content live (see #2).
 2. Batch 7 (6 questions + 1 flashcard, PR #32), batch 8 (8 questions, PR #34), batch 9
-   (8 questions, PR #35), and batch 10 (8 questions, PR TBD) are authored in the vault,
+   (8 questions, PR #35), and batch 10 (8 questions, PR #36) are authored in the vault,
    `content:check`-clean, but **not yet imported into the live Supabase project** (this
    container's egress blocks `*.supabase.co`, so `npm run content:import` can't run here — import
    from a machine with egress, or hand-seed via the SQL editor as batches 5/6 were).
