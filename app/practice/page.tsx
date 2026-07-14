@@ -21,6 +21,7 @@ type RawQuestion = {
   stem: string;
   difficulty: string;
   case_id: string | null;
+  trap_note: string | null;
   options: PracticeOption[];
   rationales: { correct_explanation: string } | { correct_explanation: string }[] | null;
   taxonomy: TaxonomyRef | TaxonomyRef[] | null;
@@ -116,6 +117,13 @@ export default async function PracticePage({
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("show_trap_hints")
+    .eq("id", user.id)
+    .maybeSingle();
+  const showTrapHints = Boolean(profile?.show_trap_hints);
+
   const setSize = parseSetSize(searchParams.n);
   const areas = parseList(searchParams.areas);
   const subs = parseList(searchParams.sub);
@@ -157,7 +165,7 @@ export default async function PracticePage({
   const { data, error } = await supabase
     .from("questions")
     .select(
-      "id, slug, format, stem, difficulty, case_id, options(id, label, body, is_correct, distractor_rationale, sort_order), rationales(correct_explanation), taxonomy(score_area, subdomain)"
+      "id, slug, format, stem, difficulty, case_id, trap_note, options(id, label, body, is_correct, distractor_rationale, sort_order), rationales(correct_explanation), taxonomy(score_area, subdomain)"
     )
     .in("status", ["approved", "live"]);
 
@@ -206,6 +214,7 @@ export default async function PracticePage({
         difficulty: q.difficulty,
         options: [...q.options].sort((a, b) => a.sort_order - b.sort_order),
         correct_explanation: rationale?.correct_explanation ?? null,
+        trap_note: q.trap_note,
         flagged: flaggedIds.has(q.id),
       };
     });
@@ -310,6 +319,7 @@ export default async function PracticePage({
           questions={practiceSet}
           sessionId={sessionId}
           timeLimitSec={timeLimitSec > 0 ? timeLimitSec : undefined}
+          showTrapHints={showTrapHints}
           stimulus={
             caseInfo ? (
               <div className="mb-6">

@@ -42,15 +42,18 @@ function Stem({ format, stem }: { format: QuestionFormat; stem: string }) {
 export function QuestionRenderer({
   question,
   onAnswered,
+  showTrapHints = false,
 }: {
   question: PracticeQuestion;
   onAnswered: (correct: boolean, selectedOptionId: string | null, timeMs: number) => void;
+  showTrapHints?: boolean;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [flagged, setFlagged] = useState(question.flagged);
   const [flagPending, setFlagPending] = useState(false);
   const [startedAt] = useState(() => Date.now());
+  const revealTrap = showTrapHints && Boolean(question.trap_note);
 
   const correctOption = question.options.find((o) => o.is_correct) ?? null;
   const selectedIsCorrect = selectedId != null && selectedId === correctOption?.id;
@@ -77,6 +80,11 @@ export function QuestionRenderer({
           <span>{FORMAT_LABEL[question.format]}</span>
           <span aria-hidden="true">·</span>
           <span>{question.difficulty}</span>
+          {revealTrap && (
+            <span className="rounded bg-amber-200 px-1.5 py-0.5 font-semibold text-amber-950 dark:bg-amber-900 dark:text-amber-200">
+              Wording trap
+            </span>
+          )}
         </div>
         <button
           type="button"
@@ -143,18 +151,26 @@ export function QuestionRenderer({
           Submit answer
         </Button>
       ) : (
-        <div
-          className={cn(
-            "mt-5 rounded-lg border px-4 py-3 text-sm font-medium",
-            selectedIsCorrect
-              ? "border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
-              : "border-destructive bg-destructive/10 text-destructive"
+        <>
+          {revealTrap && (
+            <div className="mt-5 rounded-lg border border-amber-300 bg-amber-50 px-4 py-3 text-sm text-amber-900 dark:border-amber-900 dark:bg-amber-950/40 dark:text-amber-200">
+              <span className="font-semibold">Wording trap — </span>
+              {question.trap_note}
+            </div>
           )}
-        >
-          {selectedIsCorrect
-            ? "Correct."
-            : `Incorrect — correct answer is ${correctOption?.label ?? "?"}.`}
-        </div>
+          <div
+            className={cn(
+              "mt-5 rounded-lg border px-4 py-3 text-sm font-medium",
+              selectedIsCorrect
+                ? "border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
+                : "border-destructive bg-destructive/10 text-destructive"
+            )}
+          >
+            {selectedIsCorrect
+              ? "Correct."
+              : `Incorrect — correct answer is ${correctOption?.label ?? "?"}.`}
+          </div>
+        </>
       )}
     </Card>
   );

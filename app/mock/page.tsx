@@ -51,6 +51,7 @@ function toPracticeQuestion(q: RawQuestion, flaggedIds: Set<string>): PracticeQu
     difficulty: q.difficulty,
     options: [...q.options].sort((a, b) => a.sort_order - b.sort_order),
     correct_explanation: rationale?.correct_explanation ?? null,
+    trap_note: null,
     flagged: flaggedIds.has(q.id),
   };
 }
