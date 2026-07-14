@@ -10,6 +10,7 @@ import {
   LayoutGrid,
   LogOut,
   RotateCcw,
+  Settings,
   SlidersHorizontal,
   Stethoscope,
   Zap,
@@ -93,12 +94,20 @@ export default async function DashboardPage() {
             Signed in as <span className="font-medium text-foreground">{user.email}</span>
           </p>
         </div>
-        <form action={signOut}>
-          <Button variant="outline" size="sm" type="submit" className="gap-1.5">
-            <LogOut className="size-3.5" />
-            Sign out
+        <div className="flex items-center gap-2">
+          <Button asChild variant="outline" size="sm" className="gap-1.5">
+            <Link href="/settings">
+              <Settings className="size-3.5" />
+              Settings
+            </Link>
           </Button>
-        </form>
+          <form action={signOut}>
+            <Button variant="outline" size="sm" type="submit" className="gap-1.5">
+              <LogOut className="size-3.5" />
+              Sign out
+            </Button>
+          </form>
+        </div>
       </header>
 
       <div className="space-y-8">
