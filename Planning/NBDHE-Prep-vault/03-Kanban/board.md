@@ -5,8 +5,8 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
-- [ ] Phase 7: deepen question bank — ongoing (batches 1-14 + sets feature; bank now 117 + 5 cases +
-      15 flashcards; batches 6-14 not yet seeded to live)
+- [ ] Phase 7: deepen question bank — ongoing (batches 1-15 + sets feature; bank now 124 + 5 cases +
+      16 flashcards; batches 6-15 not yet seeded to live)
 - [ ] Phase 7: testlet infra (importer parser/upsert + practice-loop stimulus wiring) — needed
       before a Community Health testlet can be authored
 
@@ -14,10 +14,9 @@ kanban-plugin: board
 
 - [x] Phase 7: review tools — SM-2-lite flashcards `/review` + `review_schedule` +
       error reports (`question_reports`) — `lib/srs.ts` (7a) — migration applied live
-- [~] Phase 7: bank depth (7b, ongoing) — b1-b14 across all areas + 5 cases; bank now 117
-      (batch 14: first `special_needs` case, case-spec-0001 — nonverbal adult with autism
-      spectrum disorder — + 2 linked items on tell-show-do behavior guidance and sensory-adapted
-      home care, + 1 flashcard)
+- [~] Phase 7: bank depth (7b, ongoing) — b1-b15 across all areas + 5 cases; bank now 124
+      (batch 15: 7 Dental Hygiene Care Planning items + 1 flashcard closing out every Care
+      Planning subdomain still at 1 item)
 
 ## Done (Phase 6)
 

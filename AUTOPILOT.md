@@ -107,7 +107,19 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   https://github.com/EricTalanoa/Nbdhe_Prog/pull/15
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
-  Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
+  Progress: bank now 124 questions + 5 cases + 16 flashcards (see batch 15 note below for the
+  latest; batch notes are newest-first).
+  - Batch 15: 7 Dental Hygiene Care Planning items (q-plan-0014..0020) closing out every
+    remaining 1-item Care Planning subdomain — Anxiety and pain control-Local anesthesia
+    (topical anesthetic before injection), Infection control-application (Spaulding
+    classification), instruction-periodontal diseases (3-4 month maintenance interval
+    rationale), Treatment strategies-Treatment plan (sequencing an acute complaint ahead of
+    disease control), planning of individualized instruction (Stages-of-Change/precontemplation
+    tailoring), Treatment strategies-Diagnosis (PES diagnosis format), Treatment
+    strategies-Case presentation (motivational interviewing) — + 1 flashcard (fc-plan-0002, PES
+    format). Every Dental Hygiene Care Planning subdomain now genuinely has >=2 items (a prior
+    batch's progress note had claimed this was already true; it wasn't — 6 subdomains were still
+    at 1 item before this batch). Bank now 124 questions + 5 cases + 16 flashcards.
   - Batch 14 (PR #40): +1 case (case-spec-0001, nonverbal adult with autism spectrum disorder —
     the first `special_needs` patient_type case) + 2 linked items (q-spec-0001: Dental Hygiene
     Care Planning/anxiety and pain control-general, tell-show-do behavior guidance for a nonverbal
