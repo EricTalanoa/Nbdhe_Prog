@@ -157,7 +157,7 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     not yet covered (q-anes-0011 mylohyoid accessory innervation/IANB failure, q-anes-0012 ester
     vs amide true-allergy mechanism); 2 flashcards (fc-perio-0002 host modulation, fc-anes-0003
     mylohyoid innervation). Bank now 106 questions + 3 cases + 13 flashcards.
-  - Batch 12: Supportive Treatment Services + Professional Responsibility depth pass. 3
+  - Batch 12 (PR #38): Supportive Treatment Services + Professional Responsibility depth pass. 3
     Supportive Treatment Services items, including the domain's last uncovered subdomain
     (q-supp-0005 emerging technologies/glycine air polishing, q-supp-0006 properties and
     manipulation of materials/alginate setting time, q-supp-0007 impressions and study

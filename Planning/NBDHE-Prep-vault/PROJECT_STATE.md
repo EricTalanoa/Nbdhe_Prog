@@ -44,7 +44,7 @@ properties and manipulation of materials/alginate setting time, impressions and 
 casts/disinfection), 4 Professional Responsibility items bringing every subdomain to 2 items
 (ethical principles/nonmaleficence, regulatory compliance/supervision levels, patient and
 professional communication/referral handoff, documentation and risk management/informed refusal),
-1 flashcard (glycine air polishing)). Vault holds **113 questions** + **3 cases** (perio,
+1 flashcard (glycine air polishing) — PR #38). Vault holds **113 questions** + **3 cases** (perio,
 pediatric ECC, anticoagulant) + **14 flashcards**. Every Dental Hygiene Care Planning, Periodontal
 Disease Management, Supportive Treatment Services, and Professional Responsibility subdomain now
 has ≥2 items (Supportive Treatment Services' "Emerging technologies" subdomain had 0 items before
