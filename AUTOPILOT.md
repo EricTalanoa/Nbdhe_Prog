@@ -157,6 +157,18 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     not yet covered (q-anes-0011 mylohyoid accessory innervation/IANB failure, q-anes-0012 ester
     vs amide true-allergy mechanism); 2 flashcards (fc-perio-0002 host modulation, fc-anes-0003
     mylohyoid innervation). Bank now 106 questions + 3 cases + 13 flashcards.
+  - Batch 12: Supportive Treatment Services + Professional Responsibility depth pass. 3
+    Supportive Treatment Services items, including the domain's last uncovered subdomain
+    (q-supp-0005 emerging technologies/glycine air polishing, q-supp-0006 properties and
+    manipulation of materials/alginate setting time, q-supp-0007 impressions and study
+    casts/disinfection); 4 Professional Responsibility items bringing every subdomain in the
+    domain to 2 items (q-prof-0005 ethical principles/nonmaleficence, q-prof-0006 regulatory
+    compliance/supervision levels, q-prof-0007 patient and professional communication/referral
+    handoff, q-prof-0008 documentation and risk management/informed refusal); 1 flashcard
+    (fc-supp-0001 glycine air polishing). Bank now 113 questions + 3 cases + 14 flashcards. Every
+    Supportive Treatment Services and Professional Responsibility subdomain now has >=2 items
+    (Supportive Treatment Services' "Emerging technologies" subdomain had 0 items before this
+    batch).
 
   Features (not chunks): seafoam & white visual refresh (PR #24); pre-built topic sets `/sets` +
   subdomain filtering (PR #25); flashcard categories — study any topic set as flashcards

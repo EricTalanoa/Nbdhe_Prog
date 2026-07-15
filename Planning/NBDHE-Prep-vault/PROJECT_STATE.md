@@ -1,6 +1,6 @@
 ---
-updated: 2026-07-14
-phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 11)
+updated: 2026-07-15
+phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 12)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -37,18 +37,26 @@ etiology) — PR #36; b11 4th-pass on Perio Management/Local Anesthesia — 4 Pe
 filling the last thin subdomains to 2 items each (chemotherapeutic agents/host modulation, implant
 care/mucositis vs peri-implantitis, surgical support services/dressing purpose, reassessment/
 persistent-pocket referral), 2 Local Anesthesia (mylohyoid accessory innervation, ester-vs-amide
-allergy), 2 flashcards (host modulation, mylohyoid innervation) — PR #37). Vault holds
-**106 questions** + **3 cases** (perio, pediatric ECC, anticoagulant) + **13 flashcards**. Every
-Dental Hygiene Care Planning subdomain has ≥1 item; every Periodontal Disease Management subdomain
-now has ≥2 items. Also shipped (features, not chunks): seafoam & white visual refresh
+allergy), 2 flashcards (host modulation, mylohyoid innervation) — PR #37; b12 Supportive Treatment
+Services + Professional Responsibility depth pass — 3 Supportive Treatment Services items
+including the domain's last uncovered subdomain (emerging technologies/glycine air polishing,
+properties and manipulation of materials/alginate setting time, impressions and study
+casts/disinfection), 4 Professional Responsibility items bringing every subdomain to 2 items
+(ethical principles/nonmaleficence, regulatory compliance/supervision levels, patient and
+professional communication/referral handoff, documentation and risk management/informed refusal),
+1 flashcard (glycine air polishing)). Vault holds **113 questions** + **3 cases** (perio,
+pediatric ECC, anticoagulant) + **14 flashcards**. Every Dental Hygiene Care Planning, Periodontal
+Disease Management, Supportive Treatment Services, and Professional Responsibility subdomain now
+has ≥2 items (Supportive Treatment Services' "Emerging technologies" subdomain had 0 items before
+batch 12). Also shipped (features, not chunks): seafoam & white visual refresh
 (PR #24); topic sets `/sets` + subdomain filter (PR #25); flashcard categories — study a topic set
 as flashcards (PR #29); **dedicated flashcards** — a `flashcards` content type (term→concept) with
 its own SM-2 schedule, `fc-*.md` importer support, and 10 authored cards merged into `/review`
 (PR #30). **Last confirmed seeded to live (2026-07-13): 70 questions / 3 cases / 10 flashcards**
 (flashcards migration `20260713000002_flashcards.sql` applied; batch-6 questions + `fc-*` cards
-seeded via SQL editor). **Batches 7-11 (6 questions + 1 flashcard, then 8, then 8, then 8, then 6
-questions + 2 flashcards) are authored in the vault but not yet seeded to live** — see Next 3
-actions.
+seeded via SQL editor). **Batches 7-12 (6 questions + 1 flashcard, then 8, then 8, then 8, then 6
+questions + 2 flashcards, then 7 questions + 1 flashcard) are authored in the vault but not yet
+seeded to live** — see Next 3 actions.
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
@@ -102,19 +110,19 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 
 ## Next 3 actions
 1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
-   Batch 11 did a 4th-pass on Perio Management/Local Anesthesia; every Periodontal Disease
-   Management subdomain now has ≥2 items. Next batch: more cases, and a Community Health testlet
-   — but that needs its own infra chunk first (`scripts/import-questions.mjs` has no
+   Batch 12 did a depth pass on Supportive Treatment Services/Professional Responsibility; every
+   subdomain in both domains now has ≥2 items. Next batch: more cases, and a Community Health
+   testlet — but that needs its own infra chunk first (`scripts/import-questions.mjs` has no
    testlet parser/upsert yet, and no UI wires a testlet's scenario into the practice-loop
    stimulus the way `PatientBox` does for cases — see AUTOPILOT.md's open item). Keep authoring
-   dedicated flashcards (`fc-*.md`) alongside questions. Also: apply batches 7-11 content live
+   dedicated flashcards (`fc-*.md`) alongside questions. Also: apply batches 7-12 content live
    (see #2).
 2. Batch 7 (6 questions + 1 flashcard, PR #32), batch 8 (8 questions, PR #34), batch 9
-   (8 questions, PR #35), batch 10 (8 questions, PR #36), and batch 11 (6 questions + 2
-   flashcards, PR #37) are authored in the vault, `content:check`-clean, but **not yet imported
-   into the live Supabase project** (this container's egress blocks `*.supabase.co`, so
-   `npm run content:import` can't run here — import from a machine with egress, or hand-seed via
-   the SQL editor as batches 5/6 were).
+   (8 questions, PR #35), batch 10 (8 questions, PR #36), batch 11 (6 questions + 2
+   flashcards, PR #37), and batch 12 (7 questions + 1 flashcard) are authored in the vault,
+   `content:check`-clean, but **not yet imported into the live Supabase project** (this
+   container's egress blocks `*.supabase.co`, so `npm run content:import` can't run here —
+   import from a machine with egress, or hand-seed via the SQL editor as batches 5/6 were).
 3. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
