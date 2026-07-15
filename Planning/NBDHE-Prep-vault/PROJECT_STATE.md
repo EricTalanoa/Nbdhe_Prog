@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-15
-phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 13)
+phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 14)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -48,20 +48,26 @@ professional communication/referral handoff, documentation and risk management/i
 `case-geri-0001` (polypharmacy-related xerostomia + new root caries) with 2 linked items
 (q-geri-0001 Preventive Agents/fluoride methods of administration — prescription 5,000 ppm
 toothpaste for root-caries risk; q-geri-0002 Dental Hygiene Care Planning/individualized patient
-education-dental caries — adapting hygiene instruction for reduced manual dexterity)). Vault holds
-**115 questions** + **4 cases** (perio, pediatric ECC, anticoagulant, geriatric xerostomia) +
-**14 flashcards**. Every Dental Hygiene Care Planning, Periodontal Disease Management, Supportive
-Treatment Services, and Professional Responsibility subdomain now has ≥2 items (Supportive
-Treatment Services' "Emerging technologies" subdomain had 0 items before batch 12). Also shipped
-(features, not chunks): seafoam & white visual refresh (PR #24); topic sets `/sets` + subdomain
-filter (PR #25); flashcard categories — study a topic set as flashcards (PR #29); **dedicated
-flashcards** — a `flashcards` content type (term→concept) with its own SM-2 schedule, `fc-*.md`
-importer support, and 10 authored cards merged into `/review` (PR #30). **Last confirmed seeded to
-live (2026-07-13): 70 questions / 3 cases / 10 flashcards** (flashcards migration
+education-dental caries — adapting hygiene instruction for reduced manual dexterity) — PR #39; b14
+— the first `special_needs`-type case, `case-spec-0001` (nonverbal adult with autism spectrum
+disorder) with 2 linked items (q-spec-0001 Dental Hygiene Care Planning/anxiety and pain
+control-general — tell-show-do behavior guidance; q-spec-0002 Dental Hygiene Care
+Planning/individualized patient education-instruction: oral conditions — home-care adaptations for
+sensory sensitivity) + 1 flashcard (fc-plan-0001, tell-show-do), filling the last two 1-item
+Care Planning subdomains to 2 items each). Vault holds **117 questions** + **5 cases** (perio,
+pediatric ECC, anticoagulant, geriatric xerostomia, special-needs autism) + **15 flashcards**.
+Every Dental Hygiene Care Planning, Periodontal Disease Management, Supportive Treatment Services,
+and Professional Responsibility subdomain now has ≥2 items (Supportive Treatment Services'
+"Emerging technologies" subdomain had 0 items before batch 12). Also shipped (features, not
+chunks): seafoam & white visual refresh (PR #24); topic sets `/sets` + subdomain filter (PR #25);
+flashcard categories — study a topic set as flashcards (PR #29); **dedicated flashcards** — a
+`flashcards` content type (term→concept) with its own SM-2 schedule, `fc-*.md` importer support,
+and 10 authored cards merged into `/review` (PR #30). **Last confirmed seeded to live
+(2026-07-13): 70 questions / 3 cases / 10 flashcards** (flashcards migration
 `20260713000002_flashcards.sql` applied; batch-6 questions + `fc-*` cards seeded via SQL editor).
-**Batches 7-13 (6 questions + 1 flashcard, then 8, then 8, then 8, then 6 questions + 2 flashcards,
-then 7 questions + 1 flashcard, then 1 case + 2 questions) are authored in the vault but not yet
-seeded to live** — see Next 3 actions.
+**Batches 7-14 (6 questions + 1 flashcard, then 8, then 8, then 8, then 6 questions + 2 flashcards,
+then 7 questions + 1 flashcard, then 1 case + 2 questions, then 1 case + 2 questions + 1 flashcard)
+are authored in the vault but not yet seeded to live** — see Next 3 actions.
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
 format-accurate mock: Component A (discipline items) → optional break → Component B (case-based,
@@ -115,20 +121,20 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 
 ## Next 3 actions
 1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
-   Batch 13 added the first `geriatric` case (case-geri-0001, xerostomia/root caries) + 2 linked
-   items. Next batch: more cases (special_needs patient_type not yet used), and a Community Health
-   testlet — but that needs its own infra chunk first (`scripts/import-questions.mjs` has no
-   testlet parser/upsert yet, and no UI wires a testlet's scenario into the practice-loop
-   stimulus the way `PatientBox` does for cases — see AUTOPILOT.md's open item). Keep authoring
-   dedicated flashcards (`fc-*.md`) alongside questions. Also: apply batches 7-13 content live
-   (see #2).
+   Batch 14 added the first `special_needs` case (case-spec-0001, nonverbal adult with autism
+   spectrum disorder) + 2 linked items + 1 flashcard, filling the last two 1-item Care Planning
+   subdomains. Next batch: a Community Health testlet — but that needs its own infra chunk first
+   (`scripts/import-questions.mjs` has no testlet parser/upsert yet, and no UI wires a testlet's
+   scenario into the practice-loop stimulus the way `PatientBox` does for cases — see
+   AUTOPILOT.md's open item). Keep authoring dedicated flashcards (`fc-*.md`) alongside questions.
+   Also: apply batches 7-14 content live (see #2).
 2. Batch 7 (6 questions + 1 flashcard, PR #32), batch 8 (8 questions, PR #34), batch 9
    (8 questions, PR #35), batch 10 (8 questions, PR #36), batch 11 (6 questions + 2
-   flashcards, PR #37), batch 12 (7 questions + 1 flashcard), and batch 13 (1 case + 2
-   questions) are authored in the vault, `content:check`-clean, but **not yet imported into the
-   live Supabase project** (this container's egress blocks `*.supabase.co`, so
-   `npm run content:import` can't run here — import from a machine with egress, or hand-seed via
-   the SQL editor as batches 5/6 were).
+   flashcards, PR #37), batch 12 (7 questions + 1 flashcard, PR #38), batch 13 (1 case + 2
+   questions, PR #39), and batch 14 (1 case + 2 questions + 1 flashcard) are authored in the
+   vault, `content:check`-clean, but **not yet imported into the live Supabase project** (this
+   container's egress blocks `*.supabase.co`, so `npm run content:import` can't run here — import
+   from a machine with egress, or hand-seed via the SQL editor as batches 5/6 were).
 3. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL

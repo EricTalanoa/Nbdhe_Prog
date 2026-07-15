@@ -108,7 +108,14 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
-  - Batch 13 (this run): +1 case (case-geri-0001, geriatric patient with polypharmacy-related
+  - Batch 14 (PR #40): +1 case (case-spec-0001, nonverbal adult with autism spectrum disorder —
+    the first `special_needs` patient_type case) + 2 linked items (q-spec-0001: Dental Hygiene
+    Care Planning/anxiety and pain control-general, tell-show-do behavior guidance for a nonverbal
+    patient; q-spec-0002: Dental Hygiene Care Planning/individualized patient education-instruction:
+    oral conditions, home-care adaptations for sensory sensitivity) + 1 flashcard (fc-plan-0001,
+    tell-show-do). Fills the last 1-item "Anxiety and pain control — General" and "instruction:
+    oral conditions" subdomains to 2 items each. Bank now 117 questions + 5 cases + 15 flashcards.
+  - Batch 13 (PR #39): +1 case (case-geri-0001, geriatric patient with polypharmacy-related
     xerostomia and new root caries — the first `geriatric` patient_type case) + 2 linked items
     (q-geri-0001: Preventive Agents/Fluorides-methods of administration, prescription 5,000 ppm
     fluoride for root-caries risk; q-geri-0002: Dental Hygiene Care Planning/individualized patient
