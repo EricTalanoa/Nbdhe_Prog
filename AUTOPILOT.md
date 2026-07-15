@@ -108,6 +108,16 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
+  - Batch 15 (PR #42): 2nd-pass depth on the last remaining 1-item subdomains across Anatomic
+    Sciences, Dental Radiography, Patient Assessment, and Preventive Agents — 8 questions
+    (q-anat-0007 dental anatomy general/lingual surface terminology, q-anat-0008 head and neck
+    anatomy/lateral pterygoid-mandibular protrusion, q-radi-0009 emerging technologies/digital
+    sensor dose and immediacy, q-radi-0010 recognition of normalities and abnormalities/periapical
+    granuloma-cyst radiolucency, q-asmt-0009 head and neck examination/TMJ screening technique,
+    q-asmt-0010 oral evaluation/recurrent aphthous ulcer, q-prev-0007 fluorides toxicology/
+    certainly lethal dose, q-prev-0008 pit and fissure sealants/etch-contamination technique) + 1
+    flashcard (fc-prev-0003, saliva contamination and sealant retention). Bank now 125 questions +
+    5 cases + 16 flashcards.
   - Batch 14 (PR #40): +1 case (case-spec-0001, nonverbal adult with autism spectrum disorder —
     the first `special_needs` patient_type case) + 2 linked items (q-spec-0001: Dental Hygiene
     Care Planning/anxiety and pain control-general, tell-show-do behavior guidance for a nonverbal
