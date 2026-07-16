@@ -85,7 +85,7 @@ mechanism vs. chlorhexidine substantivity, q-perio-0018 surgical support service
 regeneration membrane selective-repopulation principle), 2 Local Anesthesia items on topics not
 yet covered (q-anes-0014 Vazirani-Akinosi closed-mouth block for trismus, q-anes-0015 epinephrine
 dose ceiling in significant cardiovascular disease) + 1 flashcard (fc-anes-0004, cardiac
-epinephrine dose limit) — PR: TBD. Vault holds **142 questions** + **5 cases** (perio, pediatric
+epinephrine dose limit) — PR #45. Vault holds **142 questions** + **5 cases** (perio, pediatric
 ECC, anticoagulant, geriatric xerostomia, special-needs autism) + **19 flashcards**.
 Every domain/subdomain combination in the bank now has ≥2 items (Physiology has no blueprint
 subdomains, so its 3 domain-level items already represent full coverage; Supportive Treatment
@@ -167,7 +167,7 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    flashcards, PR #37), batch 12 (7 questions + 1 flashcard, PR #38), batch 13 (1 case + 2
    questions, PR #39), batch 14 (1 case + 2 questions + 1 flashcard, PR #40), batch 15
    (8 questions + 1 flashcard, PR #42), batch 16 (8 questions + 1 flashcard, PR #43), batch 17
-   (5 questions + 1 flashcard, PR #44), and batch 18 (4 questions + 1 flashcard, PR: TBD) are
+   (5 questions + 1 flashcard, PR #44), and batch 18 (4 questions + 1 flashcard, PR #45) are
    authored in the vault, `content:check`-clean, but **not yet imported into the live Supabase
    project** (this container's egress blocks `*.supabase.co`, so `npm run content:import` can't
    run here — import from a machine with egress, or hand-seed via the SQL editor as batches 5/6

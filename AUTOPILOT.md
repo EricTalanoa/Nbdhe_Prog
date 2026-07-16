@@ -108,7 +108,7 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
-  - Batch 18 (PR: TBD): 5th-pass depth on the two highest-yield clinical areas per the authoring
+  - Batch 18 (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/45): 5th-pass depth on the two highest-yield clinical areas per the authoring
     guidelines' "go deep" priority — 2 Perio Management items on subdomains that hadn't gone past
     2 items (q-perio-0017 chemotherapeutic agents/essential-oil mouthrinse mechanism vs.
     chlorhexidine substantivity, q-perio-0018 surgical support services/guided tissue regeneration
