@@ -5,8 +5,8 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
-- [ ] Phase 7: deepen question bank — ongoing (batches 1-18 + sets feature; bank now 142 + 5 cases +
-      19 flashcards; batches 6-18 not yet seeded to live)
+- [ ] Phase 7: deepen question bank — ongoing (batches 1-19 + sets feature; bank now 146 + 5 cases +
+      20 flashcards; batches 6-19 not yet seeded to live)
 - [ ] Phase 7: testlet infra (importer parser/upsert + practice-loop stimulus wiring) — needed
       before a Community Health testlet can be authored
 
@@ -14,10 +14,11 @@ kanban-plugin: board
 
 - [x] Phase 7: review tools — SM-2-lite flashcards `/review` + `review_schedule` +
       error reports (`question_reports`) — `lib/srs.ts` (7a) — migration applied live
-- [~] Phase 7: bank depth (7b, ongoing) — b1-b18 across all areas + 5 cases; bank now 142
-      (batch 18: depth pass on Perio Management + Local Anesthesia — essential-oil rinse
-      mechanism, GTR membrane principle, Vazirani-Akinosi closed-mouth block, cardiac
-      epinephrine dose ceiling — 4 questions + 1 flashcard)
+- [~] Phase 7: bank depth (7b, ongoing) — b1-b19 across all areas + 5 cases; bank now 146
+      (batch 19: 6th-pass depth on Perio Management's thinnest subdomains — implant care/smoking
+      as the modifiable peri-implantitis risk factor, reassessment/CAL vs. probing depth,
+      maintenance/risk-based recall shortening — plus one new Local Anesthesia topic
+      (prilocaine/articaine methemoglobinemia) — 4 questions + 1 flashcard)
 
 ## Done (Phase 6)
 
