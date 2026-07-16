@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-16
-phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 17)
+phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 18)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -78,9 +78,15 @@ evaluating community programs, needs-assessment-first planning sequence), q-rsch
 Principles/analyzing scientific literature, confounding variable), q-rsch-0006 (Research
 Principles/applying research results, the evidence-based-decision-making triad), q-supp-0008
 (Supportive Treatment Services/emerging technologies, diode laser as a nonsurgical periodontal
-adjunct, negative format) + 1 flashcard (fc-rsch-0001, SnNout/SpPin mnemonics) — PR #44. Vault
-holds **138 questions** + **5 cases** (perio, pediatric ECC, anticoagulant, geriatric xerostomia,
-special-needs autism) + **18 flashcards**.
+adjunct, negative format) + 1 flashcard (fc-rsch-0001, SnNout/SpPin mnemonics) — PR #44; b18 —
+5th-pass depth on the two highest-yield clinical areas: 2 Perio Management items on subdomains
+that hadn't gone past 2 items (q-perio-0017 chemotherapeutic agents/essential-oil mouthrinse
+mechanism vs. chlorhexidine substantivity, q-perio-0018 surgical support services/guided tissue
+regeneration membrane selective-repopulation principle), 2 Local Anesthesia items on topics not
+yet covered (q-anes-0014 Vazirani-Akinosi closed-mouth block for trismus, q-anes-0015 epinephrine
+dose ceiling in significant cardiovascular disease) + 1 flashcard (fc-anes-0004, cardiac
+epinephrine dose limit) — PR: TBD. Vault holds **142 questions** + **5 cases** (perio, pediatric
+ECC, anticoagulant, geriatric xerostomia, special-needs autism) + **19 flashcards**.
 Every domain/subdomain combination in the bank now has ≥2 items (Physiology has no blueprint
 subdomains, so its 3 domain-level items already represent full coverage; Supportive Treatment
 Services' "Emerging technologies" subdomain had 0 items before batch 12). Also shipped (features, not
@@ -90,9 +96,10 @@ flashcard categories — study a topic set as flashcards (PR #29); **dedicated f
 and 10 authored cards merged into `/review` (PR #30). **Last confirmed seeded to live
 (2026-07-13): 70 questions / 3 cases / 10 flashcards** (flashcards migration
 `20260713000002_flashcards.sql` applied; batch-6 questions + `fc-*` cards seeded via SQL editor).
-**Batches 7-17 (6 questions + 1 flashcard, then 8, then 8, then 8, then 6 questions + 2 flashcards,
+**Batches 7-18 (6 questions + 1 flashcard, then 8, then 8, then 8, then 6 questions + 2 flashcards,
 then 7 questions + 1 flashcard, then 1 case + 2 questions, then 1 case + 2 questions + 1 flashcard,
-then 8 questions + 1 flashcard, then 8 questions + 1 flashcard, then 5 questions + 1 flashcard)
+then 8 questions + 1 flashcard, then 8 questions + 1 flashcard, then 5 questions + 1 flashcard,
+then 4 questions + 1 flashcard)
 are authored in the vault but not yet seeded to live** — see Next 3 actions.
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
@@ -147,26 +154,24 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 
 ## Next 3 actions
 1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
-   Batch 17 filled the last five 1-item subdomains anywhere in the bank (Preventive Agents/other
-   preventive agents, Community Health/program assessment-design-evaluation, Research
-   Principles/analyzing literature + applying results, Supportive Treatment
-   Services/emerging technologies), so every domain/subdomain in the bank now has ≥2 items.
-   Next batch: a Community Health testlet — but that needs its own infra chunk first
-   (`scripts/import-questions.mjs` has no testlet parser/upsert yet, and no UI wires a testlet's
-   scenario into the practice-loop stimulus the way `PatientBox` does for cases — see
-   AUTOPILOT.md's open item). Otherwise, rotate 3rd/4th/5th-pass depth through the highest-yield
-   clinical areas (Local Anesthesia, Care Planning, Perio Management) and keep authoring
-   dedicated flashcards (`fc-*.md`) alongside questions. Also: apply batches 7-17 content live
-   (see #2).
+   Batch 18 was a 6th-pass(ish) depth pass on Perio Management + Local Anesthesia (essential-oil
+   rinse mechanism, GTR membrane principle, Vazirani-Akinosi block, cardiac epinephrine dose
+   ceiling). A Community Health testlet is still the next *new* content type, but that needs its
+   own infra chunk first (`scripts/import-questions.mjs` has no testlet parser/upsert yet, and no
+   UI wires a testlet's scenario into the practice-loop stimulus the way `PatientBox` does for
+   cases — see AUTOPILOT.md's open item). Otherwise, keep rotating depth through the highest-yield
+   clinical areas (Local Anesthesia, Care Planning, Perio Management) and keep authoring dedicated
+   flashcards (`fc-*.md`) alongside questions. Also: apply batches 7-18 content live (see #2).
 2. Batch 7 (6 questions + 1 flashcard, PR #32), batch 8 (8 questions, PR #34), batch 9
    (8 questions, PR #35), batch 10 (8 questions, PR #36), batch 11 (6 questions + 2
    flashcards, PR #37), batch 12 (7 questions + 1 flashcard, PR #38), batch 13 (1 case + 2
    questions, PR #39), batch 14 (1 case + 2 questions + 1 flashcard, PR #40), batch 15
-   (8 questions + 1 flashcard, PR #42), batch 16 (8 questions + 1 flashcard, PR #43), and
-   batch 17 (5 questions + 1 flashcard, PR #44) are authored in the vault, `content:check`-clean,
-   but **not yet imported into the live Supabase project** (this container's egress blocks
-   `*.supabase.co`, so `npm run content:import` can't run here — import from a machine with
-   egress, or hand-seed via the SQL editor as batches 5/6 were).
+   (8 questions + 1 flashcard, PR #42), batch 16 (8 questions + 1 flashcard, PR #43), batch 17
+   (5 questions + 1 flashcard, PR #44), and batch 18 (4 questions + 1 flashcard, PR: TBD) are
+   authored in the vault, `content:check`-clean, but **not yet imported into the live Supabase
+   project** (this container's egress blocks `*.supabase.co`, so `npm run content:import` can't
+   run here — import from a machine with egress, or hand-seed via the SQL editor as batches 5/6
+   were).
 3. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
