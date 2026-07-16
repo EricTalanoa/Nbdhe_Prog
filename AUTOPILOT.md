@@ -108,6 +108,16 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
+  - Batch 17 (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/44): filled the last five 1-item subdomains in the bank — q-prev-0009 (Preventive
+    Agents/other preventive agents, CPP-ACP remineralization), q-comm-0004 (Community Health/
+    assessing-designing-implementing-evaluating community programs, needs-assessment-first
+    sequencing), q-rsch-0005 (Research Principles/analyzing scientific literature, confounding
+    variable), q-rsch-0006 (Research Principles/applying research results, the EBDM triad),
+    q-supp-0008 (Supportive Treatment Services/emerging technologies, diode laser as a nonsurgical
+    periodontal adjunct, negative format) + 1 flashcard (fc-rsch-0001, SnNout/SpPin mnemonics).
+    Every domain/subdomain combination in the bank now has >=2 items (Physiology has no
+    blueprint subdomains, so its 3 domain-level items are already full coverage). Bank now 138
+    questions + 5 cases + 18 flashcards.
   - Batch 16 (PR #43): filled every remaining 1-item Dental Hygiene Care Planning subdomain to
     2+ items — 8 questions (q-plan-0014 infection control/Spaulding classification, q-plan-0015
     instruction: dental caries/fluoride "spit don't rinse", q-plan-0016 instruction: periodontal
