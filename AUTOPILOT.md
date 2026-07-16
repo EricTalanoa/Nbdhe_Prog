@@ -108,6 +108,13 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
+  - Batch 20 (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/47): rotated depth across all
+    three highest-yield areas per the authoring guidelines — q-plan-0022 (recognition of emergency
+    situations/anaphylaxis management: epinephrine IM, positioning, EMS), q-plan-0023 (anxiety and
+    pain control-general/systematic desensitization vignette, distinguished from tell-show-do),
+    q-perio-0022 (nonsurgical periodontal therapy/one-stage full-mouth disinfection vs. quadrant
+    scaling), q-anes-0017 (local anesthesia/sodium bicarbonate buffering and its onset mechanism) +
+    1 flashcard (fc-anes-0005, buffering). Bank now 150 questions + 5 cases + 21 flashcards.
   - Batch 19 (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/46): 6th-pass depth on Perio Management's thinnest
     subdomains — q-perio-0019 (implant care/smoking as the strongest *modifiable* peri-implantitis
     risk factor, vs. history-of-periodontitis as a non-modifiable distractor), q-perio-0020
