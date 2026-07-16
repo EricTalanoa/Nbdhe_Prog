@@ -108,6 +108,16 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
+  - Batch 16 (PR #43): filled every remaining 1-item Dental Hygiene Care Planning subdomain to
+    2+ items — 8 questions (q-plan-0014 infection control/Spaulding classification, q-plan-0015
+    instruction: dental caries/fluoride "spit don't rinse", q-plan-0016 instruction: periodontal
+    diseases/periodontitis vs. gingivitis irreversibility, q-plan-0017 treatment plan/
+    re-evaluation appointment purpose, q-plan-0018 planning of individualized instruction/health
+    literacy adaptation, q-plan-0019 diagnosis/human-needs diagnostic statement structure,
+    q-plan-0020 case presentation/findings-before-treatment sequencing, q-anes-0013 anxiety and
+    pain control-local anesthesia/ester-amide cross-sensitivity for topical selection) + 1
+    flashcard (fc-plan-0002, Spaulding classification). Bank now 133 questions + 5 cases + 17
+    flashcards. Every Dental Hygiene Care Planning subdomain now has >=2 items.
   - Batch 15 (PR #42): 2nd-pass depth on the last remaining 1-item subdomains across Anatomic
     Sciences, Dental Radiography, Patient Assessment, and Preventive Agents — 8 questions
     (q-anat-0007 dental anatomy general/lingual surface terminology, q-anat-0008 head and neck
