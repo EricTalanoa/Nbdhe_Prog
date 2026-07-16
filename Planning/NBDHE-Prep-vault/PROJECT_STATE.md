@@ -91,7 +91,7 @@ risk factor), q-perio-0020 (reassessment and evaluation/CAL vs. probing depth as
 outcome measure), q-perio-0021 (maintenance/risk-based recall shortening for a smoker with
 residual pockets), 1 Local Anesthesia item on a previously uncovered topic (q-anes-0016,
 prilocaine/articaine dose-dependent methemoglobinemia) + 1 flashcard (fc-perio-0003,
-peri-implantitis modifiable risk factor) — PR TBD. Vault holds **146 questions** + **5 cases**
+peri-implantitis modifiable risk factor) — PR #46. Vault holds **146 questions** + **5 cases**
 (perio, pediatric ECC, anticoagulant, geriatric xerostomia, special-needs autism) + **20
 flashcards**.
 Every domain/subdomain combination in the bank now has ≥2 items (Physiology has no blueprint
@@ -177,7 +177,7 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    questions, PR #39), batch 14 (1 case + 2 questions + 1 flashcard, PR #40), batch 15
    (8 questions + 1 flashcard, PR #42), batch 16 (8 questions + 1 flashcard, PR #43), batch 17
    (5 questions + 1 flashcard, PR #44), batch 18 (4 questions + 1 flashcard, PR #45), and batch 19
-   (4 questions + 1 flashcard, PR TBD) are authored in the vault, `content:check`-clean, but
+   (4 questions + 1 flashcard, PR #46) are authored in the vault, `content:check`-clean, but
    **not yet imported into the live Supabase project** (this container's egress blocks
    `*.supabase.co`, so `npm run content:import` can't run here — import from a machine with
    egress, or hand-seed via the SQL editor as batches 5/6 were).

@@ -108,7 +108,7 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
-  - Batch 19 (PR: TBD — opened by this run): 6th-pass depth on Perio Management's thinnest
+  - Batch 19 (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/46): 6th-pass depth on Perio Management's thinnest
     subdomains — q-perio-0019 (implant care/smoking as the strongest *modifiable* peri-implantitis
     risk factor, vs. history-of-periodontitis as a non-modifiable distractor), q-perio-0020
     (reassessment and evaluation/why CAL beats probing depth alone as an outcome measure — CEJ as
