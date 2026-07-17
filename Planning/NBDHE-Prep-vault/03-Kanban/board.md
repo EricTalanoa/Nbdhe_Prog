@@ -5,8 +5,8 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
-- [ ] Phase 7: deepen question bank — ongoing (batches 1-21 + sets feature; bank now 154 + 5 cases +
-      22 flashcards; batches 6-21 not yet seeded to live)
+- [ ] Phase 7: deepen question bank — ongoing (batches 1-22 + sets feature; bank now 158 + 5 cases +
+      23 flashcards; batches 6-22 not yet seeded to live)
 - [ ] Phase 7: testlet infra (importer parser/upsert + practice-loop stimulus wiring) — needed
       before a Community Health testlet can be authored
 
@@ -14,11 +14,12 @@ kanban-plugin: board
 
 - [x] Phase 7: review tools — SM-2-lite flashcards `/review` + `review_schedule` +
       error reports (`question_reports`) — `lib/srs.ts` (7a) — migration applied live
-- [~] Phase 7: bank depth (7b, ongoing) — b1-b21 across all areas + 5 cases; bank now 154
-      (batch 21: rotated depth across Care Planning/Perio Management/Local Anesthesia —
-      anxiety and pain control-local anesthesia/TCA-epinephrine interaction, infection
-      control/sharps-injury post-exposure protocol, etiology and pathogenesis/host inflammatory
-      response, local anesthesia/differential nerve fiber blockade — 4 questions + 1 flashcard)
+- [~] Phase 7: bank depth (7b, ongoing) — b1-b22 across all areas + 5 cases; bank now 158
+      (batch 22: rotated depth across Care Planning/Perio Management/Local Anesthesia —
+      instruction: oral conditions/dentin hypersensitivity management, prescribed
+      therapy-chemotherapeutic agents/amoxicillin+metronidazole adjunct, local
+      anesthesia/duration-of-action agent selection, anxiety and pain control-local
+      anesthesia/beta-blocker+epinephrine interaction — 4 questions + 1 flashcard)
 
 ## Done (Phase 6)
 
