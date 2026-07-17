@@ -21,12 +21,12 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const CONTENT_DIR = join(__dirname, "..", "Planning", "NBDHE-Prep-vault", "02-Content");
+export const CONTENT_DIR = join(__dirname, "..", "Planning", "NBDHE-Prep-vault", "02-Content");
 const SEED_MIGRATION = join(__dirname, "..", "supabase", "migrations", "20260710000003_seed_taxonomy.sql");
-const SPEC_VERSION = "after_update_2026";
+export const SPEC_VERSION = "after_update_2026";
 
 // Key a taxonomy leaf by (area, domain, subdomain); empty and null collapse together.
-const taxKey = (a, d, s) => `${a || ""}|${d || ""}|${s || ""}`;
+export const taxKey = (a, d, s) => `${a || ""}|${d || ""}|${s || ""}`;
 
 const FORMATS = new Set(["completion", "question", "negative"]);
 const DIFFICULTIES = new Set(["easy", "medium", "hard"]);
@@ -97,6 +97,12 @@ function stripComments(text) {
   return (text || "").replace(/<!--[\s\S]*?-->/g, "").trim();
 }
 
+// A note's trailing Rule-0 comment is preceded by a markdown `---` rule (part of the file's
+// closing boilerplate, not authored content) — drop it once comments are already stripped.
+function stripTrailingRule(text) {
+  return (text || "").replace(/\n+-{3,}\s*$/, "").trim();
+}
+
 // Parse `- A) body text (correct)` option lines.
 function parseOptions(optionsText) {
   const options = [];
@@ -118,10 +124,11 @@ function parseOptions(optionsText) {
 // Parse the `- A) reason` lines under **Why the distractors are wrong**.
 function parseDistractorRationales(rationaleText) {
   const map = {};
-  const marker = rationaleText.search(/why the distractors are wrong/i);
-  if (marker === -1) return { correct: stripComments(rationaleText), map };
-  const correct = stripComments(rationaleText.slice(0, marker)).replace(/\*+$/, "").trim();
-  const after = rationaleText.slice(marker);
+  const cleaned = stripTrailingRule(stripComments(rationaleText));
+  const marker = cleaned.search(/why the distractors are wrong/i);
+  if (marker === -1) return { correct: cleaned, map };
+  const correct = cleaned.slice(0, marker).replace(/\*+$/, "").trim();
+  const after = cleaned.slice(marker);
   let currentLabel = null;
   for (const line of after.split(/\r?\n/)) {
     const m = line.match(/^\s*-\s*([A-E])\)\s*(.*)$/);
@@ -227,7 +234,7 @@ function parseCaseNote(filename, raw) {
   const chiefComplaint = stripComments(sections["chief complaint"]);
   const backgroundHistory = stripComments(sections["background / history"]);
   const currentFindings = stripComments(sections["current findings"]);
-  const notes = stripComments(sections["notes"]);
+  const notes = stripTrailingRule(stripComments(sections["notes"]));
 
   if (!slug) errors.push("missing frontmatter `id` (used as slug)");
   if (!STATUSES.has(data.status)) errors.push(`status must be one of ${[...STATUSES].join("/")}`);
@@ -267,7 +274,7 @@ function parseFlashcardNote(filename, raw) {
 
   const slug = data.id?.trim();
   const front = stripComments(sections["front"]);
-  const back = stripComments(sections["back"]);
+  const back = stripTrailingRule(stripComments(sections["back"]));
 
   if (!slug) errors.push("missing frontmatter `id` (used as slug)");
   if (!STATUSES.has(data.status)) errors.push(`status must be one of ${[...STATUSES].join("/")}`);
@@ -295,11 +302,11 @@ function parseFlashcardNote(filename, raw) {
   };
 }
 
-async function loadContentFiles() {
+export async function loadContentFiles() {
   return await readdir(CONTENT_DIR);
 }
 
-async function loadNotes(files) {
+export async function loadNotes(files) {
   const questionFiles = files.filter((f) => /^q-.*\.md$/.test(f)).sort();
   const notes = [];
   for (const f of questionFiles) {
@@ -309,7 +316,7 @@ async function loadNotes(files) {
   return notes;
 }
 
-async function loadCaseNotes(files) {
+export async function loadCaseNotes(files) {
   const caseFiles = files.filter((f) => /^case-.*\.md$/.test(f)).sort();
   const notes = [];
   for (const f of caseFiles) {
@@ -319,7 +326,7 @@ async function loadCaseNotes(files) {
   return notes;
 }
 
-async function loadFlashcardNotes(files) {
+export async function loadFlashcardNotes(files) {
   const fcFiles = files.filter((f) => /^fc-.*\.md$/.test(f)).sort();
   const notes = [];
   for (const f of fcFiles) {
@@ -610,7 +617,11 @@ async function main() {
   await upsertAll(notes, caseNotes, flashcardNotes);
 }
 
-main().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});
+// Guarded so other scripts (e.g. export-seed-sql.mjs) can import the parsing helpers
+// above without triggering a full validate-and-import run as a side effect.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
