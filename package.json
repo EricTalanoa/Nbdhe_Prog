@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "content:check": "node scripts/import-questions.mjs --check",
-    "content:import": "node scripts/import-questions.mjs"
+    "content:import": "node scripts/import-questions.mjs",
+    "content:seed-sql": "node scripts/export-seed-sql.mjs"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.11",
