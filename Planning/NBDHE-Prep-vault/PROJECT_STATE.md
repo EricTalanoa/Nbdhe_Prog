@@ -107,7 +107,7 @@ cord), q-plan-0024 (Care Planning/infection control — percutaneous sharps-inju
 protocol), q-perio-0023 (Perio Management/etiology and pathogenesis — host inflammatory response
 as the direct driver of collagen/bone destruction, bacteria as initiator only), q-anes-0019
 (Scientific Basis/Pharmacology-Local Anesthesia — differential nerve fiber blockade order by
-fiber diameter/myelination) + 1 flashcard (fc-anes-0006, TCA-epinephrine interaction) — PR: TBD.
+fiber diameter/myelination) + 1 flashcard (fc-anes-0006, TCA-epinephrine interaction) — PR #48.
 Vault holds **154 questions** + **5 cases** (perio, pediatric ECC, anticoagulant, geriatric
 xerostomia, special-needs autism) + **22 flashcards**.
 Every domain/subdomain combination in the bank now has ≥2 items (Physiology has no blueprint
@@ -195,7 +195,7 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    (8 questions + 1 flashcard, PR #42), batch 16 (8 questions + 1 flashcard, PR #43), batch 17
    (5 questions + 1 flashcard, PR #44), batch 18 (4 questions + 1 flashcard, PR #45), batch 19
    (4 questions + 1 flashcard, PR #46), batch 20 (4 questions + 1 flashcard, PR #47), and batch 21
-   (4 questions + 1 flashcard, PR TBD) are authored in the vault, `content:check`-clean, but
+   (4 questions + 1 flashcard, PR #48) are authored in the vault, `content:check`-clean, but
    **not yet imported into the live Supabase project** (this container's egress blocks
    `*.supabase.co`, so `npm run content:import` can't run here — import from a machine with
    egress, or hand-seed via the SQL editor as batches 5/6 were).
