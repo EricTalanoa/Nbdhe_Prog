@@ -108,6 +108,17 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
+  - Batch 22 (PR: TBD): rotated depth across Care Planning, Perio Management, and Local
+    Anesthesia (Pharmacology) — q-plan-0025 (Care Planning/treatment strategies-diagnosis:
+    prioritizing multiple dental hygiene diagnoses via the human needs model when an acute
+    abscess, plaque etiology, and a patient's stated learning goal compete), q-perio-0024
+    (Perio Management/prescribed therapy-chemotherapeutic agents: triclosan/copolymer
+    dentifrice's substantivity mechanism), q-perio-0025 (Perio Management/reassessment and
+    evaluation: bleeding-on-probing's high negative predictive value for periodontal
+    stability), q-anes-0020 (Scientific Basis/Pharmacology-Local Anesthesia: protein binding as
+    the determinant of duration of action, contrasted with lipid solubility→potency and
+    pKa→onset) + 1 flashcard (fc-anes-0007, protein binding and duration). Bank now 158
+    questions + 5 cases + 23 flashcards.
   - Batch 21 (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/48): rotated depth across Care Planning, Perio Management, and both
     Local-Anesthesia-tagged areas — q-anes-0018 (Care Planning/anxiety and pain control-local
     anesthesia: tricyclic antidepressant + epinephrine interaction, and why retraction cord is
