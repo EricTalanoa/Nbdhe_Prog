@@ -105,6 +105,33 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   "report a problem" form writes `question_reports`. Degrades gracefully (every card treated as
   new; grade/report are no-ops) until the migration is applied. PR:
   https://github.com/EricTalanoa/Nbdhe_Prog/pull/15
+- [ ] **7c-topic-dashboard** — **Priority for the next run** (owner request, 2026-07-17; do this
+  before resuming 7b-bank-depth batches, despite the lower letter). A `/settings` page (new — none
+  exists yet) with a toggle between two dashboard layouts, persisted per-account (new
+  `profiles.dashboard_mode` column + migration, `'method' | 'topic'`, default `'method'`, so it
+  syncs across devices like everything else):
+  - **By study method** — today's `/dashboard` (Practice/Review/Exam groups), unchanged.
+  - **By exam topic** — a grid of the **13 official blueprint score areas** (query `taxonomy`
+    distinct `score_area` ordered by `sort_order`, the same pattern `/analytics` already uses —
+    don't hardcode the list). Tapping a topic goes to a new `/topics/[slug]` page: an overview/
+    notes section **first** (short original summary of the topic — reuse the `content-authoring-
+    guidelines.md` Rule 0 standard: written from published references, never copied verbatim from
+    a source text), **then** the study options for that topic below it (practice for that area —
+    reuse `/practice/build` filtering; flashcards — reuse the `/review?set=` pattern from
+    `lib/question-sets.ts`). Slugs can reuse/extend `lib/question-sets.ts` if it lines up, but the
+    topic *list* itself must be the 13 taxonomy areas, not the 9 curated `/sets` groupings.
+  - No images/diagrams required in this chunk — just ship the toggle + grid + topic-page
+    structure (notes can be a short placeholder paragraph per topic to start). Depth (fuller notes
+    + original diagrams) is the next chunk below.
+  - Degrade gracefully if the migration isn't applied yet (default to method mode).
+- [ ] **7d-topic-notes-depth** — Ongoing, one focused batch per run (same shape as 7b-bank-depth):
+  deepen each `/topics/[slug]` overview with more substantive original notes, and add **original
+  SVG diagrams/illustrations** (simple line-art — tooth anatomy, perio pocket-depth chart,
+  radiographic landmarks, etc. — authored the same way as the PWA's SVG icons) where a visual
+  clarifies the concept. **Images must be self-drawn SVG, never scraped/downloaded photos or
+  textbook figures** — this app can't verify licensing on fetched images, and Rule 0's "own or
+  properly licensed/created" bar (from `content-authoring-guidelines.md`'s case/media section)
+  applies here too. Start with the 1-2 topics that benefit most from a diagram, not all 13 at once.
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.

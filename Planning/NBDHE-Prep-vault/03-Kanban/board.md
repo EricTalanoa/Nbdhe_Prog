@@ -14,7 +14,13 @@ kanban-plugin: board
 
 - [x] Phase 7: review tools — SM-2-lite flashcards `/review` + `review_schedule` +
       error reports (`question_reports`) — `lib/srs.ts` (7a) — migration applied live
-- [~] Phase 7: bank depth (7b, ongoing) — b1-b22 across all areas + 5 cases; bank now 158
+- [ ] Phase 7: **by-exam-topic dashboard mode (7c) — priority for the next run** (owner request,
+      2026-07-17): `/settings` toggle between today's by-study-method dashboard and a new grid of
+      the 13 blueprint score areas; each topic opens `/topics/[slug]` with notes first, then that
+      topic's study options. See AUTOPILOT.md for the full spec.
+- [ ] Phase 7: topic notes depth (7d, ongoing, follows 7c) — deepen each topic page's notes +
+      add original SVG diagrams (never scraped photos), one batch per run
+- [~] Phase 7: bank depth (7b, ongoing, paused for 7c/7d) — b1-b22 across all areas + 5 cases; bank now 158
       (batch 22: rotated depth across Care Planning/Perio Management/Local Anesthesia —
       instruction: oral conditions/dentin hypersensitivity management, prescribed
       therapy-chemotherapeutic agents/amoxicillin+metronidazole adjunct, local

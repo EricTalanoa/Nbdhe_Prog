@@ -185,21 +185,33 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 - Cases live (2026-07-12): `20260712000002_cases_testlets.sql` applied and `case-perio-0001` +
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
-## Next 3 actions
-1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
-   Batch 22 rotated depth across Care Planning (instruction: oral conditions/dentin
+## Next actions
+1. **Next chunk (priority, owner request 2026-07-17): 7c-topic-dashboard**, ahead of resuming
+   7b-bank-depth. A `/settings` page (new) toggles `/dashboard` between today's by-study-method
+   layout and a new by-exam-topic layout (grid of the 13 official blueprint score areas, pulled
+   live from `taxonomy` ordered by `sort_order` — same pattern `/analytics` already uses, don't
+   hardcode). Preference persists per-account (new `profiles.dashboard_mode` column + migration)
+   so it syncs across devices. Each topic tile opens `/topics/[slug]`: an overview/notes section
+   first, then that topic's study options below (reuse `/practice/build` filtering + the
+   `/review?set=` flashcard pattern). No images required yet — ship the structure with short
+   placeholder notes per topic. Full spec in `AUTOPILOT.md`. Follow-up ongoing chunk
+   **7d-topic-notes-depth** then deepens the notes and adds original SVG diagrams (never scraped
+   photos — same Rule-0-style licensing bar as case media), one batch per run, same shape as
+   7b-bank-depth.
+2. Resume **7b-bank-depth** (ongoing) after 7c ships — keep deepening the bank, one focused
+   batch/run. Batch 22 rotated depth across Care Planning (instruction: oral conditions/dentin
    hypersensitivity management; anxiety and pain control-local anesthesia/beta-blocker +
    epinephrine interaction), Perio Management (chemotherapeutic agents/systemic
    amoxicillin+metronidazole adjunct), and Local Anesthesia (duration-of-action agent selection)
    — every subdomain bank-wide already has ≥2 items, so future batches keep pushing the thinnest
-   ones to the next pass. A
-   Community Health testlet is still the next *new* content type, but that needs its own infra
-   chunk first (`scripts/import-questions.mjs` has no testlet parser/upsert yet, and no UI wires a
-   testlet's scenario into the practice-loop stimulus the way `PatientBox` does for cases — see
-   AUTOPILOT.md's open item). Otherwise, keep rotating depth through the highest-yield clinical
-   areas (Local Anesthesia, Care Planning, Perio Management) and keep authoring dedicated
-   flashcards (`fc-*.md`) alongside questions. Also: apply batches 7-21 content live (see #2).
-2. Batch 7 (6 questions + 1 flashcard, PR #32), batch 8 (8 questions, PR #34), batch 9
+   ones to the next pass. A Community Health testlet is still the next *new* content type, but
+   that needs its own infra chunk first (`scripts/import-questions.mjs` has no testlet
+   parser/upsert yet, and no UI wires a testlet's scenario into the practice-loop stimulus the way
+   `PatientBox` does for cases — see AUTOPILOT.md's open item). Otherwise, keep rotating depth
+   through the highest-yield clinical areas (Local Anesthesia, Care Planning, Perio Management)
+   and keep authoring dedicated flashcards (`fc-*.md`) alongside questions. Also: apply batches
+   7-22 content live (see #3 below).
+3. Batch 7 (6 questions + 1 flashcard, PR #32), batch 8 (8 questions, PR #34), batch 9
    (8 questions, PR #35), batch 10 (8 questions, PR #36), batch 11 (6 questions + 2
    flashcards, PR #37), batch 12 (7 questions + 1 flashcard, PR #38), batch 13 (1 case + 2
    questions, PR #39), batch 14 (1 case + 2 questions + 1 flashcard, PR #40), batch 15
@@ -211,7 +223,7 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    project** (this container's egress blocks `*.supabase.co`, so `npm run content:import` can't
    run here — import from a machine with egress, or hand-seed via the SQL editor as batches 5/6
    were).
-3. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
+4. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
    editor and seed with SQL, or run the importer from a machine with egress.
