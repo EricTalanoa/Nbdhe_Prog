@@ -105,11 +105,10 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   "report a problem" form writes `question_reports`. Degrades gracefully (every card treated as
   new; grade/report are no-ops) until the migration is applied. PR:
   https://github.com/EricTalanoa/Nbdhe_Prog/pull/15
-- [ ] **7c-topic-dashboard** — **Priority for the next run** (owner request, 2026-07-17; do this
-  before resuming 7b-bank-depth batches, despite the lower letter). A `/settings` page (new — none
-  exists yet) with a toggle between two dashboard layouts, persisted per-account (new
-  `profiles.dashboard_mode` column + migration, `'method' | 'topic'`, default `'method'`, so it
-  syncs across devices like everything else):
+- [x] **7c-topic-dashboard** — A `/settings` page with a toggle between two dashboard layouts,
+  persisted per-account (new `profiles.dashboard_mode` column + migration, `'method' | 'topic'`,
+  default `'method'`, so it syncs across devices like everything else). PR:
+  https://github.com/EricTalanoa/Nbdhe_Prog/pull/53
   - **By study method** — today's `/dashboard` (Practice/Review/Exam groups), unchanged.
   - **By exam topic** — a grid of the **13 official blueprint score areas** (query `taxonomy`
     distinct `score_area` ordered by `sort_order`, the same pattern `/analytics` already uses —

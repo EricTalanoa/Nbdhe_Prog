@@ -10,6 +10,7 @@ import {
   LayoutGrid,
   LogOut,
   RotateCcw,
+  Settings,
   SlidersHorizontal,
   Stethoscope,
   Zap,
@@ -17,6 +18,7 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
+import { topicSlug } from "@/lib/topics";
 
 type Tile = { href: string; icon: LucideIcon; title: string; desc: string };
 
@@ -67,6 +69,18 @@ function TileCard({ tile }: { tile: Tile }) {
   );
 }
 
+function TopicTile({ area }: { area: string }) {
+  return (
+    <Link
+      href={`/topics/${topicSlug(area)}`}
+      className="group flex items-center gap-3 rounded-xl border bg-card p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
+    >
+      <span className="min-w-0 flex-1 font-medium leading-tight">{area}</span>
+      <ChevronRight className="size-4 shrink-0 text-muted-foreground/50 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
+    </Link>
+  );
+}
+
 export default async function DashboardPage() {
   const supabase = createClient();
   const {
@@ -75,6 +89,28 @@ export default async function DashboardPage() {
 
   if (!user) {
     redirect("/login");
+  }
+
+  // Missing column (migration not applied yet) or any read error → default to the method layout.
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("dashboard_mode")
+    .eq("id", user.id)
+    .maybeSingle();
+  const topicMode = profile?.dashboard_mode === "topic";
+
+  // Same live taxonomy query /analytics uses: dedupe score_area, keep the min sort_order seen.
+  let topicAreas: string[] = [];
+  if (topicMode) {
+    const { data: taxRows } = await supabase.from("taxonomy").select("score_area, sort_order");
+    const areaOrder = new Map<string, number>();
+    for (const t of (taxRows ?? []) as { score_area: string; sort_order: number }[]) {
+      const cur = areaOrder.get(t.score_area);
+      if (cur === undefined || t.sort_order < cur) areaOrder.set(t.score_area, t.sort_order);
+    }
+    topicAreas = Array.from(areaOrder.entries())
+      .sort((a, b) => a[1] - b[1])
+      .map(([area]) => area);
   }
 
   async function signOut() {
@@ -93,28 +129,53 @@ export default async function DashboardPage() {
             Signed in as <span className="font-medium text-foreground">{user.email}</span>
           </p>
         </div>
-        <form action={signOut}>
-          <Button variant="outline" size="sm" type="submit" className="gap-1.5">
-            <LogOut className="size-3.5" />
-            Sign out
-          </Button>
-        </form>
+        <div className="flex items-center gap-2">
+          <Link href="/settings">
+            <Button variant="outline" size="sm" type="button" className="gap-1.5">
+              <Settings className="size-3.5" />
+              Settings
+            </Button>
+          </Link>
+          <form action={signOut}>
+            <Button variant="outline" size="sm" type="submit" className="gap-1.5">
+              <LogOut className="size-3.5" />
+              Sign out
+            </Button>
+          </form>
+        </div>
       </header>
 
-      <div className="space-y-8">
-        {GROUPS.map((group) => (
-          <section key={group.label}>
-            <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              {group.label}
-            </h2>
+      {topicMode ? (
+        <div>
+          <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            By exam topic
+          </h2>
+          {topicAreas.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No topics yet.</p>
+          ) : (
             <div className="grid gap-3 sm:grid-cols-2">
-              {group.tiles.map((tile) => (
-                <TileCard key={tile.href} tile={tile} />
+              {topicAreas.map((area) => (
+                <TopicTile key={area} area={area} />
               ))}
             </div>
-          </section>
-        ))}
-      </div>
+          )}
+        </div>
+      ) : (
+        <div className="space-y-8">
+          {GROUPS.map((group) => (
+            <section key={group.label}>
+              <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                {group.label}
+              </h2>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {group.tiles.map((tile) => (
+                  <TileCard key={tile.href} tile={tile} />
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      )}
     </main>
   );
 }
