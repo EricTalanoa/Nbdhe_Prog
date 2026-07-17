@@ -108,6 +108,16 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
+  - Batch 21 (PR: TBD): rotated depth across Care Planning, Perio Management, and both
+    Local-Anesthesia-tagged areas — q-anes-0018 (Care Planning/anxiety and pain control-local
+    anesthesia: tricyclic antidepressant + epinephrine interaction, and why retraction cord is
+    the item to avoid vs. standard cartridge concentrations), q-plan-0024 (Care
+    Planning/infection control: percutaneous sharps-injury post-exposure protocol), q-perio-0023
+    (Perio Management/etiology and pathogenesis: host inflammatory response as the direct driver
+    of collagen/bone destruction vs. bacteria as initiator), q-anes-0019 (Scientific
+    Basis/Pharmacology-Local Anesthesia: differential nerve fiber blockade order by fiber
+    diameter/myelination) + 1 flashcard (fc-anes-0006, TCA-epinephrine interaction). Bank now 154
+    questions + 5 cases + 22 flashcards.
   - Batch 20 (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/47): rotated depth across all
     three highest-yield areas per the authoring guidelines — q-plan-0022 (recognition of emergency
     situations/anaphylaxis management: epinephrine IM, positioning, EMS), q-plan-0023 (anxiety and

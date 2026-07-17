@@ -1,6 +1,6 @@
 ---
-updated: 2026-07-16
-phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 20)
+updated: 2026-07-17
+phase: 7 — Content scale-up + niceties (7a-review-tools merged; 7b bank depth ongoing, batch 21)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -99,9 +99,17 @@ positioning, EMS activation), q-plan-0023 (anxiety and pain control-general/syst
 desensitization vignette, distinguished from the already-covered tell-show-do), q-perio-0022
 (nonsurgical periodontal therapy/one-stage full-mouth disinfection vs. traditional quadrant
 scaling and root planing), q-anes-0017 (local anesthesia/sodium bicarbonate buffering and its
-onset-speed mechanism) + 1 flashcard (fc-anes-0005, buffering mechanism) — PR #47. Vault holds
-**150 questions** + **5 cases** (perio, pediatric ECC, anticoagulant, geriatric xerostomia,
-special-needs autism) + **21 flashcards**.
+onset-speed mechanism) + 1 flashcard (fc-anes-0005, buffering mechanism) — PR #47; b21 — rotated
+depth across Care Planning, Perio Management, and both Local-Anesthesia-tagged areas:
+q-anes-0018 (Care Planning/anxiety and pain control-local anesthesia — tricyclic antidepressant +
+epinephrine interaction, standard cartridge concentrations vs. epinephrine-impregnated retraction
+cord), q-plan-0024 (Care Planning/infection control — percutaneous sharps-injury post-exposure
+protocol), q-perio-0023 (Perio Management/etiology and pathogenesis — host inflammatory response
+as the direct driver of collagen/bone destruction, bacteria as initiator only), q-anes-0019
+(Scientific Basis/Pharmacology-Local Anesthesia — differential nerve fiber blockade order by
+fiber diameter/myelination) + 1 flashcard (fc-anes-0006, TCA-epinephrine interaction) — PR: TBD.
+Vault holds **154 questions** + **5 cases** (perio, pediatric ECC, anticoagulant, geriatric
+xerostomia, special-needs autism) + **22 flashcards**.
 Every domain/subdomain combination in the bank now has ≥2 items (Physiology has no blueprint
 subdomains, so its 3 domain-level items already represent full coverage; Supportive Treatment
 Services' "Emerging technologies" subdomain had 0 items before batch 12). Also shipped (features, not
@@ -111,10 +119,10 @@ flashcard categories — study a topic set as flashcards (PR #29); **dedicated f
 and 10 authored cards merged into `/review` (PR #30). **Last confirmed seeded to live
 (2026-07-13): 70 questions / 3 cases / 10 flashcards** (flashcards migration
 `20260713000002_flashcards.sql` applied; batch-6 questions + `fc-*` cards seeded via SQL editor).
-**Batches 7-20 (6 questions + 1 flashcard, then 8, then 8, then 8, then 6 questions + 2 flashcards,
+**Batches 7-21 (6 questions + 1 flashcard, then 8, then 8, then 8, then 6 questions + 2 flashcards,
 then 7 questions + 1 flashcard, then 1 case + 2 questions, then 1 case + 2 questions + 1 flashcard,
 then 8 questions + 1 flashcard, then 8 questions + 1 flashcard, then 5 questions + 1 flashcard,
-then 4 questions + 1 flashcard, then 4 questions + 1 flashcard)
+then 4 questions + 1 flashcard, then 4 questions + 1 flashcard, then 4 questions + 1 flashcard)
 are authored in the vault but not yet seeded to live** — see Next 3 actions.
 
 Phase 6 (mock exam + PWA) is complete. `/mock` runs a
@@ -169,25 +177,25 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 
 ## Next 3 actions
 1. Next chunk: **7b-bank-depth** (ongoing) — keep deepening the bank, one focused batch/run.
-   Batch 20 rotated depth across Care Planning (recognition of emergency situations/anaphylaxis;
-   anxiety and pain control-general/systematic desensitization), Perio Management (nonsurgical
-   periodontal therapy/full-mouth disinfection), and Local Anesthesia (sodium bicarbonate
-   buffering) — every subdomain bank-wide already has ≥2 items, so future batches keep pushing the
-   thinnest ones to the next pass. A Community Health testlet is still the next *new* content
-   type, but that needs its own infra chunk first (`scripts/import-questions.mjs` has no testlet
-   parser/upsert yet, and no UI wires a testlet's scenario into the practice-loop stimulus the way
-   `PatientBox` does for cases — see AUTOPILOT.md's open item). Otherwise, keep rotating depth
-   through the highest-yield clinical areas (Local Anesthesia, Care Planning, Perio Management)
-   and keep authoring dedicated flashcards (`fc-*.md`) alongside questions. Also: apply batches
-   7-20 content live (see #2).
+   Batch 21 rotated depth across Care Planning (anxiety and pain control-local anesthesia/TCA +
+   epinephrine interaction; infection control/sharps-injury post-exposure protocol), Perio
+   Management (etiology and pathogenesis/host inflammatory response as the destruction mechanism),
+   and Local Anesthesia (differential nerve fiber blockade order) — every subdomain bank-wide
+   already has ≥2 items, so future batches keep pushing the thinnest ones to the next pass. A
+   Community Health testlet is still the next *new* content type, but that needs its own infra
+   chunk first (`scripts/import-questions.mjs` has no testlet parser/upsert yet, and no UI wires a
+   testlet's scenario into the practice-loop stimulus the way `PatientBox` does for cases — see
+   AUTOPILOT.md's open item). Otherwise, keep rotating depth through the highest-yield clinical
+   areas (Local Anesthesia, Care Planning, Perio Management) and keep authoring dedicated
+   flashcards (`fc-*.md`) alongside questions. Also: apply batches 7-21 content live (see #2).
 2. Batch 7 (6 questions + 1 flashcard, PR #32), batch 8 (8 questions, PR #34), batch 9
    (8 questions, PR #35), batch 10 (8 questions, PR #36), batch 11 (6 questions + 2
    flashcards, PR #37), batch 12 (7 questions + 1 flashcard, PR #38), batch 13 (1 case + 2
    questions, PR #39), batch 14 (1 case + 2 questions + 1 flashcard, PR #40), batch 15
    (8 questions + 1 flashcard, PR #42), batch 16 (8 questions + 1 flashcard, PR #43), batch 17
    (5 questions + 1 flashcard, PR #44), batch 18 (4 questions + 1 flashcard, PR #45), batch 19
-   (4 questions + 1 flashcard, PR #46), and batch 20 (4 questions + 1 flashcard, PR #47) are
-   authored in the vault, `content:check`-clean, but
+   (4 questions + 1 flashcard, PR #46), batch 20 (4 questions + 1 flashcard, PR #47), and batch 21
+   (4 questions + 1 flashcard, PR TBD) are authored in the vault, `content:check`-clean, but
    **not yet imported into the live Supabase project** (this container's egress blocks
    `*.supabase.co`, so `npm run content:import` can't run here — import from a machine with
    egress, or hand-seed via the SQL editor as batches 5/6 were).
