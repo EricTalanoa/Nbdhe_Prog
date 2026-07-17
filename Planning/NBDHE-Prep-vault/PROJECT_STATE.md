@@ -116,7 +116,7 @@ agents — triclosan/copolymer dentifrice's substantivity mechanism), q-perio-00
 Management/reassessment and evaluation — bleeding-on-probing's high negative predictive value for
 periodontal stability), q-anes-0020 (Scientific Basis/Pharmacology-Local Anesthesia — protein
 binding as the determinant of duration of action, contrasted with lipid solubility→potency and
-pKa→onset) + 1 flashcard (fc-anes-0007, protein binding and duration) — PR TBD.
+pKa→onset) + 1 flashcard (fc-anes-0007, protein binding and duration) — PR #49.
 Vault holds **158 questions** + **5 cases** (perio, pediatric ECC, anticoagulant, geriatric
 xerostomia, special-needs autism) + **23 flashcards**.
 Every domain/subdomain combination in the bank now has ≥2 items (Physiology has no blueprint
@@ -206,7 +206,7 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    (8 questions + 1 flashcard, PR #42), batch 16 (8 questions + 1 flashcard, PR #43), batch 17
    (5 questions + 1 flashcard, PR #44), batch 18 (4 questions + 1 flashcard, PR #45), batch 19
    (4 questions + 1 flashcard, PR #46), batch 20 (4 questions + 1 flashcard, PR #47), batch 21
-   (4 questions + 1 flashcard, PR #48), and batch 22 (4 questions + 1 flashcard, PR TBD) are
+   (4 questions + 1 flashcard, PR #48), and batch 22 (4 questions + 1 flashcard, PR #49) are
    authored in the vault, `content:check`-clean, but **not yet imported into the live Supabase
    project** (this container's egress blocks `*.supabase.co`, so `npm run content:import` can't run
    here — import from a machine with egress, or hand-seed via the SQL editor as batches 5/6 were).

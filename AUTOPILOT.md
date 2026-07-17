@@ -108,7 +108,7 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
-  - Batch 22 (PR: TBD): rotated depth across Care Planning, Perio Management, and Local
+  - Batch 22 (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/49): rotated depth across Care Planning, Perio Management, and Local
     Anesthesia (Pharmacology) — q-plan-0025 (Care Planning/treatment strategies-diagnosis:
     prioritizing multiple dental hygiene diagnoses via the human needs model when an acute
     abscess, plaque etiology, and a patient's stated learning goal compete), q-perio-0024
