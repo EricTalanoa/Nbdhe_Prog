@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-18
-phase: 7 — Content scale-up + niceties (7a-review-tools + 7c-topic-dashboard merged; 7f-topic-toggle-relocate + 7e-trick-questions open in PR #58; 7d topic-notes-depth ongoing, batch 3; 7b bank depth ongoing, batch 22)
+phase: 7 — Content scale-up + niceties (7a-review-tools + 7c-topic-dashboard merged; 7f-topic-toggle-relocate + 7e-trick-questions open in PR #58; 7d topic-notes-depth ongoing, batch 4 open in PR #59; 7b bank depth ongoing, batch 22)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -51,15 +51,21 @@ foramen vs. periapical lesion) and `CariesProcessDiagram` (demin/remin ion excha
 lingual DL/L/ML — and reading a probe's mm markings against the gingival margin) and
 "Pharmacology" (LA sodium-channel blockade, differential nerve-fiber blockade order,
 vasoconstrictor tradeoffs, and the IANB as the most commonly tested injection), adding
-`PeriodontalChartingDiagram` and `NerveBlockLandmarksDiagram`. All six
+`PeriodontalChartingDiagram` and `NerveBlockLandmarksDiagram`. Batch 4 (this run, PR #59) deepened
+"Biochemistry and Nutrition" (the Stephan curve — plaque pH vs. time after a sugar exposure,
+critical pH ~5.5, why exposure frequency beats total sugar quantity, plus vitamin C's role in
+collagen hydroxylation) and "Microbiology and Immunology" (dental plaque biofilm as an ordered
+succession: acquired pellicle → early streptococcal colonizers → Fusobacterium-mediated
+coaggregation → a mature biofilm's oxygen gradient concentrating the anaerobic red complex
+deepest in the pocket), adding `StephanCurveDiagram` and `BiofilmFormationDiagram`. All eight
 diagrams are wired into `/topics/[slug]` via the `TOPIC_DIAGRAMS` map and use theme CSS-var
 Tailwind utilities so they hold up in light and dark mode — verified by rendering each new diagram
 to static SVG against the compiled Tailwind theme CSS and screenshotting in light/dark mode before
-committing, which caught and fixed a caption overflow, a label collision, a viewBox-edge text clip,
-and a leader line crossing its own label. Next: 6/13 topics have a diagram; pick 1-2 more from the
-remaining topics (Physiology, Biochemistry and Nutrition, Microbiology and Immunology, Pathology,
-Dental Hygiene Care Planning, Supportive Treatment Services, Professional Responsibility, Research
-Principles and Community Health), then resume 7b-bank-depth. `/review` is an
+committing, which caught and fixed a caption overflow, a label collision, viewBox-edge/overlap
+text clips, and a leader line crossing its own label. Next: 8/13 topics have a diagram; pick 1-2
+more from the remaining topics (Physiology, Pathology, Dental Hygiene Care Planning, Supportive
+Treatment Services, Professional Responsibility, Research Principles and Community Health), then
+resume 7b-bank-depth. `/review` is an
 SM-2-lite spaced-repetition flashcard queue (`lib/srs.ts`): pulls due + new cards, flip to reveal
 the correct answer + rationale, self-grade Again/Hard/Good/Easy to reschedule `due_at`; a "report
 a problem" form files a `question_reports` row. Migration `20260713000001_review_tools.sql`
@@ -244,15 +250,17 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    7b-bank-depth) — batch 1 (PR #55, merged) deepened "Anatomic Sciences" and "Periodontal
    Disease Management"; batch 2 (PR #56) deepened "Dental Radiography" and "Preventive
    Agents" with substantive notes + a `RadiographicLandmarksDiagram` and `CariesProcessDiagram`
-   SVG each; batch 3 (this run, PR #57) deepened "Patient Assessment" (six-point periodontal
-   probing, reading a probe's mm markings) and "Pharmacology" (LA sodium-channel blockade, IANB
-   as the highest-yield injection) with a `PeriodontalChartingDiagram` and
-   `NerveBlockLandmarksDiagram` (`components/topics/`, wired via `TOPIC_DIAGRAMS` in
-   `lib/topics.ts`). Next batch: 6/13 topics now have a diagram — pick 1-2 more from the
-   remaining topics (Physiology, Biochemistry and Nutrition, Microbiology and Immunology,
-   Pathology, Dental Hygiene Care Planning, Supportive Treatment Services, Professional
-   Responsibility, Research Principles and Community Health) and deepen notes for the ones
-   without one yet.
+   SVG each; batch 3 (PR #57) deepened "Patient Assessment" (six-point periodontal probing,
+   reading a probe's mm markings) and "Pharmacology" (LA sodium-channel blockade, IANB as the
+   highest-yield injection) with a `PeriodontalChartingDiagram` and `NerveBlockLandmarksDiagram`;
+   batch 4 (this run, PR #59) deepened "Biochemistry and Nutrition" (the Stephan curve, vitamin
+   C/collagen hydroxylation) and "Microbiology and Immunology" (dental plaque biofilm formation
+   as an ordered succession, ending in the anaerobic red complex deepest in the pocket) with a
+   `StephanCurveDiagram` and `BiofilmFormationDiagram` (`components/topics/`, wired via
+   `TOPIC_DIAGRAMS` in `lib/topics.ts`). Next batch: 8/13 topics now have a diagram — pick 1-2
+   more from the remaining topics (Physiology, Pathology, Dental Hygiene Care Planning,
+   Supportive Treatment Services, Professional Responsibility, Research Principles and Community
+   Health) and deepen notes for the ones without one yet.
 2. Resume **7b-bank-depth** (ongoing) after 7d batches — keep deepening the bank, one focused
    batch/run. Batch 22 rotated depth across Care Planning (instruction: oral conditions/dentin
    hypersensitivity management; anxiety and pain control-local anesthesia/beta-blocker +

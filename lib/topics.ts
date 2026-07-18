@@ -16,6 +16,8 @@ import { RadiographicLandmarksDiagram } from "@/components/topics/radiographic-l
 import { CariesProcessDiagram } from "@/components/topics/caries-process-diagram";
 import { PeriodontalChartingDiagram } from "@/components/topics/periodontal-charting-diagram";
 import { NerveBlockLandmarksDiagram } from "@/components/topics/nerve-block-landmarks-diagram";
+import { BiofilmFormationDiagram } from "@/components/topics/biofilm-formation-diagram";
+import { StephanCurveDiagram } from "@/components/topics/stephan-curve-diagram";
 
 export function topicSlug(scoreArea: string): string {
   return scoreArea
@@ -85,10 +87,43 @@ export const TOPIC_NOTES: Record<string, string> = {
     "cardiovascular, and salivary mechanisms that shape clinical decisions in the dental chair.",
   "Biochemistry and Nutrition":
     "Metabolic and nutritional concepts relevant to oral health — from the biochemistry of " +
-    "collagen and mineralization to how diet and sugar frequency drive caries risk.",
+    "collagen and mineralization to how diet and sugar frequency drive caries risk. The Stephan " +
+    "curve is the classic way this gets tested: plot plaque pH against time after a fermentable- " +
+    "carbohydrate exposure and it drops sharply as bacteria ferment the sugar into acid, then " +
+    "climbs slowly back toward baseline as saliva buffers the acid and clears it — the dip below " +
+    "the critical pH (~5.5 for enamel) is the window during which the tooth is actually losing " +
+    "mineral. What matters for caries risk isn't the total sugar eaten in a day, it's how often " +
+    "that curve dips: one exposure gets a full recovery before the next meal, but frequent " +
+    "snacking re-triggers the drop before pH has climbed back above critical, so the tooth spends " +
+    "far more cumulative time in a demineralizing state even if the total sugar consumed is the " +
+    "same or less — which is why patient counseling on caries risk targets exposure *frequency* " +
+    "first. On the nutrition side, collagen synthesis depends on vitamin C (ascorbic acid) as a " +
+    "cofactor for hydroxylating proline and lysine residues; without it collagen cross-links " +
+    "poorly, and classic scurvy findings — spongy, bleeding gingiva and impaired wound healing — " +
+    "are a direct read of that broken biochemistry, not a separate periodontal disease process. " +
+    "Adequate protein similarly supports soft-tissue healing after periodontal therapy, and " +
+    "calcium/vitamin D status affects alveolar bone density and turnover.",
   "Microbiology and Immunology":
     "The oral microbiome and host immune response, including the biofilm-driven etiology of " +
-    "caries and periodontal disease and how the body reacts to microbial and other challenges.",
+    "caries and periodontal disease and how the body reacts to microbial and other challenges. " +
+    "Dental plaque isn't a random pile of bacteria — it forms through an ordered ecological " +
+    "succession. Salivary glycoproteins first coat clean enamel as an acquired pellicle within " +
+    "minutes; early colonizers, dominated by streptococci, attach directly to that pellicle using " +
+    "surface adhesins. Over the following hours to days, bridging organisms — Fusobacterium " +
+    "nucleatum is the textbook example — coaggregate with those early colonizers and, in turn, " +
+    "recruit later, more strictly anaerobic and more pathogenic species that can't attach to the " +
+    "pellicle directly. As the biofilm thickens it develops its own internal oxygen gradient: " +
+    "facultative species tolerate the more oxygenated outer layers, while obligate anaerobes " +
+    "concentrate deepest, against the tooth or pocket epithelium, where oxygen tension is lowest. " +
+    "This is exactly where the periodontal 'red complex' (Porphyromonas gingivalis, Tannerella " +
+    "forsythia, Treponema denticola) is found in a mature subgingival biofilm, and it explains why " +
+    "disrupting the biofilm's structure (mechanical debridement) does more than any single " +
+    "antimicrobial to reduce the anaerobic species driving periodontal destruction. On the " +
+    "immune side, the host doesn't just tolerate this challenge passively: neutrophils are the " +
+    "first responders patrolling the gingival sulcus, and it's the chronic activation of the " +
+    "innate immune response — not bacterial toxins acting alone — that ultimately drives the " +
+    "collagen and bone breakdown seen in periodontal disease (the same host-response principle " +
+    "covered in more depth on the Periodontal Disease Management topic page).",
   Pathology:
     "General and oral pathology — recognizing normal vs. abnormal tissue changes, common oral " +
     "lesions, and the disease processes a hygienist screens for at every visit.",
@@ -196,4 +231,6 @@ export const TOPIC_DIAGRAMS: Record<string, ComponentType> = {
   "Preventive Agents": CariesProcessDiagram,
   "Patient Assessment": PeriodontalChartingDiagram,
   Pharmacology: NerveBlockLandmarksDiagram,
+  "Microbiology and Immunology": BiofilmFormationDiagram,
+  "Biochemistry and Nutrition": StephanCurveDiagram,
 };
