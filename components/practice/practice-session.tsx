@@ -20,12 +20,14 @@ export function PracticeSession({
   sessionId,
   timeLimitSec,
   stimulus,
+  showTrickBadge = false,
 }: {
   questions: PracticeQuestion[];
   sessionId: string | null;
   timeLimitSec?: number;
   // Persistent case stimulus (patient box), shown above every item in a case session.
   stimulus?: ReactNode;
+  showTrickBadge?: boolean;
 }) {
   const [index, setIndex] = useState(0);
   const [results, setResults] = useState<boolean[]>([]);
@@ -149,7 +151,12 @@ export function PracticeSession({
         </div>
       </div>
 
-      <QuestionRenderer key={question.id} question={question} onAnswered={handleAnswered} />
+      <QuestionRenderer
+        key={question.id}
+        question={question}
+        onAnswered={handleAnswered}
+        showTrickBadge={showTrickBadge}
+      />
 
       {(timeLimitSec || answered) && (
         <div className="mt-5 flex items-center justify-between">

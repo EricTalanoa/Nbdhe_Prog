@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/page-header";
 
@@ -15,6 +16,7 @@ type TaxonomyRef = {
 };
 
 type QuestionRow = {
+  id: string;
   slug: string;
   stem: string;
   format: string;
@@ -49,10 +51,26 @@ export default async function QuestionsPage() {
 
   const { data, error } = await supabase
     .from("questions")
-    .select("slug, stem, format, difficulty, status, taxonomy(area, domain, subdomain, score_area, sort_order)")
+    .select("id, slug, stem, format, difficulty, status, taxonomy(area, domain, subdomain, score_area, sort_order)")
     .order("slug", { ascending: true });
 
   const questions = (data ?? []) as unknown as QuestionRow[];
+
+  // `is_trick`/`show_trick_badge` are separate, recently-added columns (migration may not be
+  // applied live yet) — queried on their own so a missing column only blanks out the trick
+  // indicator, not this whole page's question list.
+  const { data: trickRows } = await supabase.from("questions").select("id, is_trick");
+  const trickIds = new Set(
+    ((trickRows ?? []) as { id: string; is_trick: boolean | null }[])
+      .filter((r) => r.is_trick)
+      .map((r) => r.id)
+  );
+  const { data: trickProfile } = await supabase
+    .from("profiles")
+    .select("show_trick_badge")
+    .eq("id", user.id)
+    .maybeSingle();
+  const showTrickBadge = trickProfile?.show_trick_badge === true;
 
   // Group by score area, ordered by the taxonomy sort_order so the page mirrors the blueprint.
   const groups = new Map<string, QuestionRow[]>();
@@ -112,6 +130,12 @@ export default async function QuestionsPage() {
                     <Badge className={STATUS_STYLES[q.status] ?? "bg-muted text-muted-foreground"}>
                       {q.status}
                     </Badge>
+                    {showTrickBadge && trickIds.has(q.id) && (
+                      <Badge className="gap-1 bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300">
+                        <Sparkles className="size-3" />
+                        Trick
+                      </Badge>
+                    )}
                   </div>
                   <p className="text-sm">{q.stem}</p>
                   {q.taxonomy && (

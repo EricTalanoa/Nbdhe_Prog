@@ -31,6 +31,9 @@ status        text          -- 'draft' | 'review' | 'approved' | 'live'
 case_id       uuid fk -> cases (nullable)      -- set if this item belongs to a case
 testlet_id    uuid fk -> testlets (nullable)
 reference     text
+is_trick      boolean       -- close/near-identical answer choices, one word changes the key
+                             -- (Phase 7); independent of `format`. Authored via `trick: true`
+                             -- frontmatter — see content-authoring-guidelines.md.
 created_at, updated_at
 ```
 
@@ -75,9 +78,12 @@ Supabase Auth with **magic link (email OTP)** — no passwords. On first sign-in
 
 ### profiles
 ```
-id            uuid pk = auth.users.id
-display_name  text
-target_exam_date date
+id                uuid pk = auth.users.id
+display_name      text
+target_exam_date  date
+dashboard_mode    text     -- 'method' | 'topic' (7c) — which /dashboard layout to render
+show_trick_badge  boolean  -- (7e) show a visual indicator on trick questions while studying;
+                           -- off by default — the exam itself never flags them
 created_at
 ```
 

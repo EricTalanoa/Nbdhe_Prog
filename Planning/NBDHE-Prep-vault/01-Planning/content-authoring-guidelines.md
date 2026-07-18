@@ -22,6 +22,23 @@
 - Cite a reference (text + topic/edition) in `reference`.
 - Difficulty: `easy` / `medium` / `hard` (best guess; tune later from response data).
 
+## Trick questions (`trick: true`)
+The real exam sometimes tests careful reading as much as knowledge: two options that look almost
+identical, or a stem where a single word (a negation, a qualifier like "always"/"initial"/"most",
+a drug name one letter off) flips which option is keyed. Tag an item `trick: true` in frontmatter
+when that's the actual skill being tested — **not** as a synonym for "hard." An item can be
+`difficulty: easy` and still be a trick item if the concept is simple but the reading is the trap.
+- Still Rule 0: an original trick item, never a remembered/reconstructed real one.
+- The close options should be **substantively different** in truth value, not just wording — a
+  distractor that's actually just as correct as the key isn't a trick question, it's a bad
+  question. Keep exactly one best answer and write a real distractor rationale for the near-miss
+  option explaining precisely what makes it wrong.
+- Works with any `format` (completion/question/negative) — it's an orthogonal tag, not a fourth
+  format.
+- `trick: true` is opt-in per item; omit the field (or `trick: false`) for a normal item.
+- The in-app indicator (Settings toggle, off by default) is a *study aid* — the real exam never
+  flags these, so don't lean on it while practicing if you want a realistic read on your pacing.
+
 ## Taxonomy tagging
 Use the exact `area` / `domain` / `subdomain` strings from `blueprint-mapping.md`. If something
 doesn't fit, add it to the mapping first, then tag — never invent ad-hoc labels.

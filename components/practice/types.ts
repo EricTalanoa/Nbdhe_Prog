@@ -21,4 +21,5 @@ export type PracticeQuestion = {
   options: PracticeOption[];
   correct_explanation: string | null;
   flagged: boolean;
+  is_trick: boolean;
 };
