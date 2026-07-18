@@ -12,6 +12,8 @@
 import type { ComponentType } from "react";
 import { ToothAnatomyDiagram } from "@/components/topics/tooth-anatomy-diagram";
 import { PerioPocketDiagram } from "@/components/topics/perio-pocket-diagram";
+import { RadiographicLandmarksDiagram } from "@/components/topics/radiographic-landmarks-diagram";
+import { CariesProcessDiagram } from "@/components/topics/caries-process-diagram";
 
 export function topicSlug(scoreArea: string): string {
   return scoreArea
@@ -56,7 +58,18 @@ export const TOPIC_NOTES: Record<string, string> = {
     "assessment — the data-gathering that drives every care decision that follows.",
   "Dental Radiography":
     "Radiophysics and radiobiology, exposure technique, and interpreting radiographic findings " +
-    "and normal/abnormal anatomy, balanced against radiation-safety principles.",
+    "and normal/abnormal anatomy, balanced against radiation-safety principles. ALARA (As Low As " +
+    "Reasonably Achievable) drives every exposure decision: use the fastest receptor speed that " +
+    "still meets diagnostic needs, collimate the beam, shield when it helps, and expose only when " +
+    "there's a clinical indication rather than on a fixed recall schedule. Technique factors trade " +
+    "off predictably — kVp mainly controls contrast (higher kVp gives a longer gray scale, lower " +
+    "kVp gives a higher-contrast black-and-white image), while mA and exposure time both control " +
+    "density (the overall darkness of the image) and are largely interchangeable for that purpose. " +
+    "Reading a film well means knowing which radiolucencies are normal anatomy rather than " +
+    "disease: the mental foramen, for example, sits near the mandibular premolar apices and can " +
+    "mimic a periapical lesion, but a corticated (well-defined) border and continuity with the " +
+    "mandibular canal identify it as normal, whereas a true periapical lesion typically shows a " +
+    "diffuse border and a widened periodontal ligament space at a non-vital tooth's apex.",
   "Dental Hygiene Care Planning":
     "Turning assessment findings into an individualized plan — diagnosis, patient education, " +
     "infection control, anxiety and pain control, and recognizing dental/medical emergencies.",
@@ -76,7 +89,22 @@ export const TOPIC_NOTES: Record<string, string> = {
     "recurring.",
   "Preventive Agents":
     "Fluorides (mechanisms, delivery methods, and toxicology), sealants, and other preventive " +
-    "agents used to reduce caries and periodontal disease risk.",
+    "agents used to reduce caries and periodontal disease risk. Caries isn't a one-way event — " +
+    "it's a demineralization/remineralization cycle playing out on the tooth surface many times a " +
+    "day. Plaque bacteria metabolize fermentable carbohydrates into acid; once the local pH drops " +
+    "below the critical pH for enamel (roughly 5.5), calcium and phosphate leave the hydroxyapatite " +
+    "crystal faster than they can be redeposited, and the lesion progresses when this outpaces " +
+    "repair over time. Saliva pushes back by buffering acid and supplying calcium and phosphate " +
+    "back into the lattice, and fluoride tips that balance further in the tooth's favor through " +
+    "three mechanisms: it inhibits demineralization at the crystal surface, it enhances " +
+    "remineralization by helping calcium and phosphate redeposit as fluorapatite (which resists " +
+    "acid dissolution at a lower pH than hydroxyapatite), and at higher, topical concentrations it " +
+    "interferes with bacterial enzyme activity and acid production. That mechanism is why frequency " +
+    "of sugar exposure (how often pH drops below critical, via the Stephan curve) matters more for " +
+    "risk than total sugar quantity, and why low-dose, frequent fluoride exposure (toothpaste, " +
+    "water) generally protects better than an occasional high-dose application alone. Sealants " +
+    "work differently — a resin mechanically fills pits and fissures so plaque and substrate can't " +
+    "accumulate there in the first place, protecting a site fluoride reaches less effectively.",
   "Supportive Treatment Services":
     "Dental materials, impressions, and emerging clinical technologies that support hygiene " +
     "treatment beyond the core scaling/root-planing skill set.",
@@ -98,4 +126,6 @@ export const DEFAULT_TOPIC_NOTE =
 export const TOPIC_DIAGRAMS: Record<string, ComponentType> = {
   "Anatomic Sciences": ToothAnatomyDiagram,
   "Periodontal Disease Management": PerioPocketDiagram,
+  "Dental Radiography": RadiographicLandmarksDiagram,
+  "Preventive Agents": CariesProcessDiagram,
 };

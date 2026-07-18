@@ -131,23 +131,35 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   textbook figures** — this app can't verify licensing on fetched images, and Rule 0's "own or
   properly licensed/created" bar (from `content-authoring-guidelines.md`'s case/media section)
   applies here too. Start with the 1-2 topics that benefit most from a diagram, not all 13 at once.
-  - Batch 1 (this run): deepened the "Anatomic Sciences" and "Periodontal Disease Management"
-    overview notes in `lib/topics.ts` with substantive original paragraphs (tooth layer
-    histology/CEJ/root variation for the former; biofilm-driven host inflammatory response, the
-    PD-vs-CAL distinction, and the nonsurgical→surgical→maintenance continuum for the latter), and
-    added two hand-drawn SVG diagrams under `components/topics/`: `ToothAnatomyDiagram`
-    (labeled enamel/dentin/pulp/cementum/CEJ/root-canal/apical-foramen cross-section) and
-    `PerioPocketDiagram` (two-panel healthy-sulcus-vs-periodontal-pocket comparison contrasting
-    probing depth, measured from the gingival margin, against clinical attachment level, measured
-    from the fixed CEJ). Both use theme CSS-var Tailwind utilities (`fill-chart-4`,
-    `fill-destructive`, `fill-secondary`, `fill-accent`, `stroke-foreground`, etc.) so they stay
-    legible in light and dark mode; wired into `/topics/[slug]` via a new `TOPIC_DIAGRAMS` map in
-    `lib/topics.ts`, rendered under the Overview note when a topic has one. Verified by rendering
-    both components to static markup and screenshotting them against the project's actual
-    compiled Tailwind CSS in light and dark mode (this container can't reach Supabase to
-    click-test the live auth-gated page). Next batch: continue with 1-2 more topics (e.g.
-    radiographic landmarks for Dental Radiography, or a caries-process diagram for Preventive
-    Agents), then keep deepening notes for the rest.
+  - Batch 1 (PR #55, merged): deepened the "Anatomic Sciences" and
+    "Periodontal Disease Management" overview notes in `lib/topics.ts` with substantive original
+    paragraphs (tooth layer histology/CEJ/root variation for the former; biofilm-driven host
+    inflammatory response, the PD-vs-CAL distinction, and the nonsurgical→surgical→maintenance
+    continuum for the latter), and added two hand-drawn SVG diagrams under `components/topics/`:
+    `ToothAnatomyDiagram` (labeled enamel/dentin/pulp/cementum/CEJ/root-canal/apical-foramen
+    cross-section) and `PerioPocketDiagram` (two-panel healthy-sulcus-vs-periodontal-pocket
+    comparison contrasting probing depth, measured from the gingival margin, against clinical
+    attachment level, measured from the fixed CEJ).
+  - Batch 2 (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/56): deepened the "Dental
+    Radiography" and "Preventive Agents" overview notes in `lib/topics.ts` (ALARA + kVp/mA-time
+    technique tradeoffs and the mental-foramen-vs-periapical-lesion reading pitfall for
+    Radiography; the demineralization/remineralization cycle, critical pH ~5.5, and fluoride's
+    three protective mechanisms for Preventive Agents), and added two more hand-drawn SVG
+    diagrams: `RadiographicLandmarksDiagram` (mental foramen vs. periapical lesion, contrasting
+    corticated/diffuse borders and PDL space) and `CariesProcessDiagram` (two-panel
+    demineralization vs. remineralization ion-exchange diagram). Both new diagrams reuse the same
+    theme CSS-var Tailwind utilities as batch 1's diagrams for light/dark legibility; wired into
+    `TOPIC_DIAGRAMS` in `lib/topics.ts`. Verified the same way as batch 1: rendered both
+    components to static markup and screenshotted them against the project's compiled Tailwind
+    CSS in light and dark mode (caught and fixed a z-order text-clipping bug and an off-canvas
+    label overflow bug during this pass, before committing). Next batch: 4 of 13 topics now have
+    a diagram (Anatomic Sciences, Periodontal Disease Management, Dental Radiography, Preventive
+    Agents) — pick 1-2 more (e.g. a periodontal-charting/pocket-mapping visual for Dental Hygiene
+    Care Planning, or a nerve-block landmark diagram for the Local-Anesthesia-tagged content in
+    Pharmacology/Care Planning) and keep deepening notes for the remaining topics that don't have
+    one yet (Physiology, Biochemistry and Nutrition, Microbiology and Immunology, Pathology,
+    Pharmacology, Patient Assessment, Supportive Treatment Services, Professional Responsibility,
+    Research Principles and Community Health).
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
