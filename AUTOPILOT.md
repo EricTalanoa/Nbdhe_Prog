@@ -162,6 +162,25 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   q-supp-0009 (alginate water-ratio effect on setting time direction), q-prof-0009 (autonomy vs.
   beneficence in honoring an informed refusal), q-rsch-0007 (sensitivity vs. specificity). PR:
   https://github.com/EricTalanoa/Nbdhe_Prog/pull/58
+- [x] **7g-practice-ux** — Requested directly by the project owner (not a scheduled AUTOPILOT run):
+  two practice-loop UX fixes.
+  - **Back button that goes back, not to a fixed page.** `PageHeader` gained a `backHref="back"`
+    sentinel (`components/ui/back-button.tsx`, a tiny client component calling
+    `router.back()`) for pages reached mid-flow from more than one place — `/practice/build`
+    (reached via "change filters" from an in-progress practice set, or directly from the
+    dashboard) and `/sets` (reached via "all sets" from `/review`, or directly from the
+    dashboard) both use it now, so changing your mind doesn't strand you on a fixed
+    `/dashboard` link away from what you were doing.
+  - **Skip question + end set early.** `PracticeSession`/`QuestionRenderer`
+    (`components/practice/`) gained a "Skip for now" button (hidden when only one question is
+    left) that defers the current question to the end of the session's queue — implemented as
+    a local reorderable `queue` state, splice-current-out-push-to-end, `index`/`results`
+    untouched, so the skipped item comes back around once everything else has had a turn
+    (verified the splice arithmetic in isolation before trusting it in the browser). The
+    "End test now" button (previously timed-tests-only) is now always available, relabeled
+    "End set now" for untimed sessions — the finish-summary logic already supported a partial
+    `results` count (`"· ended early"`), it just had no way to trigger outside a timer running
+    out. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/60
 - [ ] **7d-topic-notes-depth** — Ongoing, one focused batch per run (same shape as 7b-bank-depth):
   deepen each `/topics/[slug]` overview with more substantive original notes, and add **original
   SVG diagrams/illustrations** (simple line-art — tooth anatomy, perio pocket-depth chart,

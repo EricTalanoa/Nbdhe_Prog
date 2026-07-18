@@ -29,11 +29,15 @@ export function PracticeSession({
   stimulus?: ReactNode;
   showTrickBadge?: boolean;
 }) {
+  // Local, reorderable copy of the question order — skipping a question moves it to the end of
+  // this queue without touching `results`/`index`, so it comes back around later in the same
+  // session instead of being force-answered or lost.
+  const [queue, setQueue] = useState(questions);
   const [index, setIndex] = useState(0);
   const [results, setResults] = useState<boolean[]>([]);
   const [endedEarly, setEndedEarly] = useState(false);
   const [remaining, setRemaining] = useState(timeLimitSec ?? 0);
-  const finished = endedEarly || (questions.length > 0 && index >= questions.length);
+  const finished = endedEarly || (queue.length > 0 && index >= queue.length);
   const finishReported = useRef(false);
 
   // Countdown for timed tests: tick once a second, auto-submit at zero.
@@ -62,7 +66,7 @@ export function PracticeSession({
     finishSession(sessionId, { total, correct, percent });
   }, [finished, results, sessionId]);
 
-  if (questions.length === 0) {
+  if (queue.length === 0) {
     return (
       <>
         {stimulus}
@@ -95,7 +99,7 @@ export function PracticeSession({
           <p className="mt-1 text-sm text-muted-foreground">
             {pct}% correct
             {ranOutOfTime && " · time expired"}
-            {total < questions.length && !ranOutOfTime && " · ended early"}
+            {total < queue.length && !ranOutOfTime && " · ended early"}
           </p>
           <div className="mt-6 flex justify-center gap-3">
             <Button asChild variant="outline">
@@ -110,7 +114,7 @@ export function PracticeSession({
     );
   }
 
-  const question = questions[index];
+  const question = queue[index];
   const answered = results.length > index;
   const lowTime = Boolean(timeLimitSec) && remaining <= 30;
 
@@ -129,12 +133,23 @@ export function PracticeSession({
     setIndex((i) => i + 1);
   }
 
+  // Defer the current question to the end of the queue — no response recorded, `index` and
+  // `results` untouched, so it comes back around once everything else has had a turn.
+  function handleSkip() {
+    setQueue((prev) => {
+      const next = [...prev];
+      const [current] = next.splice(index, 1);
+      next.push(current);
+      return next;
+    });
+  }
+
   return (
     <div>
       {stimulus}
       <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
         <span>
-          Question {index + 1} of {questions.length}
+          Question {index + 1} of {queue.length}
         </span>
         <div className="flex items-center gap-4">
           <span>{results.filter(Boolean).length} correct so far</span>
@@ -155,25 +170,20 @@ export function PracticeSession({
         key={question.id}
         question={question}
         onAnswered={handleAnswered}
+        onSkip={queue.length > 1 ? handleSkip : undefined}
         showTrickBadge={showTrickBadge}
       />
 
-      {(timeLimitSec || answered) && (
-        <div className="mt-5 flex items-center justify-between">
-          {timeLimitSec ? (
-            <Button variant="outline" size="sm" onClick={() => setEndedEarly(true)}>
-              End test now
-            </Button>
-          ) : (
-            <span />
-          )}
-          {answered && (
-            <Button onClick={handleNext}>
-              {index === questions.length - 1 ? "Finish" : "Next question"}
-            </Button>
-          )}
-        </div>
-      )}
+      <div className="mt-5 flex items-center justify-between">
+        <Button variant="outline" size="sm" onClick={() => setEndedEarly(true)}>
+          {timeLimitSec ? "End test now" : "End set now"}
+        </Button>
+        {answered && (
+          <Button onClick={handleNext}>
+            {index === queue.length - 1 ? "Finish" : "Next question"}
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

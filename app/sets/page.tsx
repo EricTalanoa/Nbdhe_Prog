@@ -65,6 +65,7 @@ export default async function SetsPage() {
     <main className="mx-auto max-w-3xl px-4 py-10">
       <PageHeader
         title="Topic sets"
+        backHref="back"
         subtitle="Study a specific topic as a practice set or as flashcards — no filters to configure."
       />
 

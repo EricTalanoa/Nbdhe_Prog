@@ -27,7 +27,7 @@ kanban-plugin: board
       Assessment" (six-point periodontal probing, reading a probe's mm markings) + "Pharmacology"
       (LA sodium-channel blockade, differential fiber blockade, IANB as the highest-yield
       injection) notes, added `PeriodontalChartingDiagram` + `NerveBlockLandmarksDiagram`. Batch 4
-      (PR #59, open): deepened "Biochemistry and Nutrition" (the Stephan curve — plaque pH vs.
+      (PR #59, merged): deepened "Biochemistry and Nutrition" (the Stephan curve — plaque pH vs.
       time after a sugar exposure, why exposure frequency beats total sugar quantity, vitamin
       C/collagen hydroxylation) + "Microbiology and Immunology" (dental plaque biofilm formation
       as an ordered succession — pellicle, early colonizers, Fusobacterium-mediated
@@ -42,14 +42,20 @@ kanban-plugin: board
       therapy-chemotherapeutic agents/amoxicillin+metronidazole adjunct, local
       anesthesia/duration-of-action agent selection, anxiety and pain control-local
       anesthesia/beta-blocker+epinephrine interaction — 4 questions + 1 flashcard)
-- [ ] Phase 7: **topic-toggle relocate + trick questions (7f + 7e, requested directly, open in
-      PR #58)** — moved the by-method/by-topic toggle off `/settings` onto a `ModeToggle` at the
+- [x] Phase 7: **topic-toggle relocate + trick questions (7f + 7e, requested directly, PR #58
+      merged)** — moved the by-method/by-topic toggle off `/settings` onto a `ModeToggle` at the
       top of `/dashboard`; cases now surface under their best-fit topic on `/topics/[slug]`
       (`caseTopicAreas()`); new `/topics` index reachable from a "Topic notes" Review tile. Added
-      `questions.is_trick` + `profiles.show_trick_badge` (migration pending manual apply), a
+      `questions.is_trick` + `profiles.show_trick_badge` (both migrations applied live), a
       `/settings` toggle (off by default) showing a "Trick" badge in practice/the question bank
       (never in `/mock`), `trick: true` importer + authoring-guidelines support, and a first batch
-      of 14 original trick items (one per score area — 172 questions total, not yet seeded live).
+      of 14 original trick items (one per score area — 172 questions total; `content:import` run
+      locally, last known mid-troubleshooting a `service_role` key issue — confirm 172 rows live).
+- [ ] Phase 7: **practice-loop UX fixes (7g, requested directly, open in PR #60)** — `PageHeader`
+      `backHref="back"` (`components/ui/back-button.tsx`) on `/practice/build` and `/sets` so
+      "change filters"/"all sets" returns to wherever you actually came from, not a fixed
+      `/dashboard`; `PracticeSession` gained "Skip for now" (defers to end of a local reorderable
+      queue) and an always-available "End set now" (previously timed-tests-only).
 
 ## Done (Phase 6)
 
