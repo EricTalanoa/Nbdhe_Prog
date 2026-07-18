@@ -1,6 +1,6 @@
 ---
-updated: 2026-07-17
-phase: 7 — Content scale-up + niceties (7a-review-tools + 7c-topic-dashboard merged; 7b bank depth ongoing, batch 22)
+updated: 2026-07-18
+phase: 7 — Content scale-up + niceties (7a-review-tools + 7c-topic-dashboard merged; 7d topic-notes-depth ongoing, batch 1; 7b bank depth ongoing, batch 22)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -20,8 +20,14 @@ merged (2026-07-17, PR #53).** `/settings` toggles `dashboard_mode` (`'method' |
 SQL-editor apply like prior Phase 7 migrations — degrades to `'method'` until then). Topic mode
 renders `/dashboard` as a grid of the live taxonomy score areas (same distinct-`score_area`-by-
 `sort_order` query `/analytics` uses); each tile opens `/topics/[slug]` with a short original
-overview (`lib/topics.ts`) then Practice/Flashcards links scoped to that area. Next: 7d-topic-
-notes-depth deepens the notes + adds original SVG diagrams, then resume 7b-bank-depth. `/review` is an
+overview (`lib/topics.ts`) then Practice/Flashcards links scoped to that area. **7d-topic-notes-
+depth (ongoing, batch 1 this run):** deepened the "Anatomic Sciences" and "Periodontal Disease
+Management" overview notes with substantive original paragraphs, and added two hand-drawn SVG
+diagrams under `components/topics/` — `ToothAnatomyDiagram` (enamel/dentin/pulp/cementum/CEJ
+cross-section) and `PerioPocketDiagram` (healthy-sulcus vs. periodontal-pocket, PD vs. CAL) —
+wired into `/topics/[slug]` via a new `TOPIC_DIAGRAMS` map, both using theme CSS-var Tailwind
+utilities so they hold up in light and dark mode. Next: continue 7d with 1-2 more topics, then
+resume 7b-bank-depth. `/review` is an
 SM-2-lite spaced-repetition flashcard queue (`lib/srs.ts`): pulls due + new cards, flip to reveal
 the correct answer + rationale, self-grade Again/Hard/Good/Easy to reschedule `due_at`; a "report
 a problem" form files a `question_reports` row. Migration `20260713000001_review_tools.sql`
@@ -193,11 +199,12 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next actions
-1. **Next chunk: 7d-topic-notes-depth** (ongoing, one focused batch per run, same shape as
-   7b-bank-depth) — deepen each `/topics/[slug]` overview in `lib/topics.ts` with more
-   substantive original notes, and add original SVG diagrams (self-drawn line art only, never
-   scraped/downloaded images — same Rule-0-style licensing bar as case media) where a visual
-   clarifies the concept. Start with the 1-2 topics that benefit most, not all 14 at once.
+1. **Continue 7d-topic-notes-depth** (ongoing, one focused batch per run, same shape as
+   7b-bank-depth) — batch 1 (this run) deepened "Anatomic Sciences" and "Periodontal Disease
+   Management" with substantive notes + a `ToothAnatomyDiagram` and `PerioPocketDiagram` SVG each
+   (`components/topics/`, wired via `TOPIC_DIAGRAMS` in `lib/topics.ts`). Next batch: pick 1-2
+   more topics that'd benefit from a diagram (e.g. radiographic landmarks for Dental Radiography,
+   a caries-process diagram for Preventive Agents) and deepen their notes too.
 2. Resume **7b-bank-depth** (ongoing) after 7d batches — keep deepening the bank, one focused
    batch/run. Batch 22 rotated depth across Care Planning (instruction: oral conditions/dentin
    hypersensitivity management; anxiety and pain control-local anesthesia/beta-blocker +

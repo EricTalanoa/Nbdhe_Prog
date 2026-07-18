@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { BookOpen, Layers } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/page-header";
-import { topicSlug, TOPIC_NOTES, DEFAULT_TOPIC_NOTE } from "@/lib/topics";
+import { topicSlug, TOPIC_NOTES, DEFAULT_TOPIC_NOTE, TOPIC_DIAGRAMS } from "@/lib/topics";
 
 const PRACTICE_SET_SIZE = 10;
 
@@ -44,6 +44,7 @@ export default async function TopicPage({ params }: { params: { slug: string } }
   const note = TOPIC_NOTES[area] ?? DEFAULT_TOPIC_NOTE;
   const practiceHref = `/practice?areas=${encodeURIComponent(area)}&n=${PRACTICE_SET_SIZE}`;
   const flashcardsHref = `/review?areas=${encodeURIComponent(area)}`;
+  const Diagram = TOPIC_DIAGRAMS[area];
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
@@ -54,6 +55,11 @@ export default async function TopicPage({ params }: { params: { slug: string } }
           Overview
         </h2>
         <p className="text-sm leading-relaxed text-muted-foreground">{note}</p>
+        {Diagram && (
+          <div className="mt-5 border-t pt-4">
+            <Diagram />
+          </div>
+        )}
       </section>
 
       <section>

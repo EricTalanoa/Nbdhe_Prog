@@ -131,6 +131,23 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   textbook figures** — this app can't verify licensing on fetched images, and Rule 0's "own or
   properly licensed/created" bar (from `content-authoring-guidelines.md`'s case/media section)
   applies here too. Start with the 1-2 topics that benefit most from a diagram, not all 13 at once.
+  - Batch 1 (this run): deepened the "Anatomic Sciences" and "Periodontal Disease Management"
+    overview notes in `lib/topics.ts` with substantive original paragraphs (tooth layer
+    histology/CEJ/root variation for the former; biofilm-driven host inflammatory response, the
+    PD-vs-CAL distinction, and the nonsurgical→surgical→maintenance continuum for the latter), and
+    added two hand-drawn SVG diagrams under `components/topics/`: `ToothAnatomyDiagram`
+    (labeled enamel/dentin/pulp/cementum/CEJ/root-canal/apical-foramen cross-section) and
+    `PerioPocketDiagram` (two-panel healthy-sulcus-vs-periodontal-pocket comparison contrasting
+    probing depth, measured from the gingival margin, against clinical attachment level, measured
+    from the fixed CEJ). Both use theme CSS-var Tailwind utilities (`fill-chart-4`,
+    `fill-destructive`, `fill-secondary`, `fill-accent`, `stroke-foreground`, etc.) so they stay
+    legible in light and dark mode; wired into `/topics/[slug]` via a new `TOPIC_DIAGRAMS` map in
+    `lib/topics.ts`, rendered under the Overview note when a topic has one. Verified by rendering
+    both components to static markup and screenshotting them against the project's actual
+    compiled Tailwind CSS in light and dark mode (this container can't reach Supabase to
+    click-test the live auth-gated page). Next batch: continue with 1-2 more topics (e.g.
+    radiographic landmarks for Dental Radiography, or a caries-process diagram for Preventive
+    Agents), then keep deepening notes for the rest.
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
