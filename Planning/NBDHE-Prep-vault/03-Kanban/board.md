@@ -23,9 +23,14 @@ kanban-plugin: board
       "Periodontal Disease Management" notes, added `ToothAnatomyDiagram` + `PerioPocketDiagram`
       original SVGs. Batch 2 (PR #56): deepened "Dental Radiography" + "Preventive Agents" notes,
       added `RadiographicLandmarksDiagram` + `CariesProcessDiagram` original SVGs
-      (`components/topics/`, wired via `TOPIC_DIAGRAMS`). 4/13 topics now have a diagram. Next
-      batch: 1-2 more topics that'd benefit from a diagram (e.g. periodontal charting for Care
-      Planning, a nerve-block landmark diagram for Local Anesthesia).
+      (`components/topics/`, wired via `TOPIC_DIAGRAMS`). Batch 3 (PR #57): deepened "Patient
+      Assessment" (six-point periodontal probing, reading a probe's mm markings) + "Pharmacology"
+      (LA sodium-channel blockade, differential fiber blockade, IANB as the highest-yield
+      injection) notes, added `PeriodontalChartingDiagram` + `NerveBlockLandmarksDiagram`. 6/13
+      topics now have a diagram. Next batch: pick 1-2 more (remaining topics without one:
+      Physiology, Biochemistry and Nutrition, Microbiology and Immunology, Pathology, Dental
+      Hygiene Care Planning, Supportive Treatment Services, Professional Responsibility, Research
+      Principles and Community Health).
 - [~] Phase 7: bank depth (7b, ongoing, paused for 7d) — b1-b22 across all areas + 5 cases; bank now 158
       (batch 22: rotated depth across Care Planning/Perio Management/Local Anesthesia —
       instruction: oral conditions/dentin hypersensitivity management, prescribed

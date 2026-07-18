@@ -152,14 +152,30 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     `TOPIC_DIAGRAMS` in `lib/topics.ts`. Verified the same way as batch 1: rendered both
     components to static markup and screenshotted them against the project's compiled Tailwind
     CSS in light and dark mode (caught and fixed a z-order text-clipping bug and an off-canvas
-    label overflow bug during this pass, before committing). Next batch: 4 of 13 topics now have
+    label overflow bug during this pass, before committing).
+  - Batch 3 (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/57): deepened the "Patient
+    Assessment" and "Pharmacology" overview notes in `lib/topics.ts` (six-point periodontal
+    probing — facial DB/B/MB, lingual DL/L/ML — and how to read a probe's mm markings against the
+    gingival margin for Patient Assessment; local anesthetic sodium-channel blockade,
+    differential nerve-fiber blockade order, vasoconstrictor tradeoffs, and the IANB as the most
+    commonly tested injection for Pharmacology), and added two more hand-drawn SVG diagrams:
+    `PeriodontalChartingDiagram` (reading a probe's mm markings + the six-point charting
+    sequence) and `NerveBlockLandmarksDiagram` (IANB landmarks — coronoid notch, occlusal plane,
+    pterygomandibular triangle entry, lingula/mandibular foramen target — with the needle
+    trajectory). Wired into `TOPIC_DIAGRAMS` in `lib/topics.ts`. Verified the same way as batches
+    1-2: rendered both components to static markup against the project's compiled Tailwind theme
+    CSS and screenshotted in light and dark mode before committing — this pass caught and fixed a
+    caption overflowing into the neighboring panel (SVG text never wraps, so an over-long line ran
+    into the other panel's own caption), a "Facial"/"Lingual" label colliding with an adjacent
+    site-dot label, a caption line silently clipped by the SVG's own viewBox edge (baseline placed
+    with only ~1 unit of bottom margin — an SVG root clips to its own box by default), and a
+    leader line cutting straight through its own label text. Next batch: 6 of 13 topics now have
     a diagram (Anatomic Sciences, Periodontal Disease Management, Dental Radiography, Preventive
-    Agents) — pick 1-2 more (e.g. a periodontal-charting/pocket-mapping visual for Dental Hygiene
-    Care Planning, or a nerve-block landmark diagram for the Local-Anesthesia-tagged content in
-    Pharmacology/Care Planning) and keep deepening notes for the remaining topics that don't have
-    one yet (Physiology, Biochemistry and Nutrition, Microbiology and Immunology, Pathology,
-    Pharmacology, Patient Assessment, Supportive Treatment Services, Professional Responsibility,
-    Research Principles and Community Health).
+    Agents, Patient Assessment, Pharmacology) — pick 1-2 more from the remaining topics
+    (Physiology, Biochemistry and Nutrition, Microbiology and Immunology, Pathology, Dental
+    Hygiene Care Planning, Supportive Treatment Services, Professional Responsibility, Research
+    Principles and Community Health) and keep deepening notes for the ones that don't have a
+    diagram yet.
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
