@@ -14,6 +14,8 @@ import { ToothAnatomyDiagram } from "@/components/topics/tooth-anatomy-diagram";
 import { PerioPocketDiagram } from "@/components/topics/perio-pocket-diagram";
 import { RadiographicLandmarksDiagram } from "@/components/topics/radiographic-landmarks-diagram";
 import { CariesProcessDiagram } from "@/components/topics/caries-process-diagram";
+import { PeriodontalChartingDiagram } from "@/components/topics/periodontal-charting-diagram";
+import { NerveBlockLandmarksDiagram } from "@/components/topics/nerve-block-landmarks-diagram";
 
 export function topicSlug(scoreArea: string): string {
   return scoreArea
@@ -52,10 +54,33 @@ export const TOPIC_NOTES: Record<string, string> = {
   Pharmacology:
     "Drug actions and classes relevant to dental hygiene care, plus local anesthesia " +
     "pharmacology — agent selection, dosing, onset/duration, and safe use in medically complex " +
-    "patients.",
+    "patients. Local anesthetics work by blocking voltage-gated sodium channels along the nerve " +
+    "membrane, preventing the depolarization needed to fire an action potential — smaller, " +
+    "unmyelinated fibers (pain, temperature) tend to block before larger myelinated ones (touch, " +
+    "proprioception), which is why pain relief and hot/cold changes usually show up before a " +
+    "patient loses the sense of pressure. Onset and duration are shaped by the molecule itself " +
+    "(lipid solubility, protein binding, pKa relative to tissue pH) and by additives: a " +
+    "vasoconstrictor like epinephrine keeps the drug at the injection site longer, extending " +
+    "duration and reducing systemic absorption/toxicity risk, at the cost of needing caution in " +
+    "patients where added epinephrine is a concern (e.g., certain cardiovascular disease, some " +
+    "drug interactions). The inferior alveolar nerve block (IANB) is the single most commonly " +
+    "tested injection: it depends on locating the coronoid notch and occlusal plane to judge " +
+    "injection height, entering through the pterygomandibular triangle, and advancing toward the " +
+    "lingula/mandibular foramen — going in too high, too shallow, or off the intended path is the " +
+    "usual reason a block only partially takes.",
   "Patient Assessment":
     "Medical/dental history, head and neck exams, periodontal and oral evaluation, and occlusal " +
-    "assessment — the data-gathering that drives every care decision that follows.",
+    "assessment — the data-gathering that drives every care decision that follows. Periodontal " +
+    "evaluation centers on six-point probing: at each tooth, probing depth is measured and " +
+    "recorded at six sites — facial (mesiofacial, facial, distofacial) and lingual (mesiolingual, " +
+    "lingual, distolingual) — not just one reading per tooth, since disease can be localized to a " +
+    "single surface. Reading the probe itself is a skill in its own right: the shaft is 'walked' " +
+    "along the base of the pocket and the millimeter marking nearest the gingival margin is read " +
+    "and rounded to the next highest whole millimeter, so a margin that falls between two marks " +
+    "is recorded as the deeper number. A thorough medical/dental history and head-and-neck exam " +
+    "(extraoral and intraoral soft-tissue screening, TMJ, lymph nodes) come first, because " +
+    "findings there — anticoagulant use, a suspicious lesion, limited opening — can change how " +
+    "the rest of the assessment and the eventual care plan proceed.",
   "Dental Radiography":
     "Radiophysics and radiobiology, exposure technique, and interpreting radiographic findings " +
     "and normal/abnormal anatomy, balanced against radiation-safety principles. ALARA (As Low As " +
@@ -128,4 +153,6 @@ export const TOPIC_DIAGRAMS: Record<string, ComponentType> = {
   "Periodontal Disease Management": PerioPocketDiagram,
   "Dental Radiography": RadiographicLandmarksDiagram,
   "Preventive Agents": CariesProcessDiagram,
+  "Patient Assessment": PeriodontalChartingDiagram,
+  Pharmacology: NerveBlockLandmarksDiagram,
 };
