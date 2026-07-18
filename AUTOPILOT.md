@@ -215,6 +215,27 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     Hygiene Care Planning, Supportive Treatment Services, Professional Responsibility, Research
     Principles and Community Health) and keep deepening notes for the ones that don't have a
     diagram yet.
+  - Batch 4 (this run): deepened "Biochemistry and Nutrition" (the Stephan curve — plaque pH
+    dropping below the ~5.5 critical pH after a sugar exposure and recovering as saliva buffers
+    it, why exposure *frequency* matters more than total sugar quantity, plus vitamin C's role as
+    a cofactor in collagen hydroxylation and the scurvy tie-in) and "Microbiology and Immunology"
+    (dental plaque as an ordered ecological succession — acquired pellicle, early streptococcal
+    colonizers, Fusobacterium-mediated coaggregation, and a mature biofilm's oxygen gradient
+    concentrating the anaerobic red complex deepest in the pocket — plus the host-response link to
+    Perio Management's coverage). Added two more hand-drawn SVG diagrams: `StephanCurveDiagram`
+    (two-panel single-exposure vs. frequent-snacking pH graphs, shaded by time spent below
+    critical pH) and `BiofilmFormationDiagram` (three-panel pellicle → early colonizers →
+    coaggregation → mature layered biofilm with an O₂ gradient). Wired into `TOPIC_DIAGRAMS` in
+    `lib/topics.ts`. Verified the same way as prior batches: rendered both components' exact SVG
+    markup against the project's compiled Tailwind theme CSS in a headless browser and
+    screenshotted in light and dark mode before committing — this pass caught and fixed a caption
+    sitting inside the bacteria-circles' vertical band in the biofilm diagram's first panel (moved
+    the label inside the pellicle rect instead) and a bottom summary caption almost clipped by the
+    SVG's own viewBox edge (grew the viewBox and moved the caption down). 8/13 topics now have a
+    diagram (previous 6 + these 2) — remaining without one: Physiology, Pathology, Dental Hygiene
+    Care Planning, Supportive Treatment Services, Professional Responsibility, Research Principles
+    and Community Health. Next batch: pick 1-2 more from that list and keep deepening notes for
+    topics that don't have a diagram yet.
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
