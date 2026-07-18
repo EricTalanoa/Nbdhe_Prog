@@ -1,25 +1,12 @@
 import { redirect } from "next/navigation";
-import { LayoutGrid, ListTree } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
-import { setDashboardMode, type DashboardMode } from "@/app/settings/actions";
+import { setShowTrickBadge } from "@/app/settings/actions";
 
-const MODES: { value: DashboardMode; icon: typeof LayoutGrid; title: string; desc: string }[] = [
-  {
-    value: "method",
-    icon: LayoutGrid,
-    title: "By study method",
-    desc: "Today's dashboard — Practice, Review, and Exam grouped by what you're doing.",
-  },
-  {
-    value: "topic",
-    icon: ListTree,
-    title: "By exam topic",
-    desc: "A grid of the blueprint score areas — pick a topic, get its notes and study options.",
-  },
-];
-
+// The by-study-method vs. by-exam-topic toggle used to live here; it's now a one-tap switch at
+// the top of /dashboard instead (2026-07), so it doesn't take an extra trip to reach.
 export default async function SettingsPage() {
   const supabase = createClient();
   const {
@@ -27,51 +14,36 @@ export default async function SettingsPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  // Missing column (migration not applied yet) or any read error → default to 'method'.
+  // Missing column (migration not applied yet) or any read error → default to off.
   const { data: profile } = await supabase
     .from("profiles")
-    .select("dashboard_mode")
+    .select("show_trick_badge")
     .eq("id", user.id)
     .maybeSingle();
-  const currentMode: DashboardMode = profile?.dashboard_mode === "topic" ? "topic" : "method";
+  const showTrickBadge = profile?.show_trick_badge === true;
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
-      <PageHeader title="Settings" subtitle="Choose how your dashboard is organized." />
+      <PageHeader title="Settings" subtitle="Account-level preferences." />
 
-      <div className="space-y-3">
-        {MODES.map((m) => {
-          const Icon = m.icon;
-          const active = m.value === currentMode;
-          return (
-            <div
-              key={m.value}
-              className={`flex items-center gap-4 rounded-xl border p-4 shadow-sm ${
-                active ? "border-primary/60 bg-primary/5" : "bg-card"
-              }`}
-            >
-              <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <Icon className="size-5" />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block font-medium leading-tight">{m.title}</span>
-                <span className="mt-0.5 block text-sm text-muted-foreground">{m.desc}</span>
-              </span>
-              {active ? (
-                <span className="shrink-0 rounded-md bg-primary/10 px-2.5 py-1 text-xs font-medium text-primary">
-                  Active
-                </span>
-              ) : (
-                <form action={setDashboardMode}>
-                  <input type="hidden" name="mode" value={m.value} />
-                  <Button type="submit" variant="outline" size="sm" className="shrink-0">
-                    Use this
-                  </Button>
-                </form>
-              )}
-            </div>
-          );
-        })}
+      <div className="flex items-center gap-4 rounded-xl border bg-card p-4 shadow-sm">
+        <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <Sparkles className="size-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-medium leading-tight">Trick-question indicator</span>
+          <span className="mt-0.5 block text-sm text-muted-foreground">
+            Mark items where the answer choices are deliberately close (a &ldquo;Trick&rdquo;
+            badge) while practicing. The real exam never flags these — leave it off for realistic
+            pacing, turn it on to study why the near-miss options are wrong.
+          </span>
+        </span>
+        <form action={setShowTrickBadge}>
+          <input type="hidden" name="show_trick_badge" value={String(!showTrickBadge)} />
+          <Button type="submit" variant={showTrickBadge ? "default" : "outline"} size="sm" className="shrink-0">
+            {showTrickBadge ? "On" : "Off"}
+          </Button>
+        </form>
       </div>
     </main>
   );

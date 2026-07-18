@@ -123,6 +123,45 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     structure (notes can be a short placeholder paragraph per topic to start). Depth (fuller notes
     + original diagrams) is the next chunk below.
   - Degrade gracefully if the migration isn't applied yet (default to method mode).
+- [x] **7f-topic-toggle-relocate** — Requested directly by the project owner (not a scheduled
+  AUTOPILOT run): move the by-study-method/by-exam-topic toggle out of `/settings` and onto a
+  one-tap segmented control (`ModeToggle`, `components/dashboard/mode-toggle.tsx`) at the top of
+  `/dashboard`, directly above the Settings/Sign-out buttons. The server action moved from
+  `app/settings/actions.ts` to `app/dashboard/actions.ts`; `/settings` became a placeholder for
+  future account-level preferences (see 7e below, which gave it its first real one). Also: cases
+  now show up under whichever topic their linked items most commonly belong to (`caseTopicAreas()`
+  in `lib/topics.ts`, tie-broken toward the area that sorts first in the blueprint — a case has no
+  score_area of its own, per schema.md), rendered as a "Cases in this topic" section on
+  `/topics/[slug]`; and a standalone `/topics` index page (shared `TopicGrid`/`TopicTile`,
+  `components/topics/topic-grid.tsx`) is reachable from a new "Topic notes" tile in the
+  dashboard's Review group, so by-study-method users aren't cut off from the topic overview
+  notes/diagrams. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/58
+- [x] **7e-trick-questions** — Requested directly by the project owner (not a scheduled AUTOPILOT
+  run): "trick" questions — items where the answer choices are deliberately close, or a single
+  word in the stem changes which option is keyed, mirroring how the real exam tests careful
+  reading rather than just recall. Infra: `questions.is_trick` + `profiles.show_trick_badge`
+  columns (migration `20260718000001_trick_questions.sql`, manual apply pending — degrades to
+  `false` for both if missing, queried separately from the main practice/mock/questions selects so
+  a missing column never blanks out a whole page); `trick: true` frontmatter support in
+  `scripts/import-questions.mjs`; a `content-authoring-guidelines.md` section defining what
+  qualifies (close options with a real difference in truth value, not just "hard"; works with any
+  `format`); a `/settings` toggle (off by default — the real exam never flags these) that shows a
+  "Trick" badge on `QuestionRenderer` and in the `/questions` bank browser. The mock exam
+  deliberately never shows the badge regardless of the setting, to keep exam simulation realistic
+  (`app/mock/page.tsx` hardcodes `is_trick: false`, doesn't thread a badge prop to `MockExam`).
+  Content batch: one original trick item authored per score area (all 14 — the taxonomy actually
+  seeds 14 distinct `score_area` values, not the oft-quoted 13, since `Physiology` is also its own
+  reporting area) — q-anat-0009 (mandibular foramen vs. lingula vs. mental foramen), q-phys-0004
+  (baroreceptor reflex direction), q-bioc-0005 (phosphate vs. bicarbonate salivary buffering by
+  flow rate), q-micr-0003 (A. actinomycetemcomitans/localized aggressive periodontitis vs. the red
+  complex), q-path-0005 (leukoedema vs. leukoplakia via the stretch test), q-phar-0003
+  (bacteriostatic + bactericidal antibiotic antagonism), q-asmt-0011 (Class II Division 1 vs. 2 by
+  incisor inclination), q-radi-0011 (foreshortening/elongation correction direction), q-plan-0026
+  (patient positioning: syncope vs. respiratory distress), q-perio-0025 (Stage vs. Grade in the
+  periodontitis classification), q-prev-0010 (APF vs. neutral NaF on esthetic restorations),
+  q-supp-0009 (alginate water-ratio effect on setting time direction), q-prof-0009 (autonomy vs.
+  beneficence in honoring an informed refusal), q-rsch-0007 (sensitivity vs. specificity). PR:
+  https://github.com/EricTalanoa/Nbdhe_Prog/pull/58
 - [ ] **7d-topic-notes-depth** — Ongoing, one focused batch per run (same shape as 7b-bank-depth):
   deepen each `/topics/[slug]` overview with more substantive original notes, and add **original
   SVG diagrams/illustrations** (simple line-art — tooth anatomy, perio pocket-depth chart,

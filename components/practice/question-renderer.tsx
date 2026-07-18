@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bookmark, CheckCircle2, XCircle } from "lucide-react";
+import { Bookmark, CheckCircle2, Sparkles, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -42,9 +42,13 @@ function Stem({ format, stem }: { format: QuestionFormat; stem: string }) {
 export function QuestionRenderer({
   question,
   onAnswered,
+  showTrickBadge = false,
 }: {
   question: PracticeQuestion;
   onAnswered: (correct: boolean, selectedOptionId: string | null, timeMs: number) => void;
+  // Off unless the user opted in via Settings — the real exam never flags these, so the default
+  // keeps practice realistic. See content-authoring-guidelines.md's "Trick questions" section.
+  showTrickBadge?: boolean;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -77,6 +81,15 @@ export function QuestionRenderer({
           <span>{FORMAT_LABEL[question.format]}</span>
           <span aria-hidden="true">·</span>
           <span>{question.difficulty}</span>
+          {showTrickBadge && question.is_trick && (
+            <span
+              className="inline-flex items-center gap-1 rounded-md bg-amber-100 px-1.5 py-0.5 text-amber-800 dark:bg-amber-950 dark:text-amber-300"
+              title="Close answer choices — read carefully. The real exam won't flag this for you."
+            >
+              <Sparkles className="size-3" />
+              Trick
+            </span>
+          )}
         </div>
         <button
           type="button"

@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-18
-phase: 7 — Content scale-up + niceties (7a-review-tools + 7c-topic-dashboard merged; 7d topic-notes-depth ongoing, batch 3; 7b bank depth ongoing, batch 22)
+phase: 7 — Content scale-up + niceties (7a-review-tools + 7c-topic-dashboard merged; 7f-topic-toggle-relocate + 7e-trick-questions open in PR #58; 7d topic-notes-depth ongoing, batch 3; 7b bank depth ongoing, batch 22)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -15,12 +15,29 @@ progress syncs across her devices).
 
 ## Current phase
 **Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
-merged (2026-07-17, PR #53).** `/settings` toggles `dashboard_mode` (`'method' | 'topic'`, new
+merged (2026-07-17, PR #53).** `/dashboard` renders the `dashboard_mode` (`'method' | 'topic'`,
 `profiles.dashboard_mode` column + migration `20260717000002_dashboard_mode.sql`, needs a manual
-SQL-editor apply like prior Phase 7 migrations — degrades to `'method'` until then). Topic mode
-renders `/dashboard` as a grid of the live taxonomy score areas (same distinct-`score_area`-by-
-`sort_order` query `/analytics` uses); each tile opens `/topics/[slug]` with a short original
-overview (`lib/topics.ts`) then Practice/Flashcards links scoped to that area. **7d-topic-notes-
+SQL-editor apply like prior Phase 7 migrations — degrades to `'method'` until then) either as
+today's Practice/Review/Exam groups or as a grid of the live taxonomy score areas (same
+distinct-`score_area`-by-`sort_order` query `/analytics` uses); each topic tile opens
+`/topics/[slug]` with a short original overview (`lib/topics.ts`) then Practice/Flashcards links
+scoped to that area. **7f-topic-toggle-relocate + 7e-trick-questions (both requested directly by
+the project owner, open in PR #58):** the method/topic toggle moved off `/settings` onto a
+one-tap `ModeToggle` segmented control at the top of `/dashboard` (`app/dashboard/actions.ts`);
+cases now show up under whichever topic their linked items most commonly belong to
+(`caseTopicAreas()` in `lib/topics.ts`, since a case has no `score_area` of its own) as a "Cases in
+this topic" section on `/topics/[slug]`; a standalone `/topics` index (shared `TopicGrid`) is
+reachable from a new "Topic notes" tile in the dashboard's Review group for by-study-method users.
+Separately, "trick" questions — items with deliberately close answer choices, or a single word
+that flips the key — got a `questions.is_trick` + `profiles.show_trick_badge` migration
+(`20260718000001_trick_questions.sql`, pending manual apply, degrades to `false`), `trick: true`
+frontmatter support in the importer, a `/settings` toggle (off by default) that shows a "Trick"
+badge on questions in practice/the question bank (never in `/mock`, to keep exam simulation
+realistic), and a first content batch — one original trick item per score area (14, not the
+often-quoted 13 — `Physiology` is its own reporting area too) spanning anatomy, physiology,
+biochemistry, microbiology, pathology, pharmacology, assessment, radiography, care planning,
+perio management, preventive agents, supportive services, professional responsibility, and
+research/community health. Bank now **172 questions**. **7d-topic-notes-
 depth (ongoing):** batch 1 (PR #55, merged) deepened the "Anatomic Sciences" and "Periodontal
 Disease Management" overview notes with substantive original paragraphs, and added two hand-drawn
 SVG diagrams under `components/topics/` — `ToothAnatomyDiagram` (enamel/dentin/pulp/cementum/CEJ
@@ -146,8 +163,8 @@ procedure with postoperative coverage), q-anes-0021 (Care Planning/anxiety and p
 control-local anesthesia — nonselective beta-blocker + epinephrine unopposed alpha-stimulation
 interaction, distinguished from the previously-covered TCA interaction) + 1 flashcard
 (fc-perio-0004, amoxicillin+metronidazole regimen) — PR #50.
-Vault holds **158 questions** + **5 cases** (perio, pediatric ECC, anticoagulant, geriatric
-xerostomia, special-needs autism) + **23 flashcards**.
+Vault holds **172 questions** (158 + 14 trick-question batch, 7e) + **5 cases** (perio, pediatric
+ECC, anticoagulant, geriatric xerostomia, special-needs autism) + **23 flashcards**.
 Every domain/subdomain combination in the bank now has ≥2 items (Physiology has no blueprint
 subdomains, so its 3 domain-level items already represent full coverage; Supportive Treatment
 Services' "Emerging technologies" subdomain had 0 items before batch 12). Also shipped (features, not
@@ -214,6 +231,15 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next actions
+0. **PR #58 (7f-topic-toggle-relocate + 7e-trick-questions) is open, not yet merged.** Two new
+   migrations need a manual SQL-editor apply once it lands: `20260718000001_trick_questions.sql`
+   (`questions.is_trick`, `profiles.show_trick_badge`) alongside the still-pending
+   `20260717000002_dashboard_mode.sql`. Both degrade gracefully until applied. After merging,
+   confirm in a real browser session: the `ModeToggle` at the top of `/dashboard` actually switches
+   layouts; a topic with a linked case (e.g. Preventive Agents or Dental Hygiene Care Planning, via
+   `case-geri-0001`) shows a "Cases in this topic" section; and toggling "Trick-question indicator"
+   on in `/settings` shows the amber "Trick" badge on the 14 newly-authored items in `/practice`
+   and `/questions` (never in `/mock`, by design).
 1. **Continue 7d-topic-notes-depth** (ongoing, one focused batch per run, same shape as
    7b-bank-depth) — batch 1 (PR #55, merged) deepened "Anatomic Sciences" and "Periodontal
    Disease Management"; batch 2 (PR #56) deepened "Dental Radiography" and "Preventive
@@ -247,11 +273,12 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    (8 questions + 1 flashcard, PR #42), batch 16 (8 questions + 1 flashcard, PR #43), batch 17
    (5 questions + 1 flashcard, PR #44), batch 18 (4 questions + 1 flashcard, PR #45), batch 19
    (4 questions + 1 flashcard, PR #46), batch 20 (4 questions + 1 flashcard, PR #47), batch 21
-   (4 questions + 1 flashcard, PR #48), and batch 22 (4 questions + 1 flashcard, PR #50) are
-   authored in the vault, `content:check`-clean, but **not yet imported into the live Supabase
-   project** (this container's egress blocks `*.supabase.co`, so `npm run content:import` can't
-   run here — import from a machine with egress, or hand-seed via the SQL editor as batches 5/6
-   were).
+   (4 questions + 1 flashcard, PR #48), batch 22 (4 questions + 1 flashcard, PR #50), and the
+   7e trick-question batch (14 questions, PR #58) are authored in the vault, `content:check`-clean,
+   but **not yet imported into the live Supabase project** (this container's egress blocks
+   `*.supabase.co`, so `npm run content:import` can't run here — import from a machine with
+   egress, or hand-seed via the SQL editor as batches 5/6 were; the 7e batch also needs the
+   `is_trick` column from `20260718000001_trick_questions.sql` applied first).
 4. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
    sample case). Note: this container's network egress blocks `*.supabase.co`, so
    `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL

@@ -4,13 +4,11 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-export type DashboardMode = "method" | "topic";
-
-// Degrades gracefully (log + no-op) if the `dashboard_mode` migration hasn't been applied yet —
-// same pattern as app/practice/actions.ts.
-export async function setDashboardMode(formData: FormData): Promise<void> {
-  const mode = formData.get("mode");
-  if (mode !== "method" && mode !== "topic") return;
+// Degrades gracefully (log + no-op) if the `show_trick_badge` migration hasn't been applied
+// yet — same pattern as app/dashboard/actions.ts's setDashboardMode.
+export async function setShowTrickBadge(formData: FormData): Promise<void> {
+  const value = formData.get("show_trick_badge");
+  if (value !== "true" && value !== "false") return;
 
   const supabase = createClient();
   const {
@@ -20,12 +18,13 @@ export async function setDashboardMode(formData: FormData): Promise<void> {
 
   const { error } = await supabase
     .from("profiles")
-    .update({ dashboard_mode: mode })
+    .update({ show_trick_badge: value === "true" })
     .eq("id", user.id);
   if (error) {
-    console.error("setDashboardMode: failed to persist (migration not applied yet?)", error.message);
+    console.error("setShowTrickBadge: failed to persist (migration not applied yet?)", error.message);
   }
 
-  revalidatePath("/dashboard");
   revalidatePath("/settings");
+  revalidatePath("/practice");
+  revalidatePath("/questions");
 }

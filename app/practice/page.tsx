@@ -168,6 +168,25 @@ export default async function PracticePage({
     .eq("flagged", true);
   const flaggedIds = new Set((bookmarkRows ?? []).map((b) => b.question_id as string));
 
+  // `is_trick`/`show_trick_badge` are separate, recently-added columns (migration may not be
+  // applied live yet) — queried on their own so a missing column only blanks out the trick flag,
+  // not the whole questions/options/rationales join above.
+  const { data: trickRows } = await supabase
+    .from("questions")
+    .select("id, is_trick")
+    .in("status", ["approved", "live"]);
+  const trickIds = new Set(
+    ((trickRows ?? []) as { id: string; is_trick: boolean | null }[])
+      .filter((r) => r.is_trick)
+      .map((r) => r.id)
+  );
+  const { data: trickProfile } = await supabase
+    .from("profiles")
+    .select("show_trick_badge")
+    .eq("id", user.id)
+    .maybeSingle();
+  const showTrickBadge = trickProfile?.show_trick_badge === true;
+
   // Queue modes restrict the pool to a set of question ids (missed → wrong responses,
   // flagged → flagged bookmarks). Both degrade to an empty pool if the tables aren't there.
   let queueIds: Set<string> | null = null;
@@ -207,6 +226,7 @@ export default async function PracticePage({
         options: [...q.options].sort((a, b) => a.sort_order - b.sort_order),
         correct_explanation: rationale?.correct_explanation ?? null,
         flagged: flaggedIds.has(q.id),
+        is_trick: trickIds.has(q.id),
       };
     });
 
@@ -310,6 +330,7 @@ export default async function PracticePage({
           questions={practiceSet}
           sessionId={sessionId}
           timeLimitSec={timeLimitSec > 0 ? timeLimitSec : undefined}
+          showTrickBadge={showTrickBadge}
           stimulus={
             caseInfo ? (
               <div className="mb-6">

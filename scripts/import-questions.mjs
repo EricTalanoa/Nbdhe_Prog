@@ -189,6 +189,13 @@ function parseNote(filename, raw) {
   if (data.format === "negative" && !/\b(EXCEPT|NOT)\b/.test(stem))
     errors.push("negative-format stem should contain a capitalized EXCEPT or NOT");
 
+  // `trick` is optional — absent (or "false") means an ordinary item. See
+  // content-authoring-guidelines.md's "Trick questions" section for what qualifies.
+  const trickRaw = data.trick?.trim().toLowerCase();
+  if (trickRaw !== undefined && trickRaw !== "true" && trickRaw !== "false")
+    errors.push('`trick` must be "true" or "false" if present');
+  const isTrick = trickRaw === "true";
+
   return {
     filename,
     slug,
@@ -200,6 +207,7 @@ function parseNote(filename, raw) {
       difficulty: data.difficulty,
       status: data.status,
       reference: data.reference || null,
+      is_trick: isTrick,
     },
     taxonomy: {
       area: data.area || "",

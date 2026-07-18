@@ -5,8 +5,8 @@ kanban-plugin: board
 ## Backlog
 
 - [ ] Phase 5: Supabase Storage media (charts/radiographs/photos)
-- [ ] Phase 7: deepen question bank — ongoing (batches 1-22 + sets feature; bank now 158 + 5 cases +
-      23 flashcards; batches 6-22 not yet seeded to live)
+- [ ] Phase 7: deepen question bank — ongoing (batches 1-22 + 7e trick batch + sets feature; bank
+      now 172 + 5 cases + 23 flashcards; batches 6-22 and the 7e batch not yet seeded to live)
 - [ ] Phase 7: testlet infra (importer parser/upsert + practice-loop stimulus wiring) — needed
       before a Community Health testlet can be authored
 
@@ -37,6 +37,14 @@ kanban-plugin: board
       therapy-chemotherapeutic agents/amoxicillin+metronidazole adjunct, local
       anesthesia/duration-of-action agent selection, anxiety and pain control-local
       anesthesia/beta-blocker+epinephrine interaction — 4 questions + 1 flashcard)
+- [ ] Phase 7: **topic-toggle relocate + trick questions (7f + 7e, requested directly, open in
+      PR #58)** — moved the by-method/by-topic toggle off `/settings` onto a `ModeToggle` at the
+      top of `/dashboard`; cases now surface under their best-fit topic on `/topics/[slug]`
+      (`caseTopicAreas()`); new `/topics` index reachable from a "Topic notes" Review tile. Added
+      `questions.is_trick` + `profiles.show_trick_badge` (migration pending manual apply), a
+      `/settings` toggle (off by default) showing a "Trick" badge in practice/the question bank
+      (never in `/mock`), `trick: true` importer + authoring-guidelines support, and a first batch
+      of 14 original trick items (one per score area — 172 questions total, not yet seeded live).
 
 ## Done (Phase 6)
 

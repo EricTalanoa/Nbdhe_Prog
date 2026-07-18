@@ -52,6 +52,10 @@ function toPracticeQuestion(q: RawQuestion, flaggedIds: Set<string>): PracticeQu
     options: [...q.options].sort((a, b) => a.sort_order - b.sort_order),
     correct_explanation: rationale?.correct_explanation ?? null,
     flagged: flaggedIds.has(q.id),
+    // The mock exam simulates real test conditions, where a trick item is never flagged —
+    // QuestionRenderer's badge never renders here regardless (MockExam doesn't pass
+    // showTrickBadge), so there's no need to even look this up.
+    is_trick: false,
   };
 }
 
