@@ -131,6 +131,25 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   textbook figures** — this app can't verify licensing on fetched images, and Rule 0's "own or
   properly licensed/created" bar (from `content-authoring-guidelines.md`'s case/media section)
   applies here too. Start with the 1-2 topics that benefit most from a diagram, not all 13 at once.
+  - Batch 1: deepened `lib/topics.ts` notes for **Anatomic Sciences** (enamel/dentin/pulp/
+    cementum layering, the CEJ as the fixed landmark, PDL/alveolar bone, why this area recurs
+    across others) and **Periodontal Disease Management** (host-response-driven pathogenesis,
+    gingivitis reversibility vs. periodontitis attachment loss, and the PD-vs-CAL distinction
+    that q-perio-0020 already tests) — both now multi-paragraph (`\n\n`-separated, rendered as
+    separate `<p>`s by `/topics/[slug]`). Added two original self-drawn SVG diagrams:
+    `components/topics/tooth-anatomy-diagram.tsx` (labeled crown/root cross-section: enamel,
+    dentin, pulp chamber + canal, cementum, CEJ, gingiva, PDL, alveolar bone) and
+    `components/topics/perio-pocket-diagram.tsx` (three side-by-side panels — healthy / gingivitis
+    / periodontitis — with PD measured from the gingival margin and CAL measured from the fixed
+    CEJ, so gingivitis visibly shows a deep PD with ~0 CAL while periodontitis shows both deep —
+    the exact concept the note above and q-perio-0020 test). Wired via a new `TOPIC_DIAGRAMS` map
+    in `lib/topics.ts`, rendered in the topic page's Overview section only for those two topics.
+    Verified by hand-rendering both SVGs standalone (this container has no Supabase egress/creds
+    to smoke-test the auth-gated `/topics/[slug]` route itself) and iterating on a Chromium
+    screenshot — caught and fixed a clipped "Alveolar bone" label and a pulp/gingiva color clash
+    before landing. Remaining 12 topics still have their 7c-era short placeholder notes and no
+    diagram; next batch should pick 1-2 more (Dental Radiography's radiographic landmarks and
+    Dental Hygiene Care Planning are good next candidates given their blueprint weight).
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.

@@ -19,8 +19,12 @@ kanban-plugin: board
       `/topics/[slug]` with notes first, then that topic's study options — PR #53. Migration
       `20260717000002_dashboard_mode.sql` needs a manual SQL-editor apply (degrades to `'method'`
       until then).
-- [ ] Phase 7: topic notes depth (7d, ongoing, priority for the next run, follows 7c) — deepen
-      each topic page's notes + add original SVG diagrams (never scraped photos), one batch per run
+- [~] Phase 7: topic notes depth (7d, ongoing, priority for the next run, follows 7c) — deepen
+      each topic page's notes + add original SVG diagrams (never scraped photos), one batch per run.
+      Batch 1: deepened Anatomic Sciences + Periodontal Disease Management notes to multi-paragraph
+      originals; added the first two diagrams (`components/topics/tooth-anatomy-diagram.tsx`,
+      `components/topics/perio-pocket-diagram.tsx`, wired via `TOPIC_DIAGRAMS` in `lib/topics.ts`).
+      12 of 14 topics still need a depth pass.
 - [~] Phase 7: bank depth (7b, ongoing, paused for 7d) — b1-b22 across all areas + 5 cases; bank now 158
       (batch 22: rotated depth across Care Planning/Perio Management/Local Anesthesia —
       instruction: oral conditions/dentin hypersensitivity management, prescribed

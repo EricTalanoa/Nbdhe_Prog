@@ -1,6 +1,6 @@
 ---
-updated: 2026-07-17
-phase: 7 — Content scale-up + niceties (7a-review-tools + 7c-topic-dashboard merged; 7b bank depth ongoing, batch 22)
+updated: 2026-07-18
+phase: 7 — Content scale-up + niceties (7a-review-tools + 7c-topic-dashboard merged; 7d-topic-notes-depth ongoing, batch 1; 7b bank depth paused)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -15,13 +15,20 @@ progress syncs across her devices).
 
 ## Current phase
 **Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
-merged (2026-07-17, PR #53).** `/settings` toggles `dashboard_mode` (`'method' | 'topic'`, new
-`profiles.dashboard_mode` column + migration `20260717000002_dashboard_mode.sql`, needs a manual
-SQL-editor apply like prior Phase 7 migrations — degrades to `'method'` until then). Topic mode
-renders `/dashboard` as a grid of the live taxonomy score areas (same distinct-`score_area`-by-
-`sort_order` query `/analytics` uses); each tile opens `/topics/[slug]` with a short original
-overview (`lib/topics.ts`) then Practice/Flashcards links scoped to that area. Next: 7d-topic-
-notes-depth deepens the notes + adds original SVG diagrams, then resume 7b-bank-depth. `/review` is an
+merged (2026-07-17, PR #53); 7d-topic-notes-depth ongoing (batch 1, 2026-07-18).** `/settings`
+toggles `dashboard_mode` (`'method' | 'topic'`, new `profiles.dashboard_mode` column + migration
+`20260717000002_dashboard_mode.sql`, needs a manual SQL-editor apply like prior Phase 7 migrations
+— degrades to `'method'` until then). Topic mode renders `/dashboard` as a grid of the live
+taxonomy score areas (same distinct-`score_area`-by-`sort_order` query `/analytics` uses); each
+tile opens `/topics/[slug]` with a short original overview (`lib/topics.ts`) then
+Practice/Flashcards links scoped to that area. **7d batch 1**: deepened the Anatomic Sciences and
+Periodontal Disease Management notes into multi-paragraph originals (rendered as separate `<p>`s),
+and added the first two original self-drawn SVG diagrams — `components/topics/tooth-anatomy-
+diagram.tsx` (labeled crown/root cross-section) and `components/topics/perio-pocket-diagram.tsx`
+(healthy/gingivitis/periodontitis panels contrasting probing depth against clinical attachment
+loss from the fixed CEJ), wired via a new `TOPIC_DIAGRAMS` map. 12 of 14 topics still need a depth
+pass; no diagram yet beyond those two. Next: continue 7d one batch at a time, then resume
+7b-bank-depth. `/review` is an
 SM-2-lite spaced-repetition flashcard queue (`lib/srs.ts`): pulls due + new cards, flip to reveal
 the correct answer + rationale, self-grade Again/Hard/Good/Easy to reschedule `due_at`; a "report
 a problem" form files a `question_reports` row. Migration `20260713000001_review_tools.sql`
@@ -193,11 +200,13 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
 ## Next actions
-1. **Next chunk: 7d-topic-notes-depth** (ongoing, one focused batch per run, same shape as
-   7b-bank-depth) — deepen each `/topics/[slug]` overview in `lib/topics.ts` with more
-   substantive original notes, and add original SVG diagrams (self-drawn line art only, never
-   scraped/downloaded images — same Rule-0-style licensing bar as case media) where a visual
-   clarifies the concept. Start with the 1-2 topics that benefit most, not all 14 at once.
+1. **Continue 7d-topic-notes-depth** (ongoing, one focused batch per run, same shape as
+   7b-bank-depth) — batch 1 deepened Anatomic Sciences + Periodontal Disease Management notes and
+   added their SVG diagrams (tooth cross-section, perio pocket PD-vs-CAL panels). Next batch:
+   pick 1-2 more topics — Dental Radiography (radiographic landmarks) and Dental Hygiene Care
+   Planning are good candidates given their blueprint weight — deepen their `lib/topics.ts` notes,
+   and add a diagram via the `TOPIC_DIAGRAMS` map in `components/topics/` if a visual clarifies
+   the concept (self-drawn line art only, never scraped/downloaded images).
 2. Resume **7b-bank-depth** (ongoing) after 7d batches — keep deepening the bank, one focused
    batch/run. Batch 22 rotated depth across Care Planning (instruction: oral conditions/dentin
    hypersensitivity management; anxiety and pain control-local anesthesia/beta-blocker +

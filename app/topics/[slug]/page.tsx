@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { BookOpen, Layers } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/page-header";
-import { topicSlug, TOPIC_NOTES, DEFAULT_TOPIC_NOTE } from "@/lib/topics";
+import { topicSlug, TOPIC_NOTES, DEFAULT_TOPIC_NOTE, TOPIC_DIAGRAMS } from "@/lib/topics";
 
 const PRACTICE_SET_SIZE = 10;
 
@@ -42,6 +42,8 @@ export default async function TopicPage({ params }: { params: { slug: string } }
   ).length;
 
   const note = TOPIC_NOTES[area] ?? DEFAULT_TOPIC_NOTE;
+  const noteParagraphs = note.split("\n\n");
+  const Diagram = TOPIC_DIAGRAMS[area];
   const practiceHref = `/practice?areas=${encodeURIComponent(area)}&n=${PRACTICE_SET_SIZE}`;
   const flashcardsHref = `/review?areas=${encodeURIComponent(area)}`;
 
@@ -53,7 +55,14 @@ export default async function TopicPage({ params }: { params: { slug: string } }
         <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
           Overview
         </h2>
-        <p className="text-sm leading-relaxed text-muted-foreground">{note}</p>
+        <div className="space-y-3">
+          {noteParagraphs.map((p, i) => (
+            <p key={i} className="text-sm leading-relaxed text-muted-foreground">
+              {p}
+            </p>
+          ))}
+        </div>
+        {Diagram && <Diagram />}
       </section>
 
       <section>
