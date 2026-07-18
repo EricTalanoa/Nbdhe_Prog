@@ -51,7 +51,7 @@ kanban-plugin: board
       (never in `/mock`), `trick: true` importer + authoring-guidelines support, and a first batch
       of 14 original trick items (one per score area — 172 questions total; `content:import` run
       locally, last known mid-troubleshooting a `service_role` key issue — confirm 172 rows live).
-- [ ] Phase 7: **practice-loop UX fixes (7g, requested directly)** — `PageHeader`
+- [ ] Phase 7: **practice-loop UX fixes (7g, requested directly, open in PR #60)** — `PageHeader`
       `backHref="back"` (`components/ui/back-button.tsx`) on `/practice/build` and `/sets` so
       "change filters"/"all sets" returns to wherever you actually came from, not a fixed
       `/dashboard`; `PracticeSession` gained "Skip for now" (defers to end of a local reorderable

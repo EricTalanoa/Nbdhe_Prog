@@ -180,7 +180,7 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     "End test now" button (previously timed-tests-only) is now always available, relabeled
     "End set now" for untimed sessions — the finish-summary logic already supported a partial
     `results` count (`"· ended early"`), it just had no way to trigger outside a timer running
-    out.
+    out. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/60
 - [ ] **7d-topic-notes-depth** — Ongoing, one focused batch per run (same shape as 7b-bank-depth):
   deepen each `/topics/[slug]` overview with more substantive original notes, and add **original
   SVG diagrams/illustrations** (simple line-art — tooth anatomy, perio pocket-depth chart,

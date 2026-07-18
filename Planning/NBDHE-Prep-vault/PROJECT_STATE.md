@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-18
-phase: 7 — Content scale-up + niceties (7a/7c/7f/7e merged; 7g-practice-ux open; 7d topic-notes-depth ongoing, batch 4 merged (PR #59); 7b bank depth ongoing, batch 22)
+phase: 7 — Content scale-up + niceties (7a/7c/7f/7e merged; 7g-practice-ux open in PR #60; 7d topic-notes-depth ongoing, batch 4 merged (PR #59); 7b bank depth ongoing, batch 22)
 ---
 
 # PROJECT_STATE — NBDHE Prep
