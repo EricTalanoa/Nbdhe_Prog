@@ -63,6 +63,7 @@ export default async function PracticeBuilderPage() {
     <main className="mx-auto max-w-2xl px-4 py-10">
       <PageHeader
         title="Build a practice set"
+        backHref="back"
         subtitle={
           <>
             Pick score areas, difficulty, and how many questions. {total} question

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bookmark, CheckCircle2, Sparkles, XCircle } from "lucide-react";
+import { Bookmark, CheckCircle2, SkipForward, Sparkles, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -42,10 +42,14 @@ function Stem({ format, stem }: { format: QuestionFormat; stem: string }) {
 export function QuestionRenderer({
   question,
   onAnswered,
+  onSkip,
   showTrickBadge = false,
 }: {
   question: PracticeQuestion;
   onAnswered: (correct: boolean, selectedOptionId: string | null, timeMs: number) => void;
+  // Defers this question to the end of the session's queue instead of forcing an answer.
+  // Omitted (no button rendered) when there's only one question left to skip to.
+  onSkip?: () => void;
   // Off unless the user opted in via Settings — the real exam never flags these, so the default
   // keeps practice realistic. See content-authoring-guidelines.md's "Trick questions" section.
   showTrickBadge?: boolean;
@@ -152,9 +156,17 @@ export function QuestionRenderer({
       </ul>
 
       {!submitted ? (
-        <Button className="mt-5" disabled={!selectedId} onClick={handleSubmit}>
-          Submit answer
-        </Button>
+        <div className="mt-5 flex items-center gap-3">
+          <Button disabled={!selectedId} onClick={handleSubmit}>
+            Submit answer
+          </Button>
+          {onSkip && (
+            <Button variant="ghost" size="sm" className="gap-1.5 text-muted-foreground" onClick={onSkip}>
+              <SkipForward className="size-3.5" />
+              Skip for now
+            </Button>
+          )}
+        </div>
       ) : (
         <div
           className={cn(

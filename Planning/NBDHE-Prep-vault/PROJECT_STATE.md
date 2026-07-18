@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-18
-phase: 7 — Content scale-up + niceties (7a-review-tools + 7c-topic-dashboard merged; 7f-topic-toggle-relocate + 7e-trick-questions open in PR #58; 7d topic-notes-depth ongoing, batch 4 open in PR #59; 7b bank depth ongoing, batch 22)
+phase: 7 — Content scale-up + niceties (7a/7c/7f/7e merged; 7g-practice-ux open; 7d topic-notes-depth ongoing, batch 4 merged (PR #59); 7b bank depth ongoing, batch 22)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -37,7 +37,13 @@ realistic), and a first content batch — one original trick item per score area
 often-quoted 13 — `Physiology` is its own reporting area too) spanning anatomy, physiology,
 biochemistry, microbiology, pathology, pharmacology, assessment, radiography, care planning,
 perio management, preventive agents, supportive services, professional responsibility, and
-research/community health. Bank now **172 questions**. **7d-topic-notes-
+research/community health. Bank now **172 questions**. **7g-practice-ux (requested directly,
+open):** a `PageHeader` `backHref="back"` sentinel (`components/ui/back-button.tsx`, calls
+`router.back()`) on `/practice/build` and `/sets` so "change filters"/"all sets" mid-flow doesn't
+strand you away from an in-progress set; `PracticeSession` gained a "Skip for now" button (defers
+the current question to the end of a local reorderable queue, `index`/`results` untouched) and an
+always-available "End set now" (previously timed-tests-only) so an untimed set can end early too.
+**7d-topic-notes-
 depth (ongoing):** batch 1 (PR #55, merged) deepened the "Anatomic Sciences" and "Periodontal
 Disease Management" overview notes with substantive original paragraphs, and added two hand-drawn
 SVG diagrams under `components/topics/` — `ToothAnatomyDiagram` (enamel/dentin/pulp/cementum/CEJ
@@ -236,16 +242,32 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 - Cases live (2026-07-12): `20260712000002_cases_testlets.sql` applied and `case-perio-0001` +
   its 2 linked items seeded — live now holds 35 questions, 1 case, 2 case-linked questions.
 
-## Next actions
-0. **PR #58 (7f-topic-toggle-relocate + 7e-trick-questions) is open, not yet merged.** Two new
-   migrations need a manual SQL-editor apply once it lands: `20260718000001_trick_questions.sql`
-   (`questions.is_trick`, `profiles.show_trick_badge`) alongside the still-pending
-   `20260717000002_dashboard_mode.sql`. Both degrade gracefully until applied. After merging,
-   confirm in a real browser session: the `ModeToggle` at the top of `/dashboard` actually switches
-   layouts; a topic with a linked case (e.g. Preventive Agents or Dental Hygiene Care Planning, via
-   `case-geri-0001`) shows a "Cases in this topic" section; and toggling "Trick-question indicator"
-   on in `/settings` shows the amber "Trick" badge on the 14 newly-authored items in `/practice`
-   and `/questions` (never in `/mock`, by design).
+0. **PR #58 merged; both migrations applied live** (`20260717000002_dashboard_mode.sql` and
+   `20260718000001_trick_questions.sql`). `npm run content:import` was run locally to seed the 172
+   questions (hit a `service_role` key masking issue mid-troubleshooting — the JWT secret was
+   rotated as part of resolving it — last known state was re-running the import with the freshly
+   rotated key; **confirm the run actually finished clean** and that `questions` shows 172 rows
+   with the 14 `is_trick=true` items live). Once confirmed, click-test: the `ModeToggle` at the top
+   of `/dashboard` switches layouts; a topic with a linked case (e.g. Preventive Agents or Dental
+   Hygiene Care Planning, via `case-geri-0001`) shows a "Cases in this topic" section; toggling
+   "Trick-question indicator" on in `/settings` shows the amber "Trick" badge in `/practice`/
+   `/questions` (never `/mock`); on `/practice`, "change filters"/"all sets" now has a real Back
+   button (`/practice/build`, `/sets`) instead of dumping you at `/dashboard`; and a practice
+   session shows "Skip for now" + "End set now".
+0.5. **Case media (charts/radiographs/photos) — still not started.** All 5 cases
+   (`case-perio-0001`, `case-pedo-0001`, `case-med-0001`, `case-geri-0001`, `case-spec-0001`) have
+   zero `case_media` rows; the importer has no media-authoring path (schema.md: "add via Supabase
+   Storage + a manual insert once a case needs it"), and `PatientBox`/`/cases/[slug]` already
+   render `media` whenever rows exist. This needs, in order: (1) a Supabase Storage bucket (public
+   read) — not created yet, matching the still-open board.md backlog item; (2) real, properly
+   licensed/owned images per Rule 0 (own clinical photos with identifiers removed, or licensed
+   educational dental photography — never AI-fabricated or scraped) for the concepts the project
+   owner was given directly in-conversation on 2026-07-18 (periodontal charting + generalized
+   erythema/calculus + a bone-loss radiograph for the perio case; white-spot lesions/early
+   cavitation on the maxillary primary incisors for the pedo case; heavy bleeding on
+   probing/subgingival calculus for the anticoagulated case; root-surface caries + xerostomia signs
+   for the geriatric case; generalized marginal inflammation for the special-needs case); (3)
+   upload + insert `case_media` rows (`case_id`, `kind`, `storage_path`, `caption`, `sort_order`).
 1. **Continue 7d-topic-notes-depth** (ongoing, one focused batch per run, same shape as
    7b-bank-depth) — batch 1 (PR #55, merged) deepened "Anatomic Sciences" and "Periodontal
    Disease Management"; batch 2 (PR #56) deepened "Dental Radiography" and "Preventive
@@ -287,10 +309,14 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    `*.supabase.co`, so `npm run content:import` can't run here — import from a machine with
    egress, or hand-seed via the SQL editor as batches 5/6 were; the 7e batch also needs the
    `is_trick` column from `20260718000001_trick_questions.sql` applied first).
-4. Rotate the Supabase `service_role` key (it was pasted into a chat on 2026-07-12 to seed the
-   sample case). Note: this container's network egress blocks `*.supabase.co`, so
-   `npm run content:import` can't run from Claude web sessions — apply migrations via the SQL
-   editor and seed with SQL, or run the importer from a machine with egress.
+4. ~~Rotate the Supabase `service_role` key~~ — **done 2026-07-18** (JWT secret rolled from the
+   Supabase dashboard, which regenerates both `anon` and `service_role`; the old key from the
+   2026-07-12 chat exposure — and a second masked-paste incident on 2026-07-18 — is invalidated).
+   Rotating signs out any active sessions (magic-link re-login only, no data loss); `.env.local`
+   was updated with the new `anon` key. Note: this container's network egress still blocks
+   `*.supabase.co`, so `npm run content:import` can't run from Claude web sessions — apply
+   migrations via the SQL editor and seed with SQL, or run the importer from a machine with
+   egress.
 
 ## Stack (decided)
 - Frontend: Next.js 14 App Router · TypeScript · Tailwind · shadcn/ui · PWA (manifest + SW)
