@@ -24,6 +24,47 @@ export function topicSlug(scoreArea: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
+// A case has no score_area of its own — per schema.md, a case-linked question keeps its own
+// discipline taxonomy_id, and `case_id` is a separate link. To decide which topic a case
+// "belongs to" for the by-exam-topic dashboard, take the most common score_area among its linked
+// approved items; ties break toward the area that sorts first in the blueprint (lowest
+// sort_order), so the result is deterministic even for a case whose items are evenly split
+// across two areas.
+export type CaseAreaRow = { case_id: string; score_area: string | null };
+
+export function caseTopicAreas(
+  rows: CaseAreaRow[],
+  areaOrder: Map<string, number>
+): Map<string, string> {
+  const counts = new Map<string, Map<string, number>>();
+  for (const r of rows) {
+    if (!r.case_id || !r.score_area) continue;
+    let byArea = counts.get(r.case_id);
+    if (!byArea) {
+      byArea = new Map();
+      counts.set(r.case_id, byArea);
+    }
+    byArea.set(r.score_area, (byArea.get(r.score_area) ?? 0) + 1);
+  }
+
+  const result = new Map<string, string>();
+  for (const [caseId, byArea] of Array.from(counts.entries())) {
+    let bestArea: string | null = null;
+    let bestCount = -1;
+    let bestOrder = Infinity;
+    for (const [area, count] of Array.from(byArea.entries())) {
+      const order = areaOrder.get(area) ?? Infinity;
+      if (count > bestCount || (count === bestCount && order < bestOrder)) {
+        bestArea = area;
+        bestCount = count;
+        bestOrder = order;
+      }
+    }
+    if (bestArea) result.set(caseId, bestArea);
+  }
+  return result;
+}
+
 // Short, original placeholder overviews (Rule 0: written from general dental-hygiene knowledge,
 // not copied from any source text). Depth pass is 7d — this is intentionally brief for now.
 export const TOPIC_NOTES: Record<string, string> = {

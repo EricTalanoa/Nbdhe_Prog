@@ -27,5 +27,4 @@ export async function setDashboardMode(formData: FormData): Promise<void> {
   }
 
   revalidatePath("/dashboard");
-  revalidatePath("/settings");
 }

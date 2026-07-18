@@ -9,6 +9,7 @@ import {
   Layers,
   LayoutGrid,
   LogOut,
+  NotebookText,
   RotateCcw,
   Settings,
   SlidersHorizontal,
@@ -18,7 +19,9 @@ import {
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
-import { topicSlug } from "@/lib/topics";
+import { ModeToggle } from "@/components/dashboard/mode-toggle";
+import { TopicGrid } from "@/components/topics/topic-grid";
+import type { DashboardMode } from "@/app/dashboard/actions";
 
 type Tile = { href: string; icon: LucideIcon; title: string; desc: string };
 
@@ -37,6 +40,7 @@ const GROUPS: { label: string; tiles: Tile[] }[] = [
       { href: "/review", icon: Layers, title: "Flashcards", desc: "Spaced-repetition recall of due cards" },
       { href: "/practice?mode=missed", icon: RotateCcw, title: "Review missed", desc: "Retry questions you've gotten wrong" },
       { href: "/practice?mode=flagged", icon: Flag, title: "Review flagged", desc: "Questions you flagged to revisit" },
+      { href: "/topics", icon: NotebookText, title: "Topic notes", desc: "Browse each area's overview + diagrams" },
     ],
   },
   {
@@ -69,18 +73,6 @@ function TileCard({ tile }: { tile: Tile }) {
   );
 }
 
-function TopicTile({ area }: { area: string }) {
-  return (
-    <Link
-      href={`/topics/${topicSlug(area)}`}
-      className="group flex items-center gap-3 rounded-xl border bg-card p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
-    >
-      <span className="min-w-0 flex-1 font-medium leading-tight">{area}</span>
-      <ChevronRight className="size-4 shrink-0 text-muted-foreground/50 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
-    </Link>
-  );
-}
-
 export default async function DashboardPage() {
   const supabase = createClient();
   const {
@@ -97,21 +89,8 @@ export default async function DashboardPage() {
     .select("dashboard_mode")
     .eq("id", user.id)
     .maybeSingle();
-  const topicMode = profile?.dashboard_mode === "topic";
-
-  // Same live taxonomy query /analytics uses: dedupe score_area, keep the min sort_order seen.
-  let topicAreas: string[] = [];
-  if (topicMode) {
-    const { data: taxRows } = await supabase.from("taxonomy").select("score_area, sort_order");
-    const areaOrder = new Map<string, number>();
-    for (const t of (taxRows ?? []) as { score_area: string; sort_order: number }[]) {
-      const cur = areaOrder.get(t.score_area);
-      if (cur === undefined || t.sort_order < cur) areaOrder.set(t.score_area, t.sort_order);
-    }
-    topicAreas = Array.from(areaOrder.entries())
-      .sort((a, b) => a[1] - b[1])
-      .map(([area]) => area);
-  }
+  const mode: DashboardMode = profile?.dashboard_mode === "topic" ? "topic" : "method";
+  const topicMode = mode === "topic";
 
   async function signOut() {
     "use server";
@@ -122,14 +101,17 @@ export default async function DashboardPage() {
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-10">
-      <header className="mb-10 flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-semibold tracking-tight">NBDHE Prep</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Signed in as <span className="font-medium text-foreground">{user.email}</span>
-          </p>
+      <header className="mb-10">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-semibold tracking-tight">NBDHE Prep</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Signed in as <span className="font-medium text-foreground">{user.email}</span>
+            </p>
+          </div>
+          <ModeToggle mode={mode} />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="mt-4 flex items-center gap-2">
           <Link href="/settings">
             <Button variant="outline" size="sm" type="button" className="gap-1.5">
               <Settings className="size-3.5" />
@@ -150,15 +132,7 @@ export default async function DashboardPage() {
           <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             By exam topic
           </h2>
-          {topicAreas.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No topics yet.</p>
-          ) : (
-            <div className="grid gap-3 sm:grid-cols-2">
-              {topicAreas.map((area) => (
-                <TopicTile key={area} area={area} />
-              ))}
-            </div>
-          )}
+          <TopicGrid />
         </div>
       ) : (
         <div className="space-y-8">
