@@ -26,11 +26,16 @@ kanban-plugin: board
       (`components/topics/`, wired via `TOPIC_DIAGRAMS`). Batch 3 (PR #57): deepened "Patient
       Assessment" (six-point periodontal probing, reading a probe's mm markings) + "Pharmacology"
       (LA sodium-channel blockade, differential fiber blockade, IANB as the highest-yield
-      injection) notes, added `PeriodontalChartingDiagram` + `NerveBlockLandmarksDiagram`. 6/13
-      topics now have a diagram. Next batch: pick 1-2 more (remaining topics without one:
-      Physiology, Biochemistry and Nutrition, Microbiology and Immunology, Pathology, Dental
-      Hygiene Care Planning, Supportive Treatment Services, Professional Responsibility, Research
-      Principles and Community Health).
+      injection) notes, added `PeriodontalChartingDiagram` + `NerveBlockLandmarksDiagram`. Batch 4
+      (PR #59, open): deepened "Biochemistry and Nutrition" (the Stephan curve — plaque pH vs.
+      time after a sugar exposure, why exposure frequency beats total sugar quantity, vitamin
+      C/collagen hydroxylation) + "Microbiology and Immunology" (dental plaque biofilm formation
+      as an ordered succession — pellicle, early colonizers, Fusobacterium-mediated
+      coaggregation, mature biofilm's anaerobic red complex) notes, added `StephanCurveDiagram` +
+      `BiofilmFormationDiagram`. 8/13 topics now have a diagram. Next batch: pick 1-2 more
+      (remaining topics without one: Physiology, Pathology, Dental Hygiene Care Planning,
+      Supportive Treatment Services, Professional Responsibility, Research Principles and
+      Community Health).
 - [~] Phase 7: bank depth (7b, ongoing, paused for 7d) — b1-b22 across all areas + 5 cases; bank now 158
       (batch 22: rotated depth across Care Planning/Perio Management/Local Anesthesia —
       instruction: oral conditions/dentin hypersensitivity management, prescribed
