@@ -432,6 +432,19 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   authored cards, merged into `/review` with their own SM-2 schedule (PR #30). New migration +
   10 cards need a live apply/seed.
 
+  Case bank (owner request, 2026-07-19): added two new patient cases to broaden the case-based
+  component's demographic/scenario coverage — case-preg-0001 (healthy adult, 24-weeks-pregnant,
+  pregnancy-associated gingivitis + pregnancy epulis; linked items q-preg-0001 supine hypotensive
+  syndrome positioning, q-preg-0002 plaque-etiology-under-hormonal-exaggeration management) and
+  case-orth-0001 (14-year-old in fixed orthodontic appliances with non-cavitated white-spot
+  lesions; linked items q-orth-0001 white-spot = remineralizable early caries, q-orth-0002
+  orthodontic home-care/diet-frequency caries control). Cases surface under their linked items'
+  score areas via `caseTopicAreas()`, so both appear on the relevant `/topics/[slug]` pages
+  (Patient Assessment, Dental Hygiene Care Planning, Preventive Agents). Bank now 7 cases.
+  (The referenced open-exam-prep.com strategy article was blocked by this environment's egress
+  policy, so the cases were authored to the blueprint's own case-type list per Rule 0, not from
+  that page.)
+
   Open item for a future batch: a Community Health testlet (scenario + linked items) is still
   unauthored — the `testlets` table exists (schema.md) and question notes already carry a
   `testlet` frontmatter field, but `scripts/import-questions.mjs` has no testlet parser/upsert
