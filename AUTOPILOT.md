@@ -445,6 +445,25 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
   policy, so the cases were authored to the blueprint's own case-type list per Rule 0, not from
   that page.)
 
+  Case bank, round 2 (owner request, 2026-07-19): after the owner pasted the case-based-strategy
+  article's content, added three cases built around its systematic workflow (read medical history →
+  interpret radiographs/charting → prioritize) and its question categories, targeting real gaps:
+  - case-perio-0002 (flagship comprehensive case — uncontrolled T2DM + smoking + severe
+    hypertension + advanced periodontitis, with a full periodontal chart, radiographic bone-loss
+    pattern, and active caries). Four linked items walk the workflow: q-perio-0026 (2017 AAP
+    staging/grading → Generalized Stage III, Grade C), q-plan-0027 (CAMBRA caries-risk level →
+    high), q-plan-0028 (treatment sequencing → nonsurgical disease-control phase first), and
+    q-asmt-0012 (BP 186/114 → defer elective care + medical referral, a "contraindications"
+    decision).
+  - case-med-0002 (bisphosphonate/MRONJ — non-healing extraction site with exposed bone in a
+    patient on oral + IV antiresorptives; previously uncovered). Linked: q-med-0004 (recognize
+    MRONJ; nonsurgical hygiene care safe, avoid/refer bone-invasive procedures) and q-phar-0004
+    (mechanism — osteoclast inhibition, IV > oral risk).
+  - case-path-0001 (oral-pathology screening — persistent indurated erythroleukoplakic
+    lateral-tongue lesion in a heavy tobacco/alcohol user). Linked: q-asmt-0013 (refer for biopsy to
+    rule out SCC) and q-path-0007 (erythroplakia > leukoplakia risk; lateral tongue/floor of mouth =
+    high-risk sites). Bank now 10 cases, 191 notes. `content:check` + `build` pass.
+
   Open item for a future batch: a Community Health testlet (scenario + linked items) is still
   unauthored — the `testlets` table exists (schema.md) and question notes already carry a
   `testlet` frontmatter field, but `scripts/import-questions.mjs` has no testlet parser/upsert
