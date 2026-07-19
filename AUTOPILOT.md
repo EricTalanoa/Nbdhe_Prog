@@ -258,6 +258,24 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.
+  - Batch 23 (this run — "lowest-volume topic areas"): instead of the usual high-yield rotation,
+    this batch deepened the five *thinnest* score areas by question count, leveling each to an even
+    6 items. Before: Community Health 4, Physiology 4, Biochemistry and Nutrition 5, Microbiology
+    and Immunology 5, Pathology 5. Added: q-comm-0005 (Community Health/promoting health: levels of
+    prevention — a school sealant program as primary prevention vs. secondary/tertiary),
+    q-comm-0006 (Community Health/assessing-designing-evaluating: prevalence vs. incidence from a
+    cross-sectional survey), q-phys-0005 (Physiology: ordered sequence of hemostasis — vascular
+    spasm as the first event), q-phys-0006 (Physiology: osteoclast as the bone-resorbing cell in
+    periodontal bone loss), q-bioc-0006 (Biochemistry and Nutrition/Nutrition: angular cheilitis +
+    atrophic glossitis as B-complex/iron deficiency signs, contrasted with vitamin C's bleeding
+    gingiva), q-immu-0003 (Microbiology and Immunology/Immunology: host MMPs and inflammatory
+    mediators as the direct driver of collagen/bone destruction, reinforcing the host-response
+    theme), q-path-0006 (Pathology/general pathology: invasion + metastasis as the defining feature
+    of malignancy). Plus 2 flashcards (fc-comm-0001 levels of prevention, fc-path-0002 benign vs.
+    malignant). All 5 areas now sit at 6 items. `npm run content:check` passes (179 notes, 25
+    flashcards); `npm run build` compiles. Next batch: Research Principles (7) and the discipline
+    areas are still thinner than the clinical ones — keep leveling up the lower-volume areas, or
+    resume high-yield rotation per the guidelines.
   - Batch 22 (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/50): rotated depth across Care Planning, Perio Management, and both
     Local-Anesthesia-tagged areas — q-plan-0025 (Care Planning/individualized patient education-
     instruction: oral conditions: dentin hypersensitivity management, potassium nitrate vs.
