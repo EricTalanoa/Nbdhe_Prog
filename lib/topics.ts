@@ -10,6 +10,23 @@
 // `TOPIC_DIAGRAMS` below.
 
 import type { ComponentType } from "react";
+import {
+  Activity,
+  Bone,
+  ClipboardList,
+  FlaskConical,
+  HeartPulse,
+  Microscope,
+  NotebookText,
+  Pill,
+  ScanLine,
+  Scale,
+  ShieldAlert,
+  ShieldCheck,
+  Users,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 import { ToothAnatomyDiagram } from "@/components/topics/tooth-anatomy-diagram";
 import { PerioPocketDiagram } from "@/components/topics/perio-pocket-diagram";
 import { RadiographicLandmarksDiagram } from "@/components/topics/radiographic-landmarks-diagram";
@@ -234,3 +251,26 @@ export const TOPIC_DIAGRAMS: Record<string, ComponentType> = {
   "Microbiology and Immunology": BiofilmFormationDiagram,
   "Biochemistry and Nutrition": StephanCurveDiagram,
 };
+
+// Small per-topic glyphs for the dashboard's by-exam-topic grid (8b-dashboard-polish) — purely
+// decorative, so an area with no entry just falls back to a generic icon rather than breaking.
+const TOPIC_ICONS: Record<string, LucideIcon> = {
+  "Anatomic Sciences": Bone,
+  Physiology: HeartPulse,
+  "Biochemistry and Nutrition": FlaskConical,
+  "Microbiology and Immunology": Microscope,
+  Pathology: Activity,
+  Pharmacology: Pill,
+  "Patient Assessment": ClipboardList,
+  "Dental Radiography": ScanLine,
+  "Dental Hygiene Care Planning": NotebookText,
+  "Periodontal Disease Management": ShieldAlert,
+  "Preventive Agents": ShieldCheck,
+  "Supportive Treatment Services": Wrench,
+  "Professional Responsibility": Scale,
+  "Research Principles and Community Health": Users,
+};
+
+export function topicIcon(scoreArea: string): LucideIcon {
+  return TOPIC_ICONS[scoreArea] ?? NotebookText;
+}

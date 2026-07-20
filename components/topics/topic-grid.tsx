@@ -1,17 +1,21 @@
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
-import { topicSlug } from "@/lib/topics";
+import { topicIcon, topicSlug } from "@/lib/topics";
 
 // Shared by the by-exam-topic dashboard mode and the standalone /topics index (reachable from the
 // "Review" group in by-study-method mode) so both stay in sync with the live taxonomy instead of
 // a hardcoded list.
 export function TopicTile({ area }: { area: string }) {
+  const Icon = topicIcon(area);
   return (
     <Link
       href={`/topics/${topicSlug(area)}`}
       className="group flex items-center gap-3 rounded-xl border bg-card p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
     >
+      <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+        <Icon className="size-4" />
+      </span>
       <span className="min-w-0 flex-1 font-medium leading-tight">{area}</span>
       <ChevronRight className="size-4 shrink-0 text-muted-foreground/50 transition-transform group-hover:translate-x-0.5 group-hover:text-primary" />
     </Link>
