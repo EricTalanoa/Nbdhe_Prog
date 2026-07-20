@@ -199,9 +199,48 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
   signed-in-as on the left, `ModeToggle` + icon-only ghost Settings/Sign-out buttons grouped on
   the right — plus small `mb-3→mb-4` / `space-y-8→space-y-9` spacing bumps between sections. No
   new tiles or migrations; `npm run content:check` (191/191 notes) and `npm run build` both pass.
-- [ ] **8c-injection-hardening** — Pre-public-launch security pass: bulletproof against injection
-  (SQL via Supabase/RLS, XSS in any user-entered or rendered content, auth/session edge cases,
-  the content importer). Enumerate and test the attack cases. Consider running `/security-review`.
+- [x] **8c-injection-hardening** (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/68) —
+  Pre-public-launch security pass: enumerated and tested the attack surface across SQL/RLS,
+  XSS, auth/session edge cases, and the content importer. Full findings:
+  - **SQL/RLS**: every Supabase call in `app/**`/`lib/**` uses the parameterized query builder
+    (`.eq()`/`.in()`/`.insert()`/`.upsert()`) — zero string-built filters. All 12 tables' RLS
+    policies in `supabase/migrations/*.sql` reviewed: every user-owned table is owner-only
+    (`auth.uid() = user_id`) on every op it supports, every content table (taxonomy/questions/
+    options/rationales/cases/testlets/case_media/flashcards) is authenticated-read-only with no
+    client write policy. Clean.
+  - **XSS**: every content/user-input render path (question stems/options/rationales, case
+    patient boxes, flashcards, the `/review` report-a-problem form) is plain JSX text
+    interpolation (React-escaped); the one `dangerouslySetInnerHTML` (landing page) renders a
+    static, non-interpolated CSS string. No markdown-to-HTML rendering anywhere. Clean.
+  - **Auth/session**: all 17 server-side auth checks use `getUser()` (never the unsafe
+    `getSession()`); `app/auth/confirm/route.ts` redirects only to hardcoded targets (no
+    open-redirect); every server action derives `user_id` from the authenticated session, never
+    client input. Clean.
+  - **Content importer** (`scripts/import-questions.mjs`): reads a fixed local directory (no
+    path traversal), a plain regex frontmatter parser (no YAML/eval), parameterized DB writes.
+    Clean.
+  - **Fixed**: `app/practice/actions.ts`'s `recordResponse`/`finishSession` trusted a
+    client-supplied `isCorrect`/`ScoreSummary` and a client-supplied `sessionId` with no
+    ownership check (the FK only requires the session to exist, not that the caller owns it) —
+    now verifies session ownership and recomputes correctness/score server-side from
+    `options.is_correct`/the session's own `responses` rows, closing a self-scoring integrity
+    gap (not a cross-user leak — RLS already scoped everything to `auth.uid()`).
+    `scripts/export-seed-sql.mjs`'s `dq()` dollar-quote guard blocked a literal `$$` in content
+    but not content ending in a trailing lone `$` (which shifts the closing delimiter one
+    character early and corrupts the generated SQL) — now rejects that too.
+  - **Added**: a baseline security-header set (CSP, `X-Frame-Options: DENY`,
+    `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`, HSTS) via
+    `next.config.mjs`. Verified against a real production build (`npm run build` + `next start`)
+    with a headless-Chromium smoke test of `/` and `/login` — this caught, before it shipped,
+    that a strict `script-src 'self'` breaks Next.js App Router hydration entirely (it streams
+    hydration data through inline `<script>` tags); kept `'unsafe-inline'` for `script-src`/
+    `style-src` as a documented tradeoff, with a nonce-based CSP noted as a follow-up once it can
+    be tested against a live Supabase project (this environment's egress can't reach
+    `*.supabase.co`). Also click-tested the sign-in modal's `signInWithOtp` fetch against a
+    placeholder Supabase host to confirm `connect-src` doesn't block it.
+  - Open follow-up for the owner: click-test a real practice/mock session end-to-end against
+    the live project to confirm `/analytics` scores still look right after the server-side
+    recompute.
 - [ ] **8d-theme-toggle** — A light/dark mode setting (persisted per account like `dashboard_mode`
   / `show_trick_badge`), wired app-wide via the existing HSL theme tokens in `app/globals.css`.
 - [ ] **8e-progress-reset** — Let a user edit/reset their study progress per topic (clear

@@ -124,7 +124,6 @@ export function PracticeSession({
       sessionId,
       questionId: question.id,
       selectedOptionId,
-      isCorrect: correct,
       timeMs,
     });
   }

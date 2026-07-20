@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-20
-phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish open PR #67; 7d/7b ongoing in the background)
+phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening open PR #68; 7d/7b ongoing in the background)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -17,13 +17,23 @@ progress syncs across her devices).
 **Phase 8 — Launch readiness (owner-requested, 2026-07-20), ahead of the ongoing 7b/7d depth
 batches: 8a-signin-modal merged (PR #66) — the landing page's "Sign in"/"Start practicing" CTAs
 open the magic-link form in a modal instead of navigating to `/login` (kept as a working fallback
-route). 8b-dashboard-polish open (PR #67, this run) — `TopicTile` (by-exam-topic grid, shared with
-the `/topics` index) gained a small per-area Lucide icon (`topicIcon()` lookup in `lib/topics.ts`,
+route). 8b-dashboard-polish merged (PR #67) — `TopicTile` (by-exam-topic grid, shared with the
+`/topics` index) gained a small per-area Lucide icon (`topicIcon()` lookup in `lib/topics.ts`,
 generic fallback for an unmapped area); `/dashboard`'s header collapsed from two rows into one
 toolbar row (title/email left, mode toggle + icon-only Settings/Sign-out right) with small spacing
-bumps between sections — no new tiles, no migration. Next AUTOPILOT chunk:
-8c-injection-hardening (pre-launch security pass — SQL/RLS, XSS, auth/session edge cases, the
-importer; consider `/security-review`).**
+bumps between sections — no new tiles, no migration. 8c-injection-hardening open (PR #68, this
+run) — a full pre-launch security audit (RLS on all 12 tables, Supabase query construction, XSS
+render paths, auth/session/magic-link flow, content importer) came back clean; fixed the two gaps
+it found — `recordResponse`/`finishSession` (`app/practice/actions.ts`) now verify session
+ownership and recompute correctness/score server-side instead of trusting client-supplied values
+(closes a self-scoring integrity gap, not a cross-user leak — RLS already scoped everything to
+`auth.uid()`), and `export-seed-sql.mjs`'s dollar-quote guard now also rejects content ending in a
+trailing lone `$`. Added a baseline security-header set (CSP, X-Frame-Options, X-Content-Type-
+Options, Referrer-Policy, Permissions-Policy, HSTS) via `next.config.mjs`, verified with a real
+production build + headless-Chromium smoke test (caught a strict `script-src` breaking Next.js
+App Router hydration before it shipped — kept `'unsafe-inline'` as a documented tradeoff, a
+nonce-based CSP is a noted follow-up). Next AUTOPILOT chunk: 8d-theme-toggle (light/dark mode
+setting, persisted per account like `dashboard_mode`).**
 
 Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
 merged (2026-07-17, PR #53).** `/dashboard` renders the `dashboard_mode` (`'method' | 'topic'`,

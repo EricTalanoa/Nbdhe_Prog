@@ -274,7 +274,6 @@ export function MockExam({
       sessionId,
       questionId: item.question.id,
       selectedOptionId,
-      isCorrect: correct,
       timeMs,
     });
   }

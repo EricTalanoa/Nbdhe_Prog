@@ -51,7 +51,6 @@ export async function recordResponse(params: {
   sessionId: string | null;
   questionId: string;
   selectedOptionId: string | null;
-  isCorrect: boolean;
   timeMs?: number;
 }): Promise<void> {
   if (!params.sessionId) return;
@@ -59,12 +58,37 @@ export async function recordResponse(params: {
   const userId = await currentUserId(supabase);
   if (!userId) return;
 
+  // The sessions FK only requires session_id to reference an existing row, not one this
+  // user owns — confirm ownership before attaching a response to it.
+  const { data: session } = await supabase
+    .from("sessions")
+    .select("id")
+    .eq("id", params.sessionId)
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (!session) return;
+
+  // Recompute correctness server-side from the option's real is_correct flag instead of
+  // trusting a client-supplied value — options are already readable by any authenticated
+  // user, so there's no secrecy to protect, but a client shouldn't be able to self-report a
+  // wrong answer as right and inflate their own readiness/analytics numbers.
+  let isCorrect = false;
+  if (params.selectedOptionId) {
+    const { data: option } = await supabase
+      .from("options")
+      .select("is_correct")
+      .eq("id", params.selectedOptionId)
+      .eq("question_id", params.questionId)
+      .maybeSingle();
+    isCorrect = option?.is_correct ?? false;
+  }
+
   const { error } = await supabase.from("responses").insert({
     session_id: params.sessionId,
     user_id: userId,
     question_id: params.questionId,
     selected_option_id: params.selectedOptionId,
-    is_correct: params.isCorrect,
+    is_correct: isCorrect,
     time_ms: params.timeMs ?? null,
   });
   if (error) {
@@ -75,10 +99,27 @@ export async function recordResponse(params: {
 export async function finishSession(sessionId: string | null, summary: ScoreSummary): Promise<void> {
   if (!sessionId) return;
   const supabase = createClient();
+  const userId = await currentUserId(supabase);
+  if (!userId) return;
+
+  // Recompute the score summary from this session's own persisted responses rather than
+  // trusting the client-supplied summary. Falls back to the client value only if the
+  // responses table isn't queryable (e.g. migration not applied yet).
+  const { data: responseRows, error: fetchErr } = await supabase
+    .from("responses")
+    .select("is_correct")
+    .eq("session_id", sessionId)
+    .eq("user_id", userId);
+
+  const total = !fetchErr && responseRows ? responseRows.length : summary.total;
+  const correct = !fetchErr && responseRows ? responseRows.filter((r) => r.is_correct).length : summary.correct;
+  const percent = total > 0 ? Math.round((correct / total) * 100) : summary.percent;
+
   const { error } = await supabase
     .from("sessions")
-    .update({ finished_at: new Date().toISOString(), score_summary: summary })
-    .eq("id", sessionId);
+    .update({ finished_at: new Date().toISOString(), score_summary: { total, correct, percent } })
+    .eq("id", sessionId)
+    .eq("user_id", userId);
   if (error) {
     console.error("finishSession: failed to finalize session", error.message);
   }
