@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-20
-phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle open, this run; 7d/7b ongoing in the background)
+phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset open, this run; 7d/7b ongoing in the background)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -43,8 +43,20 @@ on mount, and a `/settings` 3-way Light/Dark/System toggle applies instantly cli
 persists via a new `setTheme` server action. Verified with a real production build + a
 headless-Chromium smoke test (forcing `localStorage` dark/light and reloading correctly toggled
 the class + computed `--background` var before paint; `/settings` still auth-redirects; CSP/
-security headers from 8c untouched, zero console errors). Next AUTOPILOT chunk: 8e-progress-reset
-(let a user edit/reset study progress per topic, confirm step, owner-only RLS respected).**
+security headers from 8c untouched, zero console errors). **8e-progress-reset open (this run)** —
+a "Danger zone" card on `/topics/[slug]` (`components/topics/reset-progress.tsx`) two-step-confirms
+(first click arms it, second deletes) then calls a new `resetTopicProgress` server action
+(`app/topics/actions.ts`) that clears the signed-in user's own study history for that one topic:
+`responses` for that topic's questions, any `sessions` left empty afterward (a session mixing this
+topic with others, like a multi-area builder set or mock exam, keeps its other responses and isn't
+deleted), `bookmarks`, `review_schedule`, and `flashcard_schedule` for that area's dedicated
+flashcards — every delete additionally scoped to `eq("user_id", userId)`. `sessions`/`responses`
+never had an owner-delete RLS policy (only select/insert/update); migration
+`20260721000001_progress_reset_delete_policies.sql` adds one (manual apply pending, same pattern
+as prior migrations) — until applied, deletes against those two tables are silently denied by RLS
+(0 rows), so the action compares expected-vs-actual deleted counts and surfaces
+`migrationPending: true` to the UI instead of falsely claiming a full reset. Next AUTOPILOT chunk:
+8f-content-thin-areas (continue 7b-style gap-driven content in the least-populated score areas).**
 
 Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
 merged (2026-07-17, PR #53).** `/dashboard` renders the `dashboard_mode` (`'method' | 'topic'`,

@@ -267,8 +267,23 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
   to `"dark"`/`"light"` and reloading correctly toggles the `dark` class and the computed
   `--background` CSS var before paint, and that `/settings` still auth-redirects to `/login` and
   the CSP/security headers from 8c are untouched — zero console errors or CSP violations.
-- [ ] **8e-progress-reset** — Let a user edit/reset their study progress per topic (clear
-  responses/sessions/schedules for a score area), with a confirm step. Owner-only RLS respected.
+- [x] **8e-progress-reset** — A "Danger zone" section on `/topics/[slug]`
+  (`components/topics/reset-progress.tsx`) with a two-step confirm (the first click only arms it;
+  a second click actually deletes) calls a new `resetTopicProgress` server action
+  (`app/topics/actions.ts`) that clears the signed-in user's own study history for that one
+  score area: `responses` for that topic's questions, any `sessions` left empty afterward (a
+  session that mixed this topic with others — a multi-area builder set, a mock exam — keeps its
+  remaining responses and isn't deleted), `bookmarks` (flags/notes), `review_schedule` (question
+  SRS), and `flashcard_schedule` for that area's dedicated flashcards. Every delete is scoped to
+  `eq("user_id", userId)` in addition to RLS. `sessions`/`responses` never had an owner-delete RLS
+  policy (only select/insert/update from `20260712000001_sessions_responses.sql`) — added via
+  migration `20260721000001_progress_reset_delete_policies.sql` (manual apply pending, same
+  pattern as prior migrations). Until applied, a delete against those two tables is silently
+  denied by RLS (0 rows) rather than erroring, so the action compares expected vs. actually-
+  deleted row counts and reports `migrationPending: true` back to the UI instead of claiming a
+  false "fully cleared" — bookmarks/review_schedule/flashcard_schedule (which already had delete
+  policies) are unaffected either way. `npm run content:check` (191/191 notes) and `npm run build`
+  both pass.
 - [ ] **8f-content-thin-areas** — Continue adding questions, flashcards, and cases in the
   least-populated score areas (same as the 7b workflow but explicitly gap-driven).
 - [ ] **8g-blueprint-audit** — Audit the current taxonomy + content against the 2026 NBDHE

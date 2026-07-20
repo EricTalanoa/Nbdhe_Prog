@@ -43,8 +43,16 @@ Owner priority: these come **before** the ongoing 7b/7d depth batches below.
       a new `setTheme` server action. Verified with a real production build + a headless-Chromium
       smoke test (class + computed `--background` var toggle correctly on reload; `/settings`
       still auth-redirects; CSP/security headers from 8c untouched).
-- [ ] Phase 8: progress reset (8e) — let a user edit/reset study progress per topic, confirm step,
-      owner-only RLS respected.
+- [x] Phase 8: **progress reset (8e, this run)** — a "Danger zone" card on `/topics/[slug]`
+      (`components/topics/reset-progress.tsx`) two-step-confirms then clears the signed-in user's
+      own responses (and any session left with nothing else in it), question flags/notes, and
+      both spaced-repetition schedules (question review + dedicated flashcards) for that one
+      topic — `resetTopicProgress` in the new `app/topics/actions.ts`, owner-scoped to
+      `auth.uid()` on every delete. Migration `20260721000001_progress_reset_delete_policies.sql`
+      adds owner-delete RLS policies `sessions`/`responses` never had (manual apply pending,
+      same pattern as prior migrations); until applied, the reset still clears bookmarks/
+      schedules but reports back that some session/response history couldn't be removed yet
+      instead of silently claiming success.
 - [ ] Phase 8: content thin-areas (8f) — continue 7b-style gap-driven content in the
       least-populated score areas.
 - [ ] Phase 8: blueprint audit (8g) — confirm taxonomy/content still matches the published 2026
