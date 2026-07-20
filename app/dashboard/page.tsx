@@ -100,45 +100,45 @@ export default async function DashboardPage() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10">
-      <header className="mb-10">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-semibold tracking-tight">NBDHE Prep 2026</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Signed in as <span className="font-medium text-foreground">{user.email}</span>
-            </p>
-          </div>
-          <ModeToggle mode={mode} />
+    <main className="mx-auto max-w-3xl px-4 py-10 sm:py-12">
+      <header className="mb-10 flex flex-wrap items-center justify-between gap-y-4 gap-x-6">
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">NBDHE Prep 2026</h1>
+          <p className="mt-1.5 text-sm text-muted-foreground">
+            Signed in as <span className="font-medium text-foreground">{user.email}</span>
+          </p>
         </div>
-        <div className="mt-4 flex items-center gap-2">
-          <Link href="/settings">
-            <Button variant="outline" size="sm" type="button" className="gap-1.5">
-              <Settings className="size-3.5" />
-              Settings
-            </Button>
-          </Link>
-          <form action={signOut}>
-            <Button variant="outline" size="sm" type="submit" className="gap-1.5">
-              <LogOut className="size-3.5" />
-              Sign out
-            </Button>
-          </form>
+        <div className="flex items-center gap-3">
+          <ModeToggle mode={mode} />
+          <div className="flex items-center gap-1">
+            <Link href="/settings">
+              <Button variant="ghost" size="icon" type="button" title="Settings">
+                <Settings className="size-4" />
+                <span className="sr-only">Settings</span>
+              </Button>
+            </Link>
+            <form action={signOut}>
+              <Button variant="ghost" size="icon" type="submit" title="Sign out">
+                <LogOut className="size-4" />
+                <span className="sr-only">Sign out</span>
+              </Button>
+            </form>
+          </div>
         </div>
       </header>
 
       {topicMode ? (
         <div>
-          <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
             By exam topic
           </h2>
           <TopicGrid />
         </div>
       ) : (
-        <div className="space-y-8">
+        <div className="space-y-9">
           {GROUPS.map((group) => (
             <section key={group.label}>
-              <h2 className="mb-3 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              <h2 className="mb-4 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                 {group.label}
               </h2>
               <div className="grid gap-3 sm:grid-cols-2">

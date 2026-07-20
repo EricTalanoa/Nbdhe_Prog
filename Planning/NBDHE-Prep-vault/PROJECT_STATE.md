@@ -1,6 +1,6 @@
 ---
-updated: 2026-07-18
-phase: 7 — Content scale-up + niceties (7a/7c/7f/7e merged; 7g-practice-ux open in PR #60; 7d topic-notes-depth ongoing, batch 4 merged (PR #59); 7b bank depth ongoing, batch 22)
+updated: 2026-07-20
+phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish open PR #67; 7d/7b ongoing in the background)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -14,7 +14,18 @@ exams + cases + analytics, easy to use. Primary user: my girlfriend (accounts + 
 progress syncs across her devices).
 
 ## Current phase
-**Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
+**Phase 8 — Launch readiness (owner-requested, 2026-07-20), ahead of the ongoing 7b/7d depth
+batches: 8a-signin-modal merged (PR #66) — the landing page's "Sign in"/"Start practicing" CTAs
+open the magic-link form in a modal instead of navigating to `/login` (kept as a working fallback
+route). 8b-dashboard-polish open (PR #67, this run) — `TopicTile` (by-exam-topic grid, shared with
+the `/topics` index) gained a small per-area Lucide icon (`topicIcon()` lookup in `lib/topics.ts`,
+generic fallback for an unmapped area); `/dashboard`'s header collapsed from two rows into one
+toolbar row (title/email left, mode toggle + icon-only Settings/Sign-out right) with small spacing
+bumps between sections — no new tiles, no migration. Next AUTOPILOT chunk:
+8c-injection-hardening (pre-launch security pass — SQL/RLS, XSS, auth/session edge cases, the
+importer; consider `/security-review`).**
+
+Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
 merged (2026-07-17, PR #53).** `/dashboard` renders the `dashboard_mode` (`'method' | 'topic'`,
 `profiles.dashboard_mode` column + migration `20260717000002_dashboard_mode.sql`, needs a manual
 SQL-editor apply like prior Phase 7 migrations — degrades to `'method'` until then) either as
