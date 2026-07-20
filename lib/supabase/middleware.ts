@@ -35,9 +35,12 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const isPublic = PUBLIC_PATHS.some((p) =>
-    request.nextUrl.pathname.startsWith(p)
-  );
+  // The root path "/" is public (it serves the landing page to logged-out visitors and
+  // redirects signed-in users to /dashboard in the page itself). Matched exactly so it
+  // doesn't turn every route public the way a startsWith("/") would.
+  const isPublic =
+    request.nextUrl.pathname === "/" ||
+    PUBLIC_PATHS.some((p) => request.nextUrl.pathname.startsWith(p));
 
   if (!user && !isPublic) {
     const url = request.nextUrl.clone();
