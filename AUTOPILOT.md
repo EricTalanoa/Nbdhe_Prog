@@ -183,7 +183,7 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     out. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/60
 ### Phase 8 — Launch readiness (owner-requested, 2026-07-20)
 Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk per run, PR each.
-- [ ] **8a-signin-modal** — Sign-in should not be a separate `/login` page navigation; the landing
+- [x] **8a-signin-modal** (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/66) — Sign-in should not be a separate `/login` page navigation; the landing
   page (`components/landing/landing-page.tsx`) opens the email magic-link form in a **modal/pop-up**
   instead. Keep `/login` as a working fallback route (middleware still redirects protected routes
   there), but the landing's "Sign in" / "Start practicing" CTAs open the modal in place. Reuse the
