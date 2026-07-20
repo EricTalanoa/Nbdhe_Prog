@@ -22,8 +22,16 @@ Owner priority: these come **before** the ongoing 7b/7d depth batches below.
       generic fallback for an unmapped area); `/dashboard`'s header collapsed from two rows into
       one toolbar row (title/email left, mode toggle + icon-only Settings/Sign-out right) with
       small spacing bumps between sections. Seafoam theme/colors unchanged, no new tiles.
-- [ ] Phase 8: injection hardening (8c) — pre-public-launch security pass: SQL/RLS, XSS, auth/
-      session edge cases, the content importer; consider `/security-review`.
+- [x] Phase 8: **injection hardening (8c, PR #68)** — full audit (RLS on all 12 tables, Supabase
+      query construction, XSS render paths, auth/session/magic-link flow, content importer) came
+      back clean; fixed the two gaps it did find — `recordResponse`/`finishSession`
+      (`app/practice/actions.ts`) now verify session ownership and recompute correctness/score
+      server-side instead of trusting client-supplied values, and `export-seed-sql.mjs`'s dollar-
+      quote guard now also rejects content ending in a trailing lone `$`. Added a baseline
+      security-header set (CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy,
+      Permissions-Policy, HSTS) via `next.config.mjs`, verified against a real production build +
+      headless-browser smoke test (caught a strict `script-src` breaking Next.js hydration before
+      it shipped).
 - [ ] Phase 8: theme toggle (8d) — light/dark mode setting, persisted per account like
       `dashboard_mode`/`show_trick_badge`.
 - [ ] Phase 8: progress reset (8e) — let a user edit/reset study progress per topic, confirm step,
