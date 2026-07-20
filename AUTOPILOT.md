@@ -181,6 +181,28 @@ Phase definitions live in `Planning/NBDHE-Prep-vault/01-Planning/build-order.md`
     "End set now" for untimed sessions — the finish-summary logic already supported a partial
     `results` count (`"· ended early"`), it just had no way to trigger outside a timer running
     out. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/60
+### Phase 8 — Launch readiness (owner-requested, 2026-07-20)
+Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk per run, PR each.
+- [x] **8a-signin-modal** (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/66) — Sign-in should not be a separate `/login` page navigation; the landing
+  page (`components/landing/landing-page.tsx`) opens the email magic-link form in a **modal/pop-up**
+  instead. Keep `/login` as a working fallback route (middleware still redirects protected routes
+  there), but the landing's "Sign in" / "Start practicing" CTAs open the modal in place. Reuse the
+  existing `signInWithOtp` flow + the spam-folder hint on the sent state.
+- [ ] **8b-dashboard-polish** — Prettify `/dashboard`: small per-topic icons, refined spacing/
+  hierarchy. Keep the seafoam theme and colors; do **not** overcrowd — restraint over density.
+- [ ] **8c-injection-hardening** — Pre-public-launch security pass: bulletproof against injection
+  (SQL via Supabase/RLS, XSS in any user-entered or rendered content, auth/session edge cases,
+  the content importer). Enumerate and test the attack cases. Consider running `/security-review`.
+- [ ] **8d-theme-toggle** — A light/dark mode setting (persisted per account like `dashboard_mode`
+  / `show_trick_badge`), wired app-wide via the existing HSL theme tokens in `app/globals.css`.
+- [ ] **8e-progress-reset** — Let a user edit/reset their study progress per topic (clear
+  responses/sessions/schedules for a score area), with a confirm step. Owner-only RLS respected.
+- [ ] **8f-content-thin-areas** — Continue adding questions, flashcards, and cases in the
+  least-populated score areas (same as the 7b workflow but explicitly gap-driven).
+- [ ] **8g-blueprint-audit** — Audit the current taxonomy + content against the 2026 NBDHE
+  Candidate Guide to confirm we still match the published blueprint (areas, subdomains, item
+  formats, component structure); record any drift and fix `blueprint-mapping.md` first if needed.
+
 - [ ] **7d-topic-notes-depth** — Ongoing, one focused batch per run (same shape as 7b-bank-depth):
   deepen each `/topics/[slug]` overview with more substantive original notes, and add **original
   SVG diagrams/illustrations** (simple line-art — tooth anatomy, perio pocket-depth chart,

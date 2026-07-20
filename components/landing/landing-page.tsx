@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { SignInModal } from "@/components/landing/sign-in-modal";
 
 // Landing / intro page for logged-out visitors. Ported from the approved design
 // (seafoam & white theme). Self-contained: all colors are CSS variables scoped to `.nb-root`
@@ -125,9 +126,9 @@ const CSS = `
 }
 .nb-root a{color:inherit;text-decoration:none}
 .nb-root :focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:4px}
-.nb-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;background:var(--primary);color:var(--primary-fg);font-weight:700;font-size:16px;box-shadow:var(--shadow-lg);transition:transform .15s ease}
+.nb-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;border:0;background:var(--primary);color:var(--primary-fg);font-weight:700;font-size:16px;cursor:pointer;font-family:inherit;box-shadow:var(--shadow-lg);transition:transform .15s ease}
 .nb-cta:hover{transform:translateY(-2px)}
-.nb-signin{display:inline-flex;align-items:center;padding:9px 18px;border-radius:10px;background:var(--primary);color:var(--primary-fg);font-weight:600;font-size:14px;box-shadow:var(--shadow);transition:transform .15s ease}
+.nb-signin{display:inline-flex;align-items:center;padding:9px 18px;border-radius:10px;border:0;background:var(--primary);color:var(--primary-fg);font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;box-shadow:var(--shadow);transition:transform .15s ease}
 .nb-signin:hover{transform:translateY(-1px)}
 .nb-ghost{display:inline-flex;align-items:center;padding:14px 20px;border-radius:12px;border:1px solid var(--border);color:var(--fg);font-weight:600;font-size:15px;background:transparent;transition:border-color .15s ease}
 .nb-ghost:hover{border-color:var(--primary)}
@@ -135,11 +136,17 @@ const CSS = `
 .nb-toggle:hover{color:var(--fg);border-color:var(--primary)}
 .nb-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;box-shadow:var(--shadow);transition:transform .15s ease, box-shadow .15s ease}
 .nb-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.nb-input{width:100%;padding:11px 13px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--fg);font-size:15px;font-family:inherit;box-sizing:border-box}
+.nb-input:focus{outline:2px solid var(--primary);outline-offset:1px;border-color:var(--primary)}
+.nb-close{position:absolute;top:12px;right:12px;width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:13px;line-height:1}
+.nb-close:hover{color:var(--fg);border-color:var(--primary)}
 @media (prefers-reduced-motion: reduce){.nb-root{scroll-behavior:auto}.nb-root *{transition:none !important;animation:none !important}}
 `;
 
 export function LandingPage() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [signInOpen, setSignInOpen] = useState(false);
+  const openSignIn = () => setSignInOpen(true);
 
   const wrap: Vars = { maxWidth: 1120, margin: "0 auto", padding: "0 24px" };
   const eyebrow: Vars = {
@@ -223,9 +230,9 @@ export function LandingPage() {
                 <Icon paths={["M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"]} />
               )}
             </button>
-            <a href="/login" className="nb-signin">
+            <button type="button" onClick={openSignIn} className="nb-signin">
               Sign in
-            </a>
+            </button>
           </div>
         </div>
       </header>
@@ -254,10 +261,10 @@ export function LandingPage() {
                 Original, blueprint-aligned NBDHE practice — with analytics that show you when you&apos;re actually ready, area by area.
               </p>
               <div style={{ marginTop: 32, display: "flex", flexWrap: "wrap", gap: 14, alignItems: "center" }}>
-                <a href="/login" className="nb-cta">
+                <button type="button" onClick={openSignIn} className="nb-cta">
                   Start practicing — it&apos;s free
                   <Icon size={16} sw={2.4} paths={["M5 12h14M13 6l6 6-6 6"]} />
-                </a>
+                </button>
                 <a href="#covered" className="nb-ghost">
                   See what&apos;s inside
                 </a>
@@ -391,7 +398,7 @@ export function LandingPage() {
               No payment, no subscription, no pressure — just focused, original NBDHE practice and a clear read on your readiness.
             </p>
             <div style={{ marginTop: 30 }}>
-              <a href="/login" className="nb-cta">Start practicing — it&apos;s free</a>
+              <button type="button" onClick={openSignIn} className="nb-cta">Start practicing — it&apos;s free</button>
             </div>
           </div>
         </section>
@@ -405,6 +412,8 @@ export function LandingPage() {
           <p style={{ margin: 0, fontSize: 12, color: "var(--muted)" }}>Built as a concept demo · For demonstration only</p>
         </div>
       </footer>
+
+      <SignInModal open={signInOpen} onClose={() => setSignInOpen(false)} />
     </div>
   );
 }
