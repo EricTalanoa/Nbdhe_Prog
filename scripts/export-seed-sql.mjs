@@ -29,11 +29,17 @@ import {
 } from "./import-questions.mjs";
 
 // Dollar-quote a text value so we never have to hand-escape apostrophes in authored prose.
-// Guards against the one input that would break dollar-quoting: the literal `$$` sequence.
+// Guards against the two ways content can break dollar-quoting: a literal `$$` sequence
+// (which would prematurely close the string), and a trailing lone `$` (which merges with
+// the closing `$$` we append and shifts it one character early, e.g. dq("abc$") would
+// otherwise emit "$$abc$$$$" — closing after "abc" and leaving a stray "$$" as bare SQL).
 function dq(text) {
   const s = text ?? "";
   if (s.includes("$$")) {
     throw new Error(`content contains a literal "$$", can't safely dollar-quote: ${s.slice(0, 60)}…`);
+  }
+  if (s.endsWith("$")) {
+    throw new Error(`content ends with "$", would corrupt the closing dollar-quote delimiter: …${s.slice(-60)}`);
   }
   return `$$${s}$$`;
 }
