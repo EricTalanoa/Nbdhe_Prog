@@ -188,8 +188,17 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
   instead. Keep `/login` as a working fallback route (middleware still redirects protected routes
   there), but the landing's "Sign in" / "Start practicing" CTAs open the modal in place. Reuse the
   existing `signInWithOtp` flow + the spam-folder hint on the sent state.
-- [ ] **8b-dashboard-polish** — Prettify `/dashboard`: small per-topic icons, refined spacing/
-  hierarchy. Keep the seafoam theme and colors; do **not** overcrowd — restraint over density.
+- [x] **8b-dashboard-polish** (PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/67) — Prettify
+  `/dashboard`: small per-topic icons, refined spacing/hierarchy. Keep the seafoam theme and
+  colors; do **not** overcrowd — restraint over density. `TopicTile`
+  (`components/topics/topic-grid.tsx`, shared by the by-exam-topic dashboard grid and the
+  standalone `/topics` index) gained a small per-area Lucide icon via a new `topicIcon()` lookup
+  in `lib/topics.ts` (`TOPIC_ICONS` keyed by `score_area`, generic `NotebookText` fallback so a
+  taxonomy reseed with an unmapped area still renders). `/dashboard`'s header collapsed from a
+  two-row layout (title, then a separate Settings/Sign-out row) into one toolbar row — title +
+  signed-in-as on the left, `ModeToggle` + icon-only ghost Settings/Sign-out buttons grouped on
+  the right — plus small `mb-3→mb-4` / `space-y-8→space-y-9` spacing bumps between sections. No
+  new tiles or migrations; `npm run content:check` (191/191 notes) and `npm run build` both pass.
 - [ ] **8c-injection-hardening** — Pre-public-launch security pass: bulletproof against injection
   (SQL via Supabase/RLS, XSS in any user-entered or rendered content, auth/session edge cases,
   the content importer). Enumerate and test the attack cases. Consider running `/security-review`.

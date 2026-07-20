@@ -10,6 +10,29 @@ kanban-plugin: board
 - [ ] Phase 7: testlet infra (importer parser/upsert + practice-loop stimulus wiring) — needed
       before a Community Health testlet can be authored
 
+## This Phase (Phase 8 — Launch readiness, owner-requested 2026-07-20)
+
+Owner priority: these come **before** the ongoing 7b/7d depth batches below.
+
+- [x] Phase 8: **sign-in modal (8a, PR #66)** — landing page's "Sign in"/"Start practicing" CTAs
+      open the magic-link form in a modal instead of navigating to `/login` (kept as a working
+      fallback route the auth middleware still redirects to).
+- [x] Phase 8: **dashboard polish (8b, PR #67)** — `TopicTile` (by-exam-topic grid, shared with
+      the `/topics` index) gained a small per-area Lucide icon (`topicIcon()` in `lib/topics.ts`,
+      generic fallback for an unmapped area); `/dashboard`'s header collapsed from two rows into
+      one toolbar row (title/email left, mode toggle + icon-only Settings/Sign-out right) with
+      small spacing bumps between sections. Seafoam theme/colors unchanged, no new tiles.
+- [ ] Phase 8: injection hardening (8c) — pre-public-launch security pass: SQL/RLS, XSS, auth/
+      session edge cases, the content importer; consider `/security-review`.
+- [ ] Phase 8: theme toggle (8d) — light/dark mode setting, persisted per account like
+      `dashboard_mode`/`show_trick_badge`.
+- [ ] Phase 8: progress reset (8e) — let a user edit/reset study progress per topic, confirm step,
+      owner-only RLS respected.
+- [ ] Phase 8: content thin-areas (8f) — continue 7b-style gap-driven content in the
+      least-populated score areas.
+- [ ] Phase 8: blueprint audit (8g) — confirm taxonomy/content still matches the published 2026
+      NBDHE Candidate Guide; fix `blueprint-mapping.md` first if drift is found.
+
 ## This Phase (Phase 7)
 
 - [x] Phase 7: review tools — SM-2-lite flashcards `/review` + `review_schedule` +
