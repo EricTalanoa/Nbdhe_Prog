@@ -104,7 +104,7 @@ export default async function DashboardPage() {
       <header className="mb-10">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight">NBDHE Prep</h1>
+            <h1 className="text-3xl font-semibold tracking-tight">NBDHE Prep 2026</h1>
             <p className="mt-1 text-sm text-muted-foreground">
               Signed in as <span className="font-medium text-foreground">{user.email}</span>
             </p>

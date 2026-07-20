@@ -43,17 +43,24 @@ export default function LoginPage() {
     <main className="flex min-h-screen items-center justify-center p-4">
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle>NBDHE Prep</CardTitle>
+          <CardTitle>NBDHE Prep 2026</CardTitle>
           <CardDescription>
             Sign in with a magic link — no password needed.
           </CardDescription>
         </CardHeader>
         <CardContent>
           {status === "sent" ? (
-            <p className="text-sm">
-              Check your email — we sent a sign-in link to{" "}
-              <span className="font-medium">{email}</span>.
-            </p>
+            <div className="space-y-2 text-sm">
+              <p>
+                Check your email — we sent a sign-in link to{" "}
+                <span className="font-medium">{email}</span>.
+              </p>
+              <p className="text-muted-foreground">
+                If this is a new account or you don&apos;t see it within a
+                minute, check your spam or junk folder — the link often lands
+                there.
+              </p>
+            </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
