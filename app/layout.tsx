@@ -3,6 +3,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { PwaManager } from "@/components/pwa/pwa-manager";
+import { ThemeScript } from "@/components/theme/theme-script";
+import { ThemeSync } from "@/components/theme/theme-sync";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,7 +40,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // suppressHydrationWarning: ThemeScript sets `dark` on this element before React hydrates
+    // (see its own comment for why), so its class attribute legitimately differs from what the
+    // server rendered — this is the standard escape hatch for that one attribute, not a blanket
+    // opt-out (it doesn't suppress anything else).
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           geistSans.variable,
@@ -46,8 +52,10 @@ export default function RootLayout({
           "font-sans antialiased"
         )}
       >
+        <ThemeScript />
         {children}
         <PwaManager />
+        <ThemeSync />
       </body>
     </html>
   );

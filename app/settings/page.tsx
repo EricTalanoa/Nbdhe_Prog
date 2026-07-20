@@ -1,8 +1,10 @@
 import { redirect } from "next/navigation";
-import { Sparkles } from "lucide-react";
+import { Palette, Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/settings/theme-toggle";
+import { isThemeMode } from "@/lib/theme";
 import { setShowTrickBadge } from "@/app/settings/actions";
 
 // The by-study-method vs. by-exam-topic toggle used to live here; it's now a one-tap switch at
@@ -14,36 +16,53 @@ export default async function SettingsPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  // Missing column (migration not applied yet) or any read error → default to off.
+  // Missing column (migration not applied yet) or any read error → default to off/system.
   const { data: profile } = await supabase
     .from("profiles")
-    .select("show_trick_badge")
+    .select("show_trick_badge, theme")
     .eq("id", user.id)
     .maybeSingle();
   const showTrickBadge = profile?.show_trick_badge === true;
+  const theme = isThemeMode(profile?.theme) ? profile.theme : "system";
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
       <PageHeader title="Settings" subtitle="Account-level preferences." />
 
-      <div className="flex items-center gap-4 rounded-xl border bg-card p-4 shadow-sm">
-        <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <Sparkles className="size-5" />
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="block font-medium leading-tight">Trick-question indicator</span>
-          <span className="mt-0.5 block text-sm text-muted-foreground">
-            Mark items where the answer choices are deliberately close (a &ldquo;Trick&rdquo;
-            badge) while practicing. The real exam never flags these — leave it off for realistic
-            pacing, turn it on to study why the near-miss options are wrong.
+      <div className="space-y-4">
+        <div className="flex items-center gap-4 rounded-xl border bg-card p-4 shadow-sm">
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <Palette className="size-5" />
           </span>
-        </span>
-        <form action={setShowTrickBadge}>
-          <input type="hidden" name="show_trick_badge" value={String(!showTrickBadge)} />
-          <Button type="submit" variant={showTrickBadge ? "default" : "outline"} size="sm" className="shrink-0">
-            {showTrickBadge ? "On" : "Off"}
-          </Button>
-        </form>
+          <span className="min-w-0 flex-1">
+            <span className="block font-medium leading-tight">Appearance</span>
+            <span className="mt-0.5 block text-sm text-muted-foreground">
+              Light or dark theme, or follow your device&rsquo;s setting. Syncs across your
+              devices.
+            </span>
+          </span>
+          <ThemeToggle initialTheme={theme} />
+        </div>
+
+        <div className="flex items-center gap-4 rounded-xl border bg-card p-4 shadow-sm">
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <Sparkles className="size-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-medium leading-tight">Trick-question indicator</span>
+            <span className="mt-0.5 block text-sm text-muted-foreground">
+              Mark items where the answer choices are deliberately close (a &ldquo;Trick&rdquo;
+              badge) while practicing. The real exam never flags these — leave it off for
+              realistic pacing, turn it on to study why the near-miss options are wrong.
+            </span>
+          </span>
+          <form action={setShowTrickBadge}>
+            <input type="hidden" name="show_trick_badge" value={String(!showTrickBadge)} />
+            <Button type="submit" variant={showTrickBadge ? "default" : "outline"} size="sm" className="shrink-0">
+              {showTrickBadge ? "On" : "Off"}
+            </Button>
+          </form>
+        </div>
       </div>
     </main>
   );

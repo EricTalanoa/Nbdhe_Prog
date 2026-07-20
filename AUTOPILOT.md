@@ -241,8 +241,32 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
   - Open follow-up for the owner: click-test a real practice/mock session end-to-end against
     the live project to confirm `/analytics` scores still look right after the server-side
     recompute.
-- [ ] **8d-theme-toggle** — A light/dark mode setting (persisted per account like `dashboard_mode`
+- [x] **8d-theme-toggle** — A light/dark mode setting (persisted per account like `dashboard_mode`
   / `show_trick_badge`), wired app-wide via the existing HSL theme tokens in `app/globals.css`.
+  `profiles.theme` (migration `20260720000001_theme_preference.sql`, `'light' | 'dark' | 'system'`,
+  default `'system'`, manual apply pending — degrades to `'system'` if missing, same pattern as
+  `dashboard_mode`/`show_trick_badge`). `app/globals.css` already had a full `.dark` palette and
+  `darkMode: ["class"]` in `tailwind.config.ts` from the original seafoam refresh, but nothing
+  toggled the class — this chunk wires it up: a static inline `ThemeScript`
+  (`components/theme/theme-script.tsx`) runs first in `<body>`, before any other content paints,
+  reading `localStorage["nbdhe-theme"]` and toggling `dark` on `<html>` so there's no
+  flash-of-wrong-theme on load (`<html suppressHydrationWarning>` in `app/layout.tsx`, since that
+  class attribute now legitimately differs from the server-rendered one); a `ThemeSync`
+  (`components/theme/theme-sync.tsx`) mounted app-wide like `PwaManager` listens for OS
+  light/dark flips while `system` mode is active, and for a signed-in user pulls their
+  `profiles.theme` down as the account's source of truth on mount (cross-device sync). The
+  `/settings` toggle (`components/settings/theme-toggle.tsx`, a 3-way Light/Dark/System segmented
+  control) applies the class + localStorage change immediately on click for instant feedback,
+  then calls a new `setTheme` server action (`app/settings/actions.ts`) to persist — deliberately
+  called as a plain async function from the client component rather than through a `<form>`
+  (same pattern `app/practice/actions.ts`'s `recordResponse` already uses), since a theme flip
+  should feel instant rather than wait on a server round-trip. Verified with a real production
+  build (`npm run build` + `npm run start`) and a headless-Chromium (Playwright, temp/no repo
+  dependency added) smoke test: confirmed the inline script is the first element in `<body>`
+  (before the CSP-hardened page renders anything else), that forcing `localStorage["nbdhe-theme"]`
+  to `"dark"`/`"light"` and reloading correctly toggles the `dark` class and the computed
+  `--background` CSS var before paint, and that `/settings` still auth-redirects to `/login` and
+  the CSP/security headers from 8c are untouched — zero console errors or CSP violations.
 - [ ] **8e-progress-reset** — Let a user edit/reset their study progress per topic (clear
   responses/sessions/schedules for a score area), with a confirm step. Owner-only RLS respected.
 - [ ] **8f-content-thin-areas** — Continue adding questions, flashcards, and cases in the
