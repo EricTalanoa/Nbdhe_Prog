@@ -32,8 +32,17 @@ Owner priority: these come **before** the ongoing 7b/7d depth batches below.
       Permissions-Policy, HSTS) via `next.config.mjs`, verified against a real production build +
       headless-browser smoke test (caught a strict `script-src` breaking Next.js hydration before
       it shipped).
-- [ ] Phase 8: theme toggle (8d) — light/dark mode setting, persisted per account like
-      `dashboard_mode`/`show_trick_badge`.
+- [x] Phase 8: **theme toggle (8d, this run)** — `profiles.theme` (migration
+      `20260720000001_theme_preference.sql`, `'light' | 'dark' | 'system'`, default `'system'`,
+      manual apply pending). Wires up the `.dark` HSL palette that already existed in
+      `app/globals.css`/`tailwind.config.ts` but was never toggled: a static inline `ThemeScript`
+      runs first in `<body>` so the `dark` class lands on `<html>` before paint (no
+      flash-of-wrong-theme), a `ThemeSync` mounted app-wide like `PwaManager` re-applies live on
+      OS theme changes and pulls a signed-in user's `profiles.theme` down on mount (cross-device
+      sync), and a `/settings` 3-way Light/Dark/System toggle applies instantly then persists via
+      a new `setTheme` server action. Verified with a real production build + a headless-Chromium
+      smoke test (class + computed `--background` var toggle correctly on reload; `/settings`
+      still auth-redirects; CSP/security headers from 8c untouched).
 - [ ] Phase 8: progress reset (8e) — let a user edit/reset study progress per topic, confirm step,
       owner-only RLS respected.
 - [ ] Phase 8: content thin-areas (8f) — continue 7b-style gap-driven content in the

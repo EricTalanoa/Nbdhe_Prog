@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-20
-phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening open PR #68; 7d/7b ongoing in the background)
+phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle open, this run; 7d/7b ongoing in the background)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -21,8 +21,8 @@ route). 8b-dashboard-polish merged (PR #67) — `TopicTile` (by-exam-topic grid,
 `/topics` index) gained a small per-area Lucide icon (`topicIcon()` lookup in `lib/topics.ts`,
 generic fallback for an unmapped area); `/dashboard`'s header collapsed from two rows into one
 toolbar row (title/email left, mode toggle + icon-only Settings/Sign-out right) with small spacing
-bumps between sections — no new tiles, no migration. 8c-injection-hardening open (PR #68, this
-run) — a full pre-launch security audit (RLS on all 12 tables, Supabase query construction, XSS
+bumps between sections — no new tiles, no migration. 8c-injection-hardening merged (PR #68) — a
+full pre-launch security audit (RLS on all 12 tables, Supabase query construction, XSS
 render paths, auth/session/magic-link flow, content importer) came back clean; fixed the two gaps
 it found — `recordResponse`/`finishSession` (`app/practice/actions.ts`) now verify session
 ownership and recompute correctness/score server-side instead of trusting client-supplied values
@@ -32,8 +32,19 @@ trailing lone `$`. Added a baseline security-header set (CSP, X-Frame-Options, X
 Options, Referrer-Policy, Permissions-Policy, HSTS) via `next.config.mjs`, verified with a real
 production build + headless-Chromium smoke test (caught a strict `script-src` breaking Next.js
 App Router hydration before it shipped — kept `'unsafe-inline'` as a documented tradeoff, a
-nonce-based CSP is a noted follow-up). Next AUTOPILOT chunk: 8d-theme-toggle (light/dark mode
-setting, persisted per account like `dashboard_mode`).**
+nonce-based CSP is a noted follow-up). 8d-theme-toggle open (this run) — `profiles.theme`
+(migration `20260720000001_theme_preference.sql`, `'light' | 'dark' | 'system'`, default
+`'system'`, degrades gracefully until applied) wires up the `.dark` HSL palette that already
+existed in `app/globals.css`/`tailwind.config.ts` but was never toggled: a static inline
+`ThemeScript` runs first in `<body>` to flip the `dark` class on `<html>` before paint (no
+flash-of-wrong-theme), a `ThemeSync` mounted app-wide like `PwaManager` re-applies live on OS
+theme changes and pulls a signed-in user's `profiles.theme` down as the account's source of truth
+on mount, and a `/settings` 3-way Light/Dark/System toggle applies instantly client-side then
+persists via a new `setTheme` server action. Verified with a real production build + a
+headless-Chromium smoke test (forcing `localStorage` dark/light and reloading correctly toggled
+the class + computed `--background` var before paint; `/settings` still auth-redirects; CSP/
+security headers from 8c untouched, zero console errors). Next AUTOPILOT chunk: 8e-progress-reset
+(let a user edit/reset study progress per topic, confirm step, owner-only RLS respected).**
 
 Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
 merged (2026-07-17, PR #53).** `/dashboard` renders the `dashboard_mode` (`'method' | 'topic'`,
