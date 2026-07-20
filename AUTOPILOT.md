@@ -283,7 +283,7 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
   deleted row counts and reports `migrationPending: true` back to the UI instead of claiming a
   false "fully cleared" — bookmarks/review_schedule/flashcard_schedule (which already had delete
   policies) are unaffected either way. `npm run content:check` (191/191 notes) and `npm run build`
-  both pass.
+  both pass. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/70
 - [ ] **8f-content-thin-areas** — Continue adding questions, flashcards, and cases in the
   least-populated score areas (same as the 7b workflow but explicitly gap-driven).
 - [ ] **8g-blueprint-audit** — Audit the current taxonomy + content against the 2026 NBDHE
