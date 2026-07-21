@@ -58,8 +58,14 @@ Owner priority: these come **before** the ongoing 7b/7d depth batches below.
       Immunology at 6 each, Pathology at 7) got 2 questions apiece (8 total) + 2 flashcards
       (fc-phys-0001, fc-bioc-0001), all on concepts not yet in the bank. Bank now 199 questions +
       10 cases + 27 flashcards.
-- [ ] Phase 8: blueprint audit (8g) — confirm taxonomy/content still matches the published 2026
-      NBDHE Candidate Guide; fix `blueprint-mapping.md` first if drift is found.
+- [x] Phase 8: **blueprint audit (8g, this run)** — cross-checked taxonomy/content against the
+      2026 NBDHE Candidate Guide (primary PDF blocked by this container's egress policy, same as
+      `*.supabase.co`; verified via public search-indexed excerpts + independent prep sources
+      instead). No drift found — item counts, After-Update Local Anesthesia breakout, Area 1/2
+      structure, and scoring all matched; all 60 area/domain/subdomain triples actually used in
+      content match `blueprint-mapping.md` exactly. Findings + a recommended follow-up (full PDF
+      diff once egress/a pasted copy is available) recorded in a new "Audit log" section there.
+      **Phase 8 (Launch readiness) is now complete.**
 
 ## This Phase (Phase 7)
 

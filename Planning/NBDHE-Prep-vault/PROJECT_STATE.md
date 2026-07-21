@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-21
-phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset merged PR #70; 8f-content-thin-areas open, this run; 7d/7b ongoing in the background)
+phase: 8 — Launch readiness COMPLETE (8a PR #66; 8b PR #67; 8c PR #68; 8d PR #69; 8e PR #70; 8f open, PR pending; 8g-blueprint-audit open, this run — no drift found; next up: 7d/7b ongoing depth work)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -68,7 +68,21 @@ hyperplasia-vs-hypertrophy applied to drug-induced gingival enlargement) + 2 fla
 (fc-phys-0001, fc-bioc-0001 — the bank's first flashcards for either domain). Physiology/
 Biochemistry and Nutrition/Microbiology and Immunology now sit at 8 each, Pathology at 9. Bank
 now **199 questions** + 10 cases + 27 flashcards. `npm run content:check` (199/199 notes) and
-`npm run build` both pass. Next AUTOPILOT chunk: 8g-blueprint-audit.**
+`npm run build` both pass. **8g-blueprint-audit open (this run, last Phase 8 chunk) —** audited
+the taxonomy + content against the 2026 NBDHE Candidate Guide. This container's egress blocks
+`jcnde.ada.org` (same restriction already hit for `*.supabase.co`/`open-exam-prep.com`), so the
+primary PDF couldn't be fetched directly; cross-checked instead against public search-indexed
+excerpts of the same guide plus independent NBDHE prep sources. **No drift found** — component
+item counts (56+124+20=200 discipline-based + 150 case-based = 350 total), the After-Update
+spec's Local Anesthesia breakout (~October 2026), Area 2's seven procedure categories, Area 1's
+six disciplines, the 49–99 scale/75-passing score, and the case component's 12–15-case structure
+all matched. DB-side spot check: the taxonomy seed migration is generated straight from
+`blueprint-mapping.md` (so it can't drift independently), and all 60 unique area/domain/subdomain
+triples actually used across the 199 authored questions match an entry in `blueprint-mapping.md`
+exactly. Findings recorded in a new "Audit log" section at the bottom of `blueprint-mapping.md`,
+including a recommendation to do a full line-by-line subdomain diff once egress or a pasted PDF is
+available. No code/content changes needed. **Phase 8 (Launch readiness) is now complete** — all
+of 8a-8g checked in AUTOPILOT.md. Next AUTOPILOT chunk: 7d-topic-notes-depth (ongoing).**
 
 Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
 merged (2026-07-17, PR #53).** `/dashboard` renders the `dashboard_mode` (`'method' | 'topic'`,

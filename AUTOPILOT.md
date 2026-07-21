@@ -307,9 +307,23 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
   Responsibility are the next-thinnest tier (9 each) once these four catch up further, or keep
   rotating — Dental Radiography (11) and Research Principles and Community Health (13) are also
   below the clinical-area average.
-- [ ] **8g-blueprint-audit** — Audit the current taxonomy + content against the 2026 NBDHE
-  Candidate Guide to confirm we still match the published blueprint (areas, subdomains, item
-  formats, component structure); record any drift and fix `blueprint-mapping.md` first if needed.
+- [x] **8g-blueprint-audit** — Audited the current taxonomy + content against the 2026 NBDHE
+  Candidate Guide. This container's egress blocks `jcnde.ada.org` (same restriction already
+  documented for `*.supabase.co`/`open-exam-prep.com`), so the primary PDF couldn't be fetched
+  directly; cross-checked instead against public search-indexed excerpts of the same guide plus
+  independent NBDHE prep sources. **No drift found**: component item counts (56 + 124 + 20 = 200
+  discipline-based + 150 case-based = 350 total), the After-Update spec's Local Anesthesia
+  breakout (effective ~October 2026), Area 2's seven procedure categories, Area 1's six
+  disciplines + Anatomic Sciences' four sub-splits, the 49–99 scale/75-passing score, and the
+  case component's 12–15-case/150-item/patient-type-variety structure all matched. Also spot-
+  checked the DB side: the taxonomy seed (`supabase/migrations/20260710000003_seed_taxonomy.sql`)
+  is generated straight from `blueprint-mapping.md` so it can't drift independently, and all 60
+  unique `area`/`domain`/`subdomain` triples actually used across the 199 authored questions
+  match an entry in `blueprint-mapping.md` exactly — no stray frontmatter values. Recorded the
+  full audit (what was checked, what couldn't be re-verified without PDF access, and a
+  recommendation to do a line-by-line subdomain diff once egress or a pasted PDF is available) in
+  a new "Audit log" section at the bottom of `blueprint-mapping.md`. No code or content changes
+  were needed. `npm run content:check` (199/199 notes) and `npm run build` both pass.
 
 - [ ] **7d-topic-notes-depth** — Ongoing, one focused batch per run (same shape as 7b-bank-depth):
   deepen each `/topics/[slug]` overview with more substantive original notes, and add **original

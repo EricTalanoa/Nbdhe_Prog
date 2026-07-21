@@ -145,3 +145,48 @@ of truth and the taxonomy table reseeds from it.)
 
 ## Tooth notation
 Universal/National system: permanent 1–32, primary A–T. Any charting UI uses this.
+
+---
+
+## Audit log
+
+### 2026-07-21 — blueprint drift audit (8g-blueprint-audit)
+This environment's egress policy blocks `jcnde.ada.org` (same restriction already noted elsewhere
+in the project for `*.supabase.co` and `open-exam-prep.com`), so the primary 2026 Candidate Guide
+PDF couldn't be fetched directly. Cross-checked this file's claims against public search-indexed
+snippets of the same guide and independent NBDHE prep sources instead. Confirmed, no drift:
+- Component item counts: 56 (Scientific Basis) + 124 (Clinical Services) + 20 (Research/Community
+  Health) = 200 discipline-based, + 150 case-based = **350 total**. Matches this file exactly.
+- **After Update** spec (effective ~October 2026) is confirmed as the one with the Local Anesthesia
+  breakout and added emerging-technologies emphasis — matches this file's "which spec we target"
+  rationale. One source's "115 items" figure for Area 2 (without a Local Anesthesia breakout) reads
+  as the **Prior to Update** total — 124 minus 115 = 9 items, consistent with this file's premise
+  that Local Anesthesia is carved out as new item volume in the After Update spec, not just
+  relabeled from elsewhere.
+- Area 2's seven procedure categories (assessing patient characteristics / obtaining-interpreting
+  radiographs / planning-managing dental hygiene care / performing periodontal procedures / using
+  preventive agents / providing supportive treatment services / professional responsibility) match
+  this file's seven Area 2 domains (Patient Assessment, Dental Radiography, Dental Hygiene Care
+  Planning, Periodontal Disease Management, Preventive Agents, Supportive Treatment Services,
+  Professional Responsibility) one-for-one.
+- Area 1's six disciplines (Anatomic Sciences, Physiology, Biochemistry and Nutrition, Microbiology
+  and Immunology, Pathology, Pharmacology) and Anatomic Sciences' four sub-splits (head and neck
+  anatomy, dental anatomy general, dental anatomy root, histology and embryology) match verbatim.
+- Scale score range 49–99, passing score 75, 350 total items — all confirmed.
+- Case-based component: 12–15 patient cases, 150 items, patient-type variety (geriatric,
+  adult-periodontal, pediatric, special needs, medically compromised) — confirmed.
+
+**Not independently re-verified this pass** (egress-blocked, relying on this file's existing
+sourcing): the exact subdomain-level lists under Dental Hygiene Care Planning, Periodontal Disease
+Management, Dental Radiography, Preventive Agents, Supportive Treatment Services, and Professional
+Responsibility; the precise per-subdomain item-format terminology ("Completion" / "Question" /
+"Negative"). No conflicting information was found for any of these in the sources reviewed.
+**Recommendation:** next time a session has working egress to `jcnde.ada.org` (or the owner can
+paste the PDF text directly, as was done for the case-based-strategy article on 2026-07-19), do a
+line-by-line subdomain diff against the primary source PDF to fully close this out.
+
+**Content/DB check (same pass):** spot-checked the taxonomy seed
+(`supabase/migrations/20260710000003_seed_taxonomy.sql`) and the vault's authored `area`/`domain`/
+`subdomain` frontmatter values against this file — no stray strings that don't map back to an entry
+here. Item format renderer (`completion` / `question` / `negative`, with EXCEPT/NOT stem flagging)
+still matches "Item formats to support" above; no code or content changes needed from this audit.
