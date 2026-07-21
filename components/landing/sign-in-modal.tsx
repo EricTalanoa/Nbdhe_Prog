@@ -42,17 +42,44 @@ export function SignInModal({ open, onClose }: { open: boolean; onClose: () => v
     setStatus("sending");
     setError(null);
 
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: `${window.location.origin}/auth/confirm` },
-    });
-
-    if (error) {
-      setError(error.message);
+    // These are inlined at build time; if the deployment is missing them the Supabase client
+    // silently can't reach the API and returns an opaque error. Fail with a clear message instead.
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      setError(
+        "Sign-in isn't configured for this site yet (missing Supabase settings). If you're the owner, add the Supabase environment variables to the deployment and redeploy."
+      );
       setStatus("idle");
-    } else {
-      setStatus("sent");
+      return;
+    }
+
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+        options: { emailRedirectTo: `${window.location.origin}/auth/confirm` },
+      });
+
+      if (error) {
+        // Surface the real reason; guard against an empty/opaque error object rendering as "{}".
+        console.error("signInWithOtp error:", error);
+        const msg = (error.message || "").trim();
+        setError(
+          msg && msg !== "{}"
+            ? msg
+            : "We couldn't send the magic link right now. Please try again in a minute — if it keeps failing the email service may need setup."
+        );
+        setStatus("idle");
+      } else {
+        setStatus("sent");
+      }
+    } catch (err) {
+      console.error("signInWithOtp threw:", err);
+      setError(
+        err instanceof Error && err.message
+          ? err.message
+          : "Couldn't reach the sign-in service. Please check your connection and try again."
+      );
+      setStatus("idle");
     }
   }
 
