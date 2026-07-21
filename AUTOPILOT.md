@@ -422,6 +422,24 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
     Care Planning, Supportive Treatment Services, Professional Responsibility, Research Principles
     and Community Health. Next batch: pick 1-2 more from that list and keep deepening notes for
     topics that don't have a diagram yet.
+  - Batch 5 (this run, PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/76): deepened
+    "Physiology" (baroreceptor reflex direction, the hemostasis sequence — vascular spasm →
+    platelet plug → coagulation cascade, osteoclastic bone resorption driving periodontal bone
+    loss, PTH's three-target calcium-raising mechanism and its negative-feedback shutoff, and
+    trigeminal/V3 motor innervation of mastication) and "Pathology" (hyperplasia vs. hypertrophy
+    as cellular adaptations, tied to why drug-induced gingival enlargement is hyperplasia not
+    hypertrophy; invasion/metastasis as the defining malignant-vs-benign feature; erythroplakia's
+    higher risk vs. leukoplakia and the lateral-tongue/floor-of-mouth high-risk sites; leukoedema
+    and Fordyce granules as benign normal variants). Added two more hand-drawn SVG diagrams:
+    `CalciumHomeostasisDiagram` (the PTH negative-feedback loop across bone/kidney/intestine) and
+    `HyperplasiaHypertrophyDiagram` (two-panel more-cells vs. bigger-cells comparison). Wired into
+    `TOPIC_DIAGRAMS` in `lib/topics.ts`. Verified the same way as prior batches: rendered both
+    components' exact SVG markup against the project's compiled Tailwind theme CSS in a headless
+    browser and screenshotted in light and dark mode before committing — clean in both modes, no
+    clipping or label collisions found this pass. 10/13 topics now have a diagram — remaining
+    without one: Dental Hygiene Care Planning, Supportive Treatment Services, Professional
+    Responsibility, Research Principles and Community Health. Next batch: pick 1-2 more from that
+    list, then resume 7b-bank-depth.
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.

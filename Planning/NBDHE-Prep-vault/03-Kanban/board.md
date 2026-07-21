@@ -92,15 +92,20 @@ Owner priority: these come **before** the ongoing 7b/7d depth batches below.
       Assessment" (six-point periodontal probing, reading a probe's mm markings) + "Pharmacology"
       (LA sodium-channel blockade, differential fiber blockade, IANB as the highest-yield
       injection) notes, added `PeriodontalChartingDiagram` + `NerveBlockLandmarksDiagram`. Batch 4
-      (PR #59, merged): deepened "Biochemistry and Nutrition" (the Stephan curve — plaque pH vs.
+      (PR #59): deepened "Biochemistry and Nutrition" (the Stephan curve — plaque pH vs.
       time after a sugar exposure, why exposure frequency beats total sugar quantity, vitamin
       C/collagen hydroxylation) + "Microbiology and Immunology" (dental plaque biofilm formation
       as an ordered succession — pellicle, early colonizers, Fusobacterium-mediated
       coaggregation, mature biofilm's anaerobic red complex) notes, added `StephanCurveDiagram` +
-      `BiofilmFormationDiagram`. 8/13 topics now have a diagram. Next batch: pick 1-2 more
-      (remaining topics without one: Physiology, Pathology, Dental Hygiene Care Planning,
-      Supportive Treatment Services, Professional Responsibility, Research Principles and
-      Community Health).
+      `BiofilmFormationDiagram`. Batch 5 (this run, PR #76): deepened "Physiology" (baroreceptor
+      reflex direction, the hemostasis sequence, osteoclastic bone resorption in periodontal
+      disease, PTH's three-target calcium-raising mechanism, trigeminal/V3 motor innervation of
+      mastication) + "Pathology" (hyperplasia vs. hypertrophy, invasion/metastasis as the
+      malignant-vs-benign feature, erythroplakia/leukoplakia risk and high-risk sites, leukoedema/
+      Fordyce granules as normal variants) notes, added `CalciumHomeostasisDiagram` +
+      `HyperplasiaHypertrophyDiagram`. 10/13 topics now have a diagram. Next batch: pick 1-2 more
+      (remaining topics without one: Dental Hygiene Care Planning, Supportive Treatment Services,
+      Professional Responsibility, Research Principles and Community Health).
 - [~] Phase 7: bank depth (7b, ongoing, paused for 7d) — b1-b22 across all areas + 5 cases; bank now 158
       (batch 22: rotated depth across Care Planning/Perio Management/Local Anesthesia —
       instruction: oral conditions/dentin hypersensitivity management, prescribed
