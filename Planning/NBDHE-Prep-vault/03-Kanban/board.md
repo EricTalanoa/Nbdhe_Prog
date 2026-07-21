@@ -53,8 +53,11 @@ Owner priority: these come **before** the ongoing 7b/7d depth batches below.
       same pattern as prior migrations); until applied, the reset still clears bookmarks/
       schedules but reports back that some session/response history couldn't be removed yet
       instead of silently claiming success.
-- [ ] Phase 8: content thin-areas (8f) — continue 7b-style gap-driven content in the
-      least-populated score areas.
+- [x] Phase 8: **content thin-areas (8f, this run)** — re-ranked all 14 score areas by item
+      count; the four thinnest (Physiology, Biochemistry and Nutrition, Microbiology and
+      Immunology at 6 each, Pathology at 7) got 2 questions apiece (8 total) + 2 flashcards
+      (fc-phys-0001, fc-bioc-0001), all on concepts not yet in the bank. Bank now 199 questions +
+      10 cases + 27 flashcards.
 - [ ] Phase 8: blueprint audit (8g) — confirm taxonomy/content still matches the published 2026
       NBDHE Candidate Guide; fix `blueprint-mapping.md` first if drift is found.
 
