@@ -284,6 +284,29 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
   false "fully cleared" — bookmarks/review_schedule/flashcard_schedule (which already had delete
   policies) are unaffected either way. `npm run content:check` (191/191 notes) and `npm run build`
   both pass. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/70
+- [ ] **8h-auth-revamp** (owner-requested 2026-07-21 — DO THIS NEXT, before 8f) — Replace
+  magic-link sign-in with **"Sign in with Google" (Google OAuth) + email & password**, and
+  **remove the magic-link option entirely** (owner never liked it; magic-link email delivery has
+  also been unreliable).
+  - Code: the landing sign-in modal (`components/landing/sign-in-modal.tsx`) and `/login` use
+    `supabase.auth.signInWithOAuth({ provider: 'google', options:{ redirectTo: <origin>/auth/confirm }})`
+    and `signUp` / `signInWithPassword`, with a **Sign in / Create account** toggle and a
+    **password-reset** flow (`resetPasswordForEmail` + a small reset page). Remove all
+    `signInWithOtp` usage and magic-link copy. Keep the `/auth/confirm` code-exchange callback,
+    the middleware session refresh, and the `profiles` auto-create trigger as-is.
+  - Login identifier is **email** (not username). Optionally add a nullable `username` column to
+    `profiles` (numbered migration) as a display name only; degrade gracefully if unapplied. Do
+    NOT build username→email login (extra plumbing/attack surface, not worth it).
+  - **Owner setup — document these exact steps in the PR body; the runner CANNOT do them:**
+    (1) create an OAuth client in Google Cloud Console; (2) enable the Google provider in
+    Supabase → Auth → Providers and paste the client ID/secret; (3) add the Supabase callback URL
+    to Google's authorized redirect URIs and the site's URLs to Supabase → Auth → URL
+    Configuration; (4) optionally turn **Confirm email** off so email/password signup is instant.
+  - **DO NOT AUTO-MERGE this chunk.** Removing magic link before the Google provider + email
+    settings are configured in the dashboard would break production sign-in, and this is
+    auth/security-sensitive right before a public launch. Open the PR, make `npm run build` +
+    `content:check` pass, write the owner-setup checklist in the PR, and **leave it open** for the
+    owner to complete the dashboard setup, review, and merge. Same hold as 8c.
 - [x] **8f-content-thin-areas** — Continue adding questions, flashcards, and cases in the
   least-populated score areas (same as the 7b workflow but explicitly gap-driven). Re-ranked all
   14 score areas by item count post-batch-23: the four thinnest were Physiology (6), Biochemistry
