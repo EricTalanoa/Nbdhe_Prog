@@ -37,6 +37,8 @@ import { BiofilmFormationDiagram } from "@/components/topics/biofilm-formation-d
 import { StephanCurveDiagram } from "@/components/topics/stephan-curve-diagram";
 import { CalciumHomeostasisDiagram } from "@/components/topics/calcium-homeostasis-diagram";
 import { HyperplasiaHypertrophyDiagram } from "@/components/topics/hyperplasia-hypertrophy-diagram";
+import { SpauldingClassificationDiagram } from "@/components/topics/spaulding-classification-diagram";
+import { SensitivitySpecificityDiagram } from "@/components/topics/sensitivity-specificity-diagram";
 
 export function topicSlug(scoreArea: string): string {
   return scoreArea
@@ -235,7 +237,23 @@ export const TOPIC_NOTES: Record<string, string> = {
     "diffuse border and a widened periodontal ligament space at a non-vital tooth's apex.",
   "Dental Hygiene Care Planning":
     "Turning assessment findings into an individualized plan — diagnosis, patient education, " +
-    "infection control, anxiety and pain control, and recognizing dental/medical emergencies.",
+    "infection control, anxiety and pain control, and recognizing dental/medical emergencies. " +
+    "Infection control decisions in particular follow a single organizing principle, the Spaulding " +
+    "classification: how an instrument or item must be reprocessed between patients depends on " +
+    "what tissue it touches, not on how it looks or what it's made of. Critical items — anything " +
+    "that penetrates soft tissue, bone, or contacts the bloodstream (scalers, surgical and " +
+    "extraction instruments) — carry the highest transmission risk and must be sterilized every " +
+    "time, no exceptions. Semicritical items touch mucous membranes or non-intact skin but don't " +
+    "penetrate it (mirrors, impression trays, air/water syringe tips) and require at minimum " +
+    "high-level disinfection, though sterilizing them when possible is preferred. Noncritical " +
+    "items touch only intact skin (a blood pressure cuff, a pulse oximeter) and only need low- or " +
+    "intermediate-level disinfection between patients, since intact skin is itself an effective " +
+    "barrier. The same tiered logic extends to diagnosis and planning: a care plan should name the " +
+    "patient's actual unmet human need (not just a clinical finding) before choosing an " +
+    "intervention, individualized instruction should match the patient's literacy and readiness " +
+    "rather than a one-size script, and a true dental/medical emergency (syncope, an anaphylactic " +
+    "reaction, a hypertensive crisis found at intake) takes priority over any elective care planned " +
+    "for that visit.",
   "Periodontal Disease Management":
     "Etiology and pathogenesis of periodontal disease, nonsurgical therapy, chemotherapeutic and " +
     "surgical support, implant care, and the reassessment/maintenance cycle that keeps it in " +
@@ -276,7 +294,23 @@ export const TOPIC_NOTES: Record<string, string> = {
     "communication — the non-clinical judgment every practicing hygienist is tested on.",
   "Research Principles and Community Health":
     "Reading and applying scientific literature (study design, statistics, evidence-based " +
-    "decision-making) alongside community oral-health program planning and evaluation.",
+    "decision-making) alongside community oral-health program planning and evaluation. A " +
+    "recurring statistics question asks how good a screening test actually is, and that comes down " +
+    "to a 2x2 table comparing the test result against a patient's true disease status: sensitivity " +
+    "is the proportion of people who truly have the disease that the test correctly flags as " +
+    "positive (true positives divided by all disease-present cases), while specificity is the " +
+    "proportion of people who are truly disease-free that the test correctly flags as negative " +
+    "(true negatives divided by all disease-absent cases) — the two mnemonics worth memorizing " +
+    "verbatim are SnNout (a highly Sensitive test, when Negative, rules a disease OUT) and SpPin (a " +
+    "highly Specific test, when Positive, rules a disease IN). On the community-health side, " +
+    "prevention itself is organized into three levels applied *before, during, and after* disease " +
+    "onset: primary prevention stops disease before it starts (a community water-fluoridation " +
+    "program, a school sealant program applied to healthy teeth), secondary prevention catches and " +
+    "treats disease early to limit its progression (a screening exam that finds and restores a " +
+    "small carious lesion), and tertiary prevention manages an already-established disease to " +
+    "restore function and prevent further damage (a partial denture replacing lost teeth, " +
+    "periodontal maintenance for existing attachment loss). Confusing 'early treatment' for " +
+    "'prevention before onset' is the most common way this gets missed on an exam question.",
 };
 
 export const DEFAULT_TOPIC_NOTE =
@@ -297,6 +331,8 @@ export const TOPIC_DIAGRAMS: Record<string, ComponentType> = {
   "Biochemistry and Nutrition": StephanCurveDiagram,
   Physiology: CalciumHomeostasisDiagram,
   Pathology: HyperplasiaHypertrophyDiagram,
+  "Dental Hygiene Care Planning": SpauldingClassificationDiagram,
+  "Research Principles and Community Health": SensitivitySpecificityDiagram,
 };
 
 // Small per-topic glyphs for the dashboard's by-exam-topic grid (8b-dashboard-polish) — purely

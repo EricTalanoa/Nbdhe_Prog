@@ -103,9 +103,14 @@ Owner priority: these come **before** the ongoing 7b/7d depth batches below.
       mastication) + "Pathology" (hyperplasia vs. hypertrophy, invasion/metastasis as the
       malignant-vs-benign feature, erythroplakia/leukoplakia risk and high-risk sites, leukoedema/
       Fordyce granules as normal variants) notes, added `CalciumHomeostasisDiagram` +
-      `HyperplasiaHypertrophyDiagram`. 10/13 topics now have a diagram. Next batch: pick 1-2 more
-      (remaining topics without one: Dental Hygiene Care Planning, Supportive Treatment Services,
-      Professional Responsibility, Research Principles and Community Health).
+      `HyperplasiaHypertrophyDiagram`. Batch 6 (this run, PR #77): deepened "Dental Hygiene Care
+      Planning" (the Spaulding classification — critical/semicritical/noncritical instrument tiers
+      and the reprocessing level each requires; human-needs-based diagnosis; true-emergency
+      triage priority) + "Research Principles and Community Health" (the sensitivity/specificity
+      2x2 diagnostic-test table with the SnNout/SpPin mnemonics; the three levels of prevention)
+      notes, added `SpauldingClassificationDiagram` + `SensitivitySpecificityDiagram`. 12/13 topics
+      now have a diagram. Next batch: Supportive Treatment Services and Professional
+      Responsibility are the only two remaining without one.
 - [~] Phase 7: bank depth (7b, ongoing, paused for 7d) — b1-b22 across all areas + 5 cases; bank now 158
       (batch 22: rotated depth across Care Planning/Perio Management/Local Anesthesia —
       instruction: oral conditions/dentin hypersensitivity management, prescribed

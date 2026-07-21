@@ -440,6 +440,26 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
     without one: Dental Hygiene Care Planning, Supportive Treatment Services, Professional
     Responsibility, Research Principles and Community Health. Next batch: pick 1-2 more from that
     list, then resume 7b-bank-depth.
+  - Batch 6 (this run, PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/77): deepened "Dental
+    Hygiene Care Planning" (the Spaulding classification — critical items that penetrate soft
+    tissue/bone/bloodstream need sterilization, semicritical items touching mucous membranes need
+    at least high-level disinfection, noncritical items touching only intact skin need low-/
+    intermediate-level disinfection — plus human-needs-based diagnosis, individualized-instruction
+    matching, and true-emergency triage priority) and "Research Principles and Community Health"
+    (the sensitivity/specificity 2x2 diagnostic-test table — true/false positive/negative against
+    disease status, with the SnNout/SpPin mnemonics — and the three levels of prevention: primary
+    before onset, secondary to catch/treat early, tertiary to manage established disease). Added
+    two more hand-drawn SVG diagrams: `SpauldingClassificationDiagram` (three instrument-risk
+    tiers, each with its required processing level) and `SensitivitySpecificityDiagram` (the 2x2
+    contingency table + sensitivity/specificity formulas + mnemonics). Wired into `TOPIC_DIAGRAMS`
+    in `lib/topics.ts`. Verified the same way as prior batches: rendered both components' exact
+    SVG markup against the project's compiled Tailwind theme CSS in a headless browser and
+    screenshotted in light and dark mode before committing — clean in both modes, no clipping or
+    label collisions found this pass. 12/13 topics now have a diagram — only Supportive Treatment
+    Services and Professional Responsibility remain without one. Next batch: add a diagram +
+    deepen notes for those last two (Professional Responsibility is less inherently visual — a
+    simple ethics-principles or documentation-flow schematic may fit better than a clinical
+    diagram), then resume 7b-bank-depth.
 - [ ] **7b-bank-depth** — Deepen the question bank across all 13 areas (wide → deep; Local
   Anesthesia gets extra depth), authored to the blueprint. Ongoing; one focused batch per run.
   Progress: bank now 92 questions (19 easy / 60 medium / 13 hard) + 3 cases + 11 flashcards.

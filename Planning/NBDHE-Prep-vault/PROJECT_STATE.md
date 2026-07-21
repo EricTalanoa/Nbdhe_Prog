@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-21
-phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset merged PR #70; 8f-content-thin-areas merged PR #72; 8g-blueprint-audit merged PR #75; 7d batch 5 open PR #76, this run; 7b ongoing in the background)
+phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset merged PR #70; 8f-content-thin-areas merged PR #72; 8g-blueprint-audit merged PR #75; 7d batch 5 merged PR #76; 7d batch 6 open PR #77, this run; 7b ongoing in the background)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -98,7 +98,19 @@ granules as benign normal variants) topic overviews, adding two more hand-drawn 
 `TOPIC_DIAGRAMS` in `lib/topics.ts`) — verified the same way as prior batches (rendered SVG markup
 against the compiled Tailwind theme CSS, screenshotted light/dark, no clipping or overlap found).
 10/13 topics now have a diagram. `npm run content:check` (199/199 notes) and `npm run build` both
-pass. Next AUTOPILOT chunk: pick 1-2 more topics for 7d, or resume 7b-bank-depth (both ongoing).**
+pass (merged PR #76). **7d-topic-notes-depth batch 6 open (this run, PR #77)** — deepened the
+"Dental Hygiene Care Planning" (the Spaulding classification — critical/semicritical/noncritical
+instrument tiers and the reprocessing level each requires; human-needs-based diagnosis;
+true-emergency triage priority) and "Research Principles and Community Health" (the
+sensitivity/specificity 2x2 diagnostic-test table with the SnNout/SpPin mnemonics; the three
+levels of prevention — primary/secondary/tertiary) topic overviews, adding two more hand-drawn SVG
+diagrams — `SpauldingClassificationDiagram` and `SensitivitySpecificityDiagram`
+(`components/topics/`, wired via `TOPIC_DIAGRAMS` in `lib/topics.ts`) — verified the same way as
+prior batches (rendered SVG markup against the compiled Tailwind theme CSS, screenshotted
+light/dark, no clipping or overlap found). 12/13 topics now have a diagram — only Supportive
+Treatment Services and Professional Responsibility remain without one. `npm run content:check`
+(199/199 notes) and `npm run build` both pass. Next AUTOPILOT chunk: add a diagram + deepen notes
+for the last two 7d topics, or resume 7b-bank-depth (both ongoing).**
 
 Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
 merged (2026-07-17, PR #53).** `/dashboard` renders the `dashboard_mode` (`'method' | 'topic'`,
@@ -371,10 +383,14 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    metastasis as the malignant-vs-benign feature, erythroplakia/leukoplakia risk and high-risk
    sites, leukoedema/Fordyce granules as normal variants) with a `CalciumHomeostasisDiagram` and
    `HyperplasiaHypertrophyDiagram` (`components/topics/`, wired via `TOPIC_DIAGRAMS` in
-   `lib/topics.ts`). Next batch: 10/13 topics now have a diagram — pick 1-2 more from the
-   remaining topics (Dental Hygiene Care Planning, Supportive Treatment Services, Professional
-   Responsibility, Research Principles and Community Health) and deepen notes for the ones
-   without one yet.
+   `lib/topics.ts`); batch 6 (this run, PR #77) deepened "Dental Hygiene Care Planning" (the
+   Spaulding classification — critical/semicritical/noncritical instrument tiers and the
+   reprocessing level each requires; human-needs-based diagnosis; true-emergency triage priority)
+   and "Research Principles and Community Health" (the sensitivity/specificity 2x2
+   diagnostic-test table with the SnNout/SpPin mnemonics; the three levels of prevention) with a
+   `SpauldingClassificationDiagram` and `SensitivitySpecificityDiagram`. Next batch: 12/13 topics
+   now have a diagram — only Supportive Treatment Services and Professional Responsibility remain
+   without one; add a diagram + deepen notes for those last two.
 2. Resume **7b-bank-depth** (ongoing) after 7d batches — keep deepening the bank, one focused
    batch/run. Batch 22 rotated depth across Care Planning (instruction: oral conditions/dentin
    hypersensitivity management; anxiety and pain control-local anesthesia/beta-blocker +
