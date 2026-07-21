@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-21
-phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset merged PR #70; 8f-content-thin-areas merged PR #72; 8g-blueprint-audit open, this run; 7d/7b ongoing in the background)
+phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset merged PR #70; 8f-content-thin-areas merged PR #72; 8g-blueprint-audit merged PR #75; 7d batch 5 open PR #76, this run; 7b ongoing in the background)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -86,8 +86,19 @@ egress limitation noted for `*.supabase.co` in prior batches; this is an interna
 audit, not a fresh diff against the published guide. Open follow-up for the owner: spot-check the
 mapping doc against a freshly downloaded Candidate Guide PDF from outside this environment,
 especially whether the "~October 2026" update-timing assumption still holds now that it's July
-2026. `npm run content:check` (199/199 notes) and `npm run build` both pass. Next AUTOPILOT chunk:
-resume 7d-topic-notes-depth or 7b-bank-depth (both ongoing, one focused batch per run).**
+2026. `npm run content:check` (199/199 notes) and `npm run build` both pass (merged PR #75).
+**7d-topic-notes-depth batch 5 open (this run, PR #76)** — deepened the "Physiology" (baroreceptor
+reflex direction, the hemostasis sequence, osteoclastic bone resorption in periodontal disease,
+PTH's three-target calcium-raising mechanism and negative-feedback shutoff, trigeminal/V3 motor
+innervation of mastication) and "Pathology" (hyperplasia vs. hypertrophy as cellular adaptations —
+why drug-induced gingival enlargement is hyperplasia not hypertrophy — invasion/metastasis as the
+malignant-vs-benign feature, erythroplakia/leukoplakia risk and high-risk sites, leukoedema/Fordyce
+granules as benign normal variants) topic overviews, adding two more hand-drawn SVG diagrams —
+`CalciumHomeostasisDiagram` and `HyperplasiaHypertrophyDiagram` (`components/topics/`, wired via
+`TOPIC_DIAGRAMS` in `lib/topics.ts`) — verified the same way as prior batches (rendered SVG markup
+against the compiled Tailwind theme CSS, screenshotted light/dark, no clipping or overlap found).
+10/13 topics now have a diagram. `npm run content:check` (199/199 notes) and `npm run build` both
+pass. Next AUTOPILOT chunk: pick 1-2 more topics for 7d, or resume 7b-bank-depth (both ongoing).**
 
 Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
 merged (2026-07-17, PR #53).** `/dashboard` renders the `dashboard_mode` (`'method' | 'topic'`,
@@ -350,14 +361,20 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
    SVG each; batch 3 (PR #57) deepened "Patient Assessment" (six-point periodontal probing,
    reading a probe's mm markings) and "Pharmacology" (LA sodium-channel blockade, IANB as the
    highest-yield injection) with a `PeriodontalChartingDiagram` and `NerveBlockLandmarksDiagram`;
-   batch 4 (this run, PR #59) deepened "Biochemistry and Nutrition" (the Stephan curve, vitamin
+   batch 4 (PR #59) deepened "Biochemistry and Nutrition" (the Stephan curve, vitamin
    C/collagen hydroxylation) and "Microbiology and Immunology" (dental plaque biofilm formation
    as an ordered succession, ending in the anaerobic red complex deepest in the pocket) with a
-   `StephanCurveDiagram` and `BiofilmFormationDiagram` (`components/topics/`, wired via
-   `TOPIC_DIAGRAMS` in `lib/topics.ts`). Next batch: 8/13 topics now have a diagram — pick 1-2
-   more from the remaining topics (Physiology, Pathology, Dental Hygiene Care Planning,
-   Supportive Treatment Services, Professional Responsibility, Research Principles and Community
-   Health) and deepen notes for the ones without one yet.
+   `StephanCurveDiagram` and `BiofilmFormationDiagram`; batch 5 (this run, PR #76) deepened
+   "Physiology" (baroreceptor reflex direction, the hemostasis sequence, osteoclastic bone
+   resorption in periodontal disease, PTH's three-target calcium-raising mechanism, trigeminal/V3
+   motor innervation of mastication) and "Pathology" (hyperplasia vs. hypertrophy, invasion/
+   metastasis as the malignant-vs-benign feature, erythroplakia/leukoplakia risk and high-risk
+   sites, leukoedema/Fordyce granules as normal variants) with a `CalciumHomeostasisDiagram` and
+   `HyperplasiaHypertrophyDiagram` (`components/topics/`, wired via `TOPIC_DIAGRAMS` in
+   `lib/topics.ts`). Next batch: 10/13 topics now have a diagram — pick 1-2 more from the
+   remaining topics (Dental Hygiene Care Planning, Supportive Treatment Services, Professional
+   Responsibility, Research Principles and Community Health) and deepen notes for the ones
+   without one yet.
 2. Resume **7b-bank-depth** (ongoing) after 7d batches — keep deepening the bank, one focused
    batch/run. Batch 22 rotated depth across Care Planning (instruction: oral conditions/dentin
    hypersensitivity management; anxiety and pain control-local anesthesia/beta-blocker +

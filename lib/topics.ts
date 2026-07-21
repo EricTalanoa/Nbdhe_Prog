@@ -35,6 +35,8 @@ import { PeriodontalChartingDiagram } from "@/components/topics/periodontal-char
 import { NerveBlockLandmarksDiagram } from "@/components/topics/nerve-block-landmarks-diagram";
 import { BiofilmFormationDiagram } from "@/components/topics/biofilm-formation-diagram";
 import { StephanCurveDiagram } from "@/components/topics/stephan-curve-diagram";
+import { CalciumHomeostasisDiagram } from "@/components/topics/calcium-homeostasis-diagram";
+import { HyperplasiaHypertrophyDiagram } from "@/components/topics/hyperplasia-hypertrophy-diagram";
 
 export function topicSlug(scoreArea: string): string {
   return scoreArea
@@ -101,7 +103,30 @@ export const TOPIC_NOTES: Record<string, string> = {
     "pain patterns and guide safe injection sites.",
   Physiology:
     "How the body's systems function day to day, with an emphasis on the autonomic, " +
-    "cardiovascular, and salivary mechanisms that shape clinical decisions in the dental chair.",
+    "cardiovascular, salivary, and endocrine mechanisms that shape clinical decisions in the " +
+    "dental chair. Several high-yield systems recur here. The baroreceptor reflex is the body's " +
+    "fast, moment-to-moment blood-pressure control: stretch receptors in the carotid sinus and " +
+    "aortic arch sense a rise in pressure and, via the autonomic nervous system, trigger a " +
+    "reflexive *decrease* in heart rate and vasodilation to bring pressure back down — the reflex " +
+    "always pushes back against whichever direction pressure moved, which is why a sudden pressure " +
+    "spike (a stressed or anxious patient) is met with a slowing, not speeding, of the heart. " +
+    "Hemostasis after a bleeding event — including the small nicks scaling can cause — follows a " +
+    "set sequence: vascular spasm (immediate vessel constriction) comes first, followed by platelet " +
+    "plug formation at the injury site, and only then the coagulation cascade lays down a " +
+    "stabilizing fibrin mesh; skipping straight to 'clotting factors' without the earlier vascular " +
+    "and platelet steps is a common test trap. Bone itself is constantly remodeled by two opposing " +
+    "cell types — osteoblasts build new bone matrix, while osteoclasts resorb it — and in " +
+    "periodontal disease it's osteoclastic activity, upregulated by the host inflammatory response, " +
+    "that drives the alveolar bone loss a hygienist reads on a radiograph. Endocrine regulation " +
+    "shows up too: when serum calcium falls, the parathyroid glands release parathyroid hormone " +
+    "(PTH), which raises it back by acting on three targets at once — stimulating osteoclastic bone " +
+    "resorption, increasing renal calcium reabsorption while activating vitamin D, and (via that " +
+    "activated vitamin D) increasing intestinal calcium absorption — and the restored calcium level " +
+    "is itself the signal that shuts PTH release back off, a classic negative-feedback loop. And at " +
+    "the neuromuscular level, the muscles of mastication (masseter, temporalis, and the medial and " +
+    "lateral pterygoids) all share their motor innervation from a single cranial nerve — the " +
+    "mandibular division of the trigeminal nerve (V3) — which is why a mandibular block placed to " +
+    "target V3's sensory branches sits so close to the same nerve's motor fibers.",
   "Biochemistry and Nutrition":
     "Metabolic and nutritional concepts relevant to oral health — from the biochemistry of " +
     "collagen and mineralization to how diet and sugar frequency drive caries risk. The Stephan " +
@@ -143,7 +168,27 @@ export const TOPIC_NOTES: Record<string, string> = {
     "covered in more depth on the Periodontal Disease Management topic page).",
   Pathology:
     "General and oral pathology — recognizing normal vs. abnormal tissue changes, common oral " +
-    "lesions, and the disease processes a hygienist screens for at every visit.",
+    "lesions, and the disease processes a hygienist screens for at every visit. Two general- " +
+    "pathology concepts anchor a lot of oral-lesion questions. First, cells respond to a sustained " +
+    "stimulus by adapting, not just failing outright: hyperplasia is an *increase in cell number* " +
+    "(the tissue proliferates more cells, each still normal-sized) while hypertrophy is an " +
+    "*increase in cell size* (the same number of cells, each grown larger) — drug-induced gingival " +
+    "enlargement from phenytoin, cyclosporine, or nifedipine is classified as hyperplasia because " +
+    "fibroblasts proliferate and lay down more collagen, they don't individually swell. Second, " +
+    "the single most reliable feature separating a malignant neoplasm from a benign one isn't how " +
+    "fast it grows or how it looks under low power — it's whether it invades surrounding tissue " +
+    "and can metastasize to distant sites; a benign tumor can still grow large and locally " +
+    "destructive, but it stays put and doesn't spread. On the recognition side, screening for oral " +
+    "premalignant and malignant disease means knowing that erythroplakia (a red patch) carries a " +
+    "substantially higher risk of dysplasia or carcinoma than leukoplakia (a white patch) does, " +
+    "and that the lateral/ventral tongue and floor of the mouth are the highest-risk sites for oral " +
+    "squamous cell carcinoma — a persistent, indurated lesion in one of those locations, especially " +
+    "in a tobacco or alcohol user, warrants a biopsy referral rather than a wait-and-see recall. Not " +
+    "every unusual-looking finding is pathologic, though: leukoedema — a filmy, grayish-white " +
+    "change on the buccal mucosa that disappears when the tissue is stretched taut — and Fordyce " +
+    "granules — small, painless yellow-white papules from ectopic sebaceous glands — are both " +
+    "benign, common normal variants, and the 'does it disappear on stretch' test is exactly how " +
+    "leukoedema is told apart from a true leukoplakia (which does not disappear).",
   Pharmacology:
     "Drug actions and classes relevant to dental hygiene care, plus local anesthesia " +
     "pharmacology — agent selection, dosing, onset/duration, and safe use in medically complex " +
@@ -250,6 +295,8 @@ export const TOPIC_DIAGRAMS: Record<string, ComponentType> = {
   Pharmacology: NerveBlockLandmarksDiagram,
   "Microbiology and Immunology": BiofilmFormationDiagram,
   "Biochemistry and Nutrition": StephanCurveDiagram,
+  Physiology: CalciumHomeostasisDiagram,
+  Pathology: HyperplasiaHypertrophyDiagram,
 };
 
 // Small per-topic glyphs for the dashboard's by-exam-topic grid (8b-dashboard-polish) — purely
