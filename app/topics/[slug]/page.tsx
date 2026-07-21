@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { BookOpen, ChevronRight, Layers, Stethoscope } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/page-header";
+import { ResetProgress } from "@/components/topics/reset-progress";
 import {
   topicSlug,
   TOPIC_NOTES,
@@ -150,6 +151,8 @@ export default async function TopicPage({ params }: { params: { slug: string } }
           </div>
         </section>
       )}
+
+      <ResetProgress area={area} />
     </main>
   );
 }
