@@ -58,8 +58,22 @@ Owner priority: these come **before** the ongoing 7b/7d depth batches below.
       Immunology at 6 each, Pathology at 7) got 2 questions apiece (8 total) + 2 flashcards
       (fc-phys-0001, fc-bioc-0001), all on concepts not yet in the bank. Bank now 199 questions +
       10 cases + 27 flashcards.
-- [ ] Phase 8: blueprint audit (8g) — confirm taxonomy/content still matches the published 2026
-      NBDHE Candidate Guide; fix `blueprint-mapping.md` first if drift is found.
+- [x] Phase 8: **blueprint audit (8g, this run)** — audited taxonomy seed, content tagging, item-
+      format handling, and the mock exam's component structure against `blueprint-mapping.md`.
+      Taxonomy seed (60 leaves) matches the mapping doc exactly; `content:check` already
+      cross-validates every note's tagging against it. Found real drift: `blueprint-mapping.md`
+      restricts Component B (case) items to the 7 "Provision of Clinical Dental Hygiene Services"
+      domains, but 2 case-linked items (q-path-0007, q-phar-0004) were tagged to Scientific Basis
+      domains (Pathology, Pharmacology) — nothing enforced the restriction. Retagged both to a
+      compliant leaf that preserves their clinical intent (Patient Assessment/Oral evaluation;
+      Dental Hygiene Care Planning/Recognition and management of patients with special needs,
+      matching their case sibling), and added an offline guard in `import-questions.mjs --check`
+      so a case- or testlet-linked item tagged outside its component's allowed area now fails
+      validation. Could not reach the live 2026 NBDHE Candidate Guide (jcnde.ada.org) or any
+      mirror to verify `blueprint-mapping.md` itself against the source — this environment's
+      egress returns 403 for every external site tried (jcnde.ada.org, mometrix.com, even
+      wikipedia.org), the same standing limitation noted for `*.supabase.co` in prior batches.
+      `npm run content:check` (199/199 notes) and `npm run build` both pass.
 
 ## This Phase (Phase 7)
 

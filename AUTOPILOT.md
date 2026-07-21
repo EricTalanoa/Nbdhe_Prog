@@ -307,9 +307,46 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
   Responsibility are the next-thinnest tier (9 each) once these four catch up further, or keep
   rotating — Dental Radiography (11) and Research Principles and Community Health (13) are also
   below the clinical-area average.
-- [ ] **8g-blueprint-audit** — Audit the current taxonomy + content against the 2026 NBDHE
-  Candidate Guide to confirm we still match the published blueprint (areas, subdomains, item
-  formats, component structure); record any drift and fix `blueprint-mapping.md` first if needed.
+- [x] **8g-blueprint-audit** — Audited the taxonomy seed, content tagging, item-format handling,
+  and the mock exam's component structure against `blueprint-mapping.md` (the internal
+  source-of-truth doc for the 2026 NBDHE Candidate Guide's blueprint).
+  - **Taxonomy seed vs. mapping doc**: `20260710000003_seed_taxonomy.sql`'s 60 leaves match
+    `blueprint-mapping.md`'s area/domain/subdomain structure exactly (13 rows for Area 1's 56
+    items, 42 for Area 2's 124, 5 for Area 3's 20). `scripts/import-questions.mjs --check` already
+    cross-validates every question/flashcard note's tagging against this seed offline, so string
+    drift (e.g. a hyphen vs. an em dash) is already caught automatically — confirmed clean on all
+    199 current notes.
+  - **Item formats**: `negative` notes are required to contain a capitalized `EXCEPT`/`NOT`
+    (importer) and `QuestionRenderer`'s `Stem` component visually highlights those words — matches
+    the mapping doc's "renderer should visually flag these" instruction.
+  - **Component structure**: `lib/mock.ts` deliberately scales Component A/B section sizes to the
+    current (much smaller) bank rather than the real ~350-item/49–99-scale spec, and documents why
+    in a comment — consistent with the mapping doc's scoring section (scale exists but the real
+    exam only reports pass/fail).
+  - **Found real drift, fixed**: `blueprint-mapping.md`'s Case-Based Component section says items
+    under a case draw only from the 7 "Provision of Clinical Dental Hygiene Services" domains
+    (Patient Assessment, Dental Radiography, Dental Hygiene Care Planning, Periodontal Disease
+    Management, Preventive Agents, Supportive Treatment Services, Professional Responsibility) —
+    but nothing enforced this, and two authored case-linked items were tagged to Scientific Basis
+    domains: `q-path-0007` (case `case-path-0001`, tagged Pathology) and `q-phar-0004` (case
+    `case-med-0002`, tagged Pharmacology). Retagged both to a compliant leaf that preserves the
+    item's clinical intent — `q-path-0007` → Patient Assessment/Oral evaluation (it's literally
+    about recognizing malignancy risk during an oral exam); `q-phar-0004` → Dental Hygiene Care
+    Planning/Recognition and management of patients with special needs (matching its case sibling
+    `q-med-0004`, since both items jointly inform the same medically-compromised-patient care
+    decision). Added `CASE_COMPONENT_AREA`/`TESTLET_COMPONENT_AREA` guards to
+    `import-questions.mjs`'s offline `--check` pass so a future case- or testlet-linked item tagged
+    outside its component's allowed area now fails validation instead of silently drifting again.
+  - **Could not verify against the live source**: tried to fetch the actual 2026 NBDHE Candidate
+    Guide (jcnde.ada.org) and several mirrors (mometrix.com academy page, even en.wikipedia.org as
+    a sanity check) via WebFetch/WebSearch — every one returned HTTP 403 in this environment, the
+    same standing egress limitation already noted for `*.supabase.co` and `open-exam-prep.com` in
+    prior batches. So this audit is an internal-consistency check (mapping doc ↔ taxonomy seed ↔
+    content ↔ code), not a fresh diff against the published guide. Open follow-up for the owner:
+    spot-check `blueprint-mapping.md` against a freshly downloaded Candidate Guide PDF from outside
+    this environment, particularly whether the "~October 2026" update-timing assumption still
+    holds now that the date has advanced to July 2026.
+  - `npm run content:check` (199/199 notes) and `npm run build` both pass.
 
 - [ ] **7d-topic-notes-depth** — Ongoing, one focused batch per run (same shape as 7b-bank-depth):
   deepen each `/topics/[slug]` overview with more substantive original notes, and add **original

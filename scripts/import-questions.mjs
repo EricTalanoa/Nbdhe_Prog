@@ -25,6 +25,13 @@ export const CONTENT_DIR = join(__dirname, "..", "Planning", "NBDHE-Prep-vault",
 const SEED_MIGRATION = join(__dirname, "..", "supabase", "migrations", "20260710000003_seed_taxonomy.sql");
 export const SPEC_VERSION = "after_update_2026";
 
+// blueprint-mapping.md restricts which discipline area a case-linked or testlet-linked item may
+// draw from — Component B (case) items only come from Area 2's seven clinical-practice domains,
+// and the Area 3 testlet is scoped to Research Principles and Community Health. Enforced offline
+// so a future batch can't silently mis-tag one (see 8g-blueprint-audit in AUTOPILOT.md).
+export const CASE_COMPONENT_AREA = "Provision of Clinical Dental Hygiene Services";
+export const TESTLET_COMPONENT_AREA = "Research Principles and Community Health";
+
 // Key a taxonomy leaf by (area, domain, subdomain); empty and null collapse together.
 export const taxKey = (a, d, s) => `${a || ""}|${d || ""}|${s || ""}`;
 
@@ -578,6 +585,22 @@ async function main() {
   for (const n of notes) {
     if (n.caseSlug && !caseSlugs.has(n.caseSlug)) {
       n.errors.push(`case "${n.caseSlug}" not found among case-*.md notes`);
+    }
+  }
+
+  // Component B (case) items and the Area 3 (research/community) testlet each draw from a
+  // fixed area per blueprint-mapping.md — a mis-tagged item would silently misrepresent which
+  // component it belongs to. See CASE_COMPONENT_AREA / TESTLET_COMPONENT_AREA above.
+  for (const n of notes) {
+    if (n.caseSlug && n.taxonomy.area && n.taxonomy.area !== CASE_COMPONENT_AREA) {
+      n.errors.push(
+        `case-linked item must be tagged area="${CASE_COMPONENT_AREA}" (found "${n.taxonomy.area}") — blueprint-mapping.md restricts Component B to that area's domains`
+      );
+    }
+    if (n.testletSlug && n.taxonomy.area && n.taxonomy.area !== TESTLET_COMPONENT_AREA) {
+      n.errors.push(
+        `testlet-linked item must be tagged area="${TESTLET_COMPONENT_AREA}" (found "${n.taxonomy.area}")`
+      );
     }
   }
 

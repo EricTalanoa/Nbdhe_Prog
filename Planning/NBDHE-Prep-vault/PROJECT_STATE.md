@@ -1,6 +1,6 @@
 ---
 updated: 2026-07-21
-phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset merged PR #70; 8f-content-thin-areas open, this run; 7d/7b ongoing in the background)
+phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset merged PR #70; 8f-content-thin-areas merged PR #72; 8g-blueprint-audit open, this run; 7d/7b ongoing in the background)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -68,7 +68,26 @@ hyperplasia-vs-hypertrophy applied to drug-induced gingival enlargement) + 2 fla
 (fc-phys-0001, fc-bioc-0001 — the bank's first flashcards for either domain). Physiology/
 Biochemistry and Nutrition/Microbiology and Immunology now sit at 8 each, Pathology at 9. Bank
 now **199 questions** + 10 cases + 27 flashcards. `npm run content:check` (199/199 notes) and
-`npm run build` both pass. Next AUTOPILOT chunk: 8g-blueprint-audit.**
+`npm run build` both pass (merged PR #72). **8g-blueprint-audit open (this run)** — audited the
+taxonomy seed, content tagging, item-format handling, and the mock exam's component structure
+against `blueprint-mapping.md`. Taxonomy seed (60 leaves) matches the mapping doc exactly, and
+`content:check` already cross-validates every note's area/domain/subdomain tagging against it
+offline. Found real drift: the mapping doc restricts Component B (case) items to the 7 "Provision
+of Clinical Dental Hygiene Services" domains, but nothing enforced it, and two case-linked items —
+`q-path-0007` (Pathology) and `q-phar-0004` (Pharmacology) — were tagged to Scientific Basis
+domains instead. Retagged both to a compliant leaf that preserves their clinical intent
+(Patient Assessment/Oral evaluation; Dental Hygiene Care Planning/Recognition and management of
+patients with special needs, matching their case sibling `q-med-0004`), and added
+`CASE_COMPONENT_AREA`/`TESTLET_COMPONENT_AREA` guards to `import-questions.mjs`'s offline
+`--check` so this can't silently regress. Could not verify `blueprint-mapping.md` itself against
+the live 2026 NBDHE Candidate Guide — WebFetch/WebSearch to jcnde.ada.org and every mirror tried
+(even wikipedia.org, as a sanity check) returned HTTP 403 in this environment, the same standing
+egress limitation noted for `*.supabase.co` in prior batches; this is an internal-consistency
+audit, not a fresh diff against the published guide. Open follow-up for the owner: spot-check the
+mapping doc against a freshly downloaded Candidate Guide PDF from outside this environment,
+especially whether the "~October 2026" update-timing assumption still holds now that it's July
+2026. `npm run content:check` (199/199 notes) and `npm run build` both pass. Next AUTOPILOT chunk:
+resume 7d-topic-notes-depth or 7b-bank-depth (both ongoing, one focused batch per run).**
 
 Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
 merged (2026-07-17, PR #53).** `/dashboard` renders the `dashboard_mode` (`'method' | 'topic'`,

@@ -5,9 +5,9 @@ created: 2026-07-19
 status: approved
 format: question
 difficulty: medium
-area: "Scientific Basis for Dental Hygiene Practice"
-domain: "Pharmacology"
-subdomain: "General pharmacology"
+area: "Provision of Clinical Dental Hygiene Services"
+domain: "Dental Hygiene Care Planning"
+subdomain: "Recognition and management of patients with special needs"
 reference: "AAOMS position paper on MRONJ; bisphosphonate pharmacology"
 rationale: "See below (body)"
 case: "case-med-0002"

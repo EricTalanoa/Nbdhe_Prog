@@ -5,9 +5,9 @@ created: 2026-07-19
 status: approved
 format: question
 difficulty: medium
-area: "Scientific Basis for Dental Hygiene Practice"
-domain: "Pathology"
-subdomain: "Oral pathology"
+area: "Provision of Clinical Dental Hygiene Services"
+domain: "Patient Assessment"
+subdomain: "Oral evaluation"
 reference: "Regezi, Sciubba & Jordan, Oral Pathology — premalignant lesions and high-risk sites"
 rationale: "See below (body)"
 case: "case-path-0001"
