@@ -284,8 +284,29 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
   false "fully cleared" — bookmarks/review_schedule/flashcard_schedule (which already had delete
   policies) are unaffected either way. `npm run content:check` (191/191 notes) and `npm run build`
   both pass. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/70
-- [ ] **8f-content-thin-areas** — Continue adding questions, flashcards, and cases in the
-  least-populated score areas (same as the 7b workflow but explicitly gap-driven).
+- [x] **8f-content-thin-areas** — Continue adding questions, flashcards, and cases in the
+  least-populated score areas (same as the 7b workflow but explicitly gap-driven). Re-ranked all
+  14 score areas by item count post-batch-23: the four thinnest were Physiology (6), Biochemistry
+  and Nutrition (6), Microbiology and Immunology (6), and Pathology (7), all well behind
+  Periodontal Disease Management (26) and Dental Hygiene Care Planning (40). Added 8 questions (2
+  per area) + 2 flashcards, all on concepts not yet covered in the bank: q-phys-0007 (trigeminal
+  nerve motor innervation of the muscles of mastication), q-phys-0008 (PTH raising blood calcium
+  via osteoclastic resorption, renal reabsorption, and vitamin D activation), q-bioc-0007 (vitamin
+  A deficiency and oral epithelial keratinization), q-bioc-0008 (xylitol's non-fermentable
+  biochemistry vs. sucrose), q-micr-0004 (gram-negative LPS/endotoxin as the red complex's
+  inflammatory trigger), q-immu-0004 (neutrophil chemotaxis defect impairing subgingival
+  phagocytosis, tying to the localized-aggressive-periodontitis picture from the 7e trick item),
+  q-path-0008 (Fordyce granules as a benign normal variant), q-path-0009 (hyperplasia vs.
+  hypertrophy mechanism, applied to phenytoin/cyclosporine/nifedipine gingival enlargement) +
+  fc-phys-0001 (PTH's three target-organ effects) and fc-bioc-0001 (xylitol vs. sucrose
+  fermentation). Physiology/Biochemistry and Nutrition/Microbiology and Immunology now sit at 8
+  each, Pathology at 9. `npm run content:check` passes (199/199 notes: 172 questions, 10 cases,
+  27 flashcards) and `npm run build` compiles clean. Not yet seeded to the live Supabase project
+  (same standing limitation as batches 6-23 — this environment's egress can't reach
+  `*.supabase.co`). Next batch: Anatomic Sciences/Supportive Treatment Services/Professional
+  Responsibility are the next-thinnest tier (9 each) once these four catch up further, or keep
+  rotating — Dental Radiography (11) and Research Principles and Community Health (13) are also
+  below the clinical-area average.
 - [ ] **8g-blueprint-audit** — Audit the current taxonomy + content against the 2026 NBDHE
   Candidate Guide to confirm we still match the published blueprint (areas, subdomains, item
   formats, component structure); record any drift and fix `blueprint-mapping.md` first if needed.

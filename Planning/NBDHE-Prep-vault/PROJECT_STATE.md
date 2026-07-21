@@ -1,6 +1,6 @@
 ---
-updated: 2026-07-20
-phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset open, this run; 7d/7b ongoing in the background)
+updated: 2026-07-21
+phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset merged PR #70; 8f-content-thin-areas open, this run; 7d/7b ongoing in the background)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -55,8 +55,20 @@ never had an owner-delete RLS policy (only select/insert/update); migration
 `20260721000001_progress_reset_delete_policies.sql` adds one (manual apply pending, same pattern
 as prior migrations) — until applied, deletes against those two tables are silently denied by RLS
 (0 rows), so the action compares expected-vs-actual deleted counts and surfaces
-`migrationPending: true` to the UI instead of falsely claiming a full reset. Next AUTOPILOT chunk:
-8f-content-thin-areas (continue 7b-style gap-driven content in the least-populated score areas).**
+`migrationPending: true` to the UI instead of falsely claiming a full reset (merged PR #70).
+**8f-content-thin-areas open (this run)** — re-ranked all 14 score areas by item count after
+batch 23's leveling pass; the four thinnest were Physiology (6), Biochemistry and Nutrition (6),
+Microbiology and Immunology (6), and Pathology (7), well behind Periodontal Disease Management
+(26) and Dental Hygiene Care Planning (40). Added 8 original questions (2 per area, all on
+concepts not yet in the bank — trigeminal motor innervation of mastication, PTH's three
+calcium-raising target-organ effects, vitamin A and epithelial keratinization, xylitol's
+non-fermentable biochemistry, gram-negative LPS as the red complex's inflammatory trigger, a
+neutrophil chemotaxis defect and aggressive periodontitis, Fordyce granules as a normal variant,
+hyperplasia-vs-hypertrophy applied to drug-induced gingival enlargement) + 2 flashcards
+(fc-phys-0001, fc-bioc-0001 — the bank's first flashcards for either domain). Physiology/
+Biochemistry and Nutrition/Microbiology and Immunology now sit at 8 each, Pathology at 9. Bank
+now **199 questions** + 10 cases + 27 flashcards. `npm run content:check` (199/199 notes) and
+`npm run build` both pass. Next AUTOPILOT chunk: 8g-blueprint-audit.**
 
 Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
 merged (2026-07-17, PR #53).** `/dashboard` renders the `dashboard_mode` (`'method' | 'topic'`,
