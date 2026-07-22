@@ -284,7 +284,7 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
   false "fully cleared" — bookmarks/review_schedule/flashcard_schedule (which already had delete
   policies) are unaffected either way. `npm run content:check` (191/191 notes) and `npm run build`
   both pass. PR: https://github.com/EricTalanoa/Nbdhe_Prog/pull/70
-- [ ] **8h-auth-revamp** (owner-requested 2026-07-21 — DO THIS NEXT, before 8f) — Replace
+- [x] **8h-auth-revamp** (owner-requested 2026-07-21 — DO THIS NEXT, before 8f) — Replace
   magic-link sign-in with **"Sign in with Google" (Google OAuth) + email & password**, and
   **remove the magic-link option entirely** (owner never liked it; magic-link email delivery has
   also been unreliable).
@@ -307,6 +307,27 @@ Owner priority: do these **before** the ongoing 7b/7d depth batches. One chunk p
     auth/security-sensitive right before a public launch. Open the PR, make `npm run build` +
     `content:check` pass, write the owner-setup checklist in the PR, and **leave it open** for the
     owner to complete the dashboard setup, review, and merge. Same hold as 8c.
+  - **Done (this run), PR open — NOT merged, per the hold above:**
+    https://github.com/EricTalanoa/Nbdhe_Prog/pull/78. `/login` and the landing sign-in modal
+    (`components/landing/sign-in-modal.tsx`) dropped `signInWithOtp` entirely for a
+    **"Continue with Google"** button (`signInWithOAuth({ provider: 'google' })`) plus a
+    **Sign in / Create account** toggle over email + password (`signInWithPassword` / `signUp`)
+    and a **Forgot password?** link. `app/auth/confirm/route.ts` gained a `next` query param
+    (default `/dashboard`) so the one callback route serves Google's OAuth code exchange, the
+    signup-confirmation code exchange, and password-recovery links — recovery links use
+    `verifyOtp(token_hash, type=recovery)` rather than a PKCE code exchange (Supabase's own
+    documented pattern for this flow), since a reset link is routinely opened on a different
+    device/browser than the one that requested it, where a PKCE code verifier wouldn't match.
+    New `/auth/reset-password` (request the recovery email) and `/auth/update-password` (set the
+    new password once `/auth/confirm` has established the recovery session) pages;
+    `components/auth/google-icon.tsx` is a small shared "G" icon for both entry points. Login
+    identifier stays email — did not add the optional `username` column, to keep this chunk's
+    scope to the auth-method swap itself. Landing page copy no longer mentions "passwordless
+    magic link". `npm run content:check` (199/199 notes) and `npm run build` both pass. The PR
+    body documents the owner-only setup steps (Google Cloud OAuth client, enabling the Google
+    provider + pasting its client ID/secret into Supabase, the Supabase redirect-URL allowlist,
+    optionally toggling "Confirm email" off) — **do not merge until those are done**, since
+    merging first would break production sign-in for existing magic-link users with no fallback.
 - [x] **8f-content-thin-areas** — Continue adding questions, flashcards, and cases in the
   least-populated score areas (same as the 7b workflow but explicitly gap-driven). Re-ranked all
   14 score areas by item count post-batch-23: the four thinnest were Physiology (6), Biochemistry

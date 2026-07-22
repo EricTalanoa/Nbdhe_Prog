@@ -1,6 +1,6 @@
 ---
-updated: 2026-07-21
-phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset merged PR #70; 8f-content-thin-areas merged PR #72; 8g-blueprint-audit merged PR #75; 7d batch 5 merged PR #76; 7d batch 6 open PR #77, this run; 7b ongoing in the background)
+updated: 2026-07-22
+phase: 8 — Launch readiness (8a-signin-modal merged PR #66; 8b-dashboard-polish merged PR #67; 8c-injection-hardening merged PR #68; 8d-theme-toggle merged PR #69; 8e-progress-reset merged PR #70; 8f-content-thin-areas merged PR #72; 8g-blueprint-audit merged PR #75; 7d batch 5 merged PR #76; 7d batch 6 merged PR #77; 8h-auth-revamp open PR #78, this run — NOT merged, needs owner Google/Supabase dashboard setup first; 7b ongoing in the background)
 ---
 
 # PROJECT_STATE — NBDHE Prep
@@ -109,8 +109,23 @@ diagrams — `SpauldingClassificationDiagram` and `SensitivitySpecificityDiagram
 prior batches (rendered SVG markup against the compiled Tailwind theme CSS, screenshotted
 light/dark, no clipping or overlap found). 12/13 topics now have a diagram — only Supportive
 Treatment Services and Professional Responsibility remain without one. `npm run content:check`
-(199/199 notes) and `npm run build` both pass. Next AUTOPILOT chunk: add a diagram + deepen notes
-for the last two 7d topics, or resume 7b-bank-depth (both ongoing).**
+(199/199 notes) and `npm run build` both pass (merged PR #77). **8h-auth-revamp open (this run,
+PR #78, owner-requested 2026-07-21) — NOT auto-merged, per the chunk's own hold (same as 8c):**
+replaced magic-link sign-in with **Google OAuth + email/password** across `/login` and the
+landing sign-in modal — dropped `signInWithOtp` for a "Continue with Google" button
+(`signInWithOAuth`), a Sign in/Create account toggle over email + password
+(`signInWithPassword`/`signUp`), and a "Forgot password?" link. `app/auth/confirm/route.ts`
+gained a `next` param so it serves Google's OAuth code exchange, signup-confirmation, and
+password-recovery links (the recovery link uses `verifyOtp(token_hash, type=recovery)` rather
+than a PKCE code exchange, since a reset link is commonly opened on a different device/browser
+than the one that requested it). New `/auth/reset-password` + `/auth/update-password` pages;
+`components/auth/google-icon.tsx` shared icon. Login identifier stays email (skipped the
+optional `username` column to keep scope to the auth-method swap). `npm run content:check`
+(199/199 notes) and `npm run build` both pass. **Left open for the owner**: the PR body has the
+Google Cloud OAuth client + Supabase provider/redirect-URL setup steps this environment can't do,
+and merging before that's done would break production sign-in with no fallback (magic link is
+fully removed from the code). Next AUTOPILOT chunk: add a diagram + deepen notes for the last two
+7d topics, or resume 7b-bank-depth (both ongoing).**
 
 Phase 7 — Review tools + content depth: 7a-review-tools merged (2026-07-13); 7c-topic-dashboard
 merged (2026-07-17, PR #53).** `/dashboard` renders the `dashboard_mode` (`'method' | 'topic'`,
@@ -444,7 +459,10 @@ Supabase project (`NBDHE-Prep`, `otqwhkfhjhixzjtaxhzk`):
 - Board: 03-Kanban/board.md · Dashboards: 04-Dashboards/
 
 ## Decisions (locked)
-- **Auth: magic link** (Supabase email OTP) — simplest for her, no password to manage.
+- **Auth: Google OAuth + email/password** (owner-requested 2026-07-21, replacing magic link —
+  unreliable email delivery, and the owner never liked passwordless). In code on `feat/8h-auth-
+  revamp` / PR #78, **not merged yet** — needs the Google OAuth client + Supabase provider setup
+  documented in the PR first, since merging before that breaks sign-in with no fallback.
 - **Readiness: per-area % + a band** (Not yet / Approaching / Ready). No fake 49–99 scale number.
 - **Perio charts: static images for MVP**, interactive charting deferred to Phase 7+.
 - (Any of these can change — update here first, then the affected code.)

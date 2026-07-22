@@ -67,7 +67,7 @@ const STEPS = [
     n: "1",
     color: "var(--teal)",
     title: "Sign in",
-    body: "A passwordless magic link — no password to remember, nothing to manage.",
+    body: "Sign in with Google, or create an account with your email and a password.",
   },
   {
     n: "2",
@@ -270,7 +270,7 @@ export function LandingPage() {
                 </a>
               </div>
               <p style={{ margin: "22px 0 0", fontSize: 13, color: "var(--muted)" }}>
-                Passwordless sign-in · 100% original items · Not affiliated with JCNDE or ADA
+                Sign in with Google or email · 100% original items · Not affiliated with JCNDE or ADA
               </p>
             </div>
 
