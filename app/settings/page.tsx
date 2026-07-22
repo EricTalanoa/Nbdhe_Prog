@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation";
-import { Palette, Sparkles } from "lucide-react";
+import { CalendarDays, Palette, Sparkles } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/settings/theme-toggle";
 import { isThemeMode } from "@/lib/theme";
-import { setShowTrickBadge } from "@/app/settings/actions";
+import { setExamDate, setShowTrickBadge } from "@/app/settings/actions";
 
 // The by-study-method vs. by-exam-topic toggle used to live here; it's now a one-tap switch at
 // the top of /dashboard instead (2026-07), so it doesn't take an extra trip to reach.
@@ -19,11 +19,12 @@ export default async function SettingsPage() {
   // Missing column (migration not applied yet) or any read error → default to off/system.
   const { data: profile } = await supabase
     .from("profiles")
-    .select("show_trick_badge, theme")
+    .select("show_trick_badge, theme, exam_date")
     .eq("id", user.id)
     .maybeSingle();
   const showTrickBadge = profile?.show_trick_badge === true;
   const theme = isThemeMode(profile?.theme) ? profile.theme : "system";
+  const examDate: string | null = profile?.exam_date ?? null;
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-10">
@@ -42,6 +43,29 @@ export default async function SettingsPage() {
             </span>
           </span>
           <ThemeToggle initialTheme={theme} />
+        </div>
+
+        <div className="flex items-center gap-4 rounded-xl border bg-card p-4 shadow-sm">
+          <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <CalendarDays className="size-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-medium leading-tight">Exam date</span>
+            <span className="mt-0.5 block text-sm text-muted-foreground">
+              Powers the countdown on your dashboard. Leave it blank to hide the countdown.
+            </span>
+          </span>
+          <form action={setExamDate} className="flex shrink-0 items-center gap-2">
+            <input
+              type="date"
+              name="exam_date"
+              defaultValue={examDate ?? ""}
+              className="h-9 rounded-md border border-input bg-background px-3 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            />
+            <Button type="submit" variant="outline" size="sm">
+              Save
+            </Button>
+          </form>
         </div>
 
         <div className="flex items-center gap-4 rounded-xl border bg-card p-4 shadow-sm">

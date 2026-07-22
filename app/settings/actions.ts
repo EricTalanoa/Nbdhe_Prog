@@ -51,3 +51,29 @@ export async function setShowTrickBadge(formData: FormData): Promise<void> {
   revalidatePath("/practice");
   revalidatePath("/questions");
 }
+
+// Empty string clears the date. Degrades gracefully (log + no-op) if the `exam_date` migration
+// hasn't been applied yet — same pattern as setShowTrickBadge above.
+export async function setExamDate(formData: FormData): Promise<void> {
+  const raw = formData.get("exam_date");
+  if (typeof raw !== "string") return;
+  const examDate = raw === "" ? null : raw;
+  if (examDate !== null && !/^\d{4}-\d{2}-\d{2}$/.test(examDate)) return;
+
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ exam_date: examDate })
+    .eq("id", user.id);
+  if (error) {
+    console.error("setExamDate: failed to persist (migration not applied yet?)", error.message);
+  }
+
+  revalidatePath("/settings");
+  revalidatePath("/dashboard");
+}
