@@ -74,6 +74,19 @@ Owner priority: these come **before** the ongoing 7b/7d depth batches below.
       egress returns 403 for every external site tried (jcnde.ada.org, mometrix.com, even
       wikipedia.org), the same standing limitation noted for `*.supabase.co` in prior batches.
       `npm run content:check` (199/199 notes) and `npm run build` both pass.
+- [ ] Phase 8: **auth revamp (8h, this run, PR #78 open — NOT merged, same hold as 8c)** —
+      replaced magic-link sign-in with Google OAuth + email/password across `/login` and the
+      landing sign-in modal: dropped `signInWithOtp` for a "Continue with Google" button
+      (`signInWithOAuth`), a Sign in/Create account toggle over email + password
+      (`signInWithPassword`/`signUp`), and a "Forgot password?" link. `app/auth/confirm/route.ts`
+      gained a `next` param so it serves Google's OAuth code exchange, signup-confirmation, and
+      password-recovery links (recovery uses `verifyOtp(token_hash, type=recovery)`, not a PKCE
+      code exchange, since a reset link is commonly opened on a different device than the one
+      that requested it). New `/auth/reset-password` + `/auth/update-password` pages;
+      `components/auth/google-icon.tsx` shared icon. Left open for the owner: the PR documents
+      the Google Cloud OAuth client + Supabase provider/redirect-URL setup this environment can't
+      do — merging before that's done would break production sign-in (magic link is fully
+      removed from the code, no fallback).
 
 ## This Phase (Phase 7)
 
