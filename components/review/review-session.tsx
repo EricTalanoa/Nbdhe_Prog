@@ -54,12 +54,35 @@ export function ReviewSession({ cards }: { cards: ReviewCard[] }) {
     setIndex((i) => i + 1);
   }
 
+  // Coarse segmented bar rather than one tick per card: with a 20-card deck, 20 hairlines read as
+  // noise. Cap the segments and fill them proportionally.
+  const segments = Math.min(cards.length, 10);
+  const filled = Math.ceil(((index + 1) / cards.length) * segments);
+
   return (
     <div>
-      <div className="mb-4 text-sm text-muted-foreground">
-        Card {index + 1} of {cards.length}
+      <div className="mb-3.5 flex items-center justify-between">
+        <span className="font-mono text-xs text-muted-foreground">
+          Card {index + 1} of {cards.length}
+        </span>
+        <div className="ml-4 flex max-w-[280px] flex-1 gap-1.5">
+          {Array.from({ length: segments }, (_, i) => (
+            <span
+              key={i}
+              className={`h-1 flex-1 rounded-full transition-colors ${
+                i < filled ? "bg-primary" : "bg-accent"
+              }`}
+            />
+          ))}
+        </div>
       </div>
-      <Flashcard key={cards[index].id} card={cards[index]} onGraded={handleGraded} />
+      <Flashcard
+        key={cards[index].id}
+        card={cards[index]}
+        position={index + 1}
+        total={cards.length}
+        onGraded={handleGraded}
+      />
     </div>
   );
 }
