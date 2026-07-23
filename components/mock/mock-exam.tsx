@@ -264,7 +264,6 @@ export function MockExam({
 
   // ── Active section (A or B) ──────────────────────────────────────────────────
   const item = activeSection[index];
-  const answered = results.filter((r) => r.component === phase).length > index;
   const componentLabel = phase === "A" ? "Component A · discipline" : "Component B · case-based";
   const lowTime = remaining <= 30;
 
@@ -288,19 +287,7 @@ export function MockExam({
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
-        <span>
-          {componentLabel} · {index + 1} of {activeSection.length}
-        </span>
-        <span
-          className={`rounded-md border px-2 py-0.5 font-mono tabular-nums ${
-            lowTime ? "border-destructive/50 text-destructive" : ""
-          }`}
-          aria-label="time remaining"
-        >
-          {formatClock(remaining)}
-        </span>
-      </div>
+      <div className="mb-4 text-sm text-muted-foreground">{componentLabel}</div>
 
       {item.stimulus && (
         <div className="mb-4">
@@ -312,19 +299,31 @@ export function MockExam({
         </div>
       )}
 
-      <QuestionRenderer key={item.question.id} question={item.question} onAnswered={handleAnswered} />
-
-      {answered && (
-        <div className="mt-5 flex justify-end">
-          <Button onClick={handleNext}>
-            {index + 1 >= activeSection.length
-              ? phase === "A"
-                ? "Finish Component A"
-                : "Finish mock"
-              : "Next question"}
-          </Button>
-        </div>
-      )}
+      <QuestionRenderer
+        key={item.question.id}
+        question={item.question}
+        position={index + 1}
+        total={activeSection.length}
+        timer={
+          <span
+            className={`rounded-md border px-2 py-0.5 font-mono text-xs tabular-nums ${
+              lowTime ? "border-destructive/50 text-destructive" : "text-muted-foreground"
+            }`}
+            aria-label="time remaining"
+          >
+            {formatClock(remaining)}
+          </span>
+        }
+        onAnswered={handleAnswered}
+        onNext={handleNext}
+        nextLabel={
+          index + 1 >= activeSection.length
+            ? phase === "A"
+              ? "Finish Component A"
+              : "Finish mock"
+            : "Next question"
+        }
+      />
     </div>
   );
 }

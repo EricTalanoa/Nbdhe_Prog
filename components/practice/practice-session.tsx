@@ -115,7 +115,6 @@ export function PracticeSession({
   }
 
   const question = queue[index];
-  const answered = results.length > index;
   const lowTime = Boolean(timeLimitSec) && remaining <= 30;
 
   function handleAnswered(correct: boolean, selectedOptionId: string | null, timeMs: number) {
@@ -146,42 +145,35 @@ export function PracticeSession({
   return (
     <div>
       {stimulus}
-      <div className="mb-4 flex items-center justify-between text-sm text-muted-foreground">
-        <span>
-          Question {index + 1} of {queue.length}
-        </span>
-        <div className="flex items-center gap-4">
-          <span>{results.filter(Boolean).length} correct so far</span>
-          {timeLimitSec ? (
+      <QuestionRenderer
+        key={question.id}
+        question={question}
+        position={index + 1}
+        total={queue.length}
+        correctSoFar={results.filter(Boolean).length}
+        timer={
+          timeLimitSec ? (
             <span
-              className={`rounded-md border px-2 py-0.5 font-mono tabular-nums ${
-                lowTime ? "border-destructive/50 text-destructive" : ""
+              className={`rounded-md border px-2 py-0.5 font-mono text-xs tabular-nums ${
+                lowTime ? "border-destructive/50 text-destructive" : "text-muted-foreground"
               }`}
               aria-label="time remaining"
             >
               {formatClock(remaining)}
             </span>
-          ) : null}
-        </div>
-      </div>
-
-      <QuestionRenderer
-        key={question.id}
-        question={question}
+          ) : null
+        }
         onAnswered={handleAnswered}
+        onNext={handleNext}
+        nextLabel={index === queue.length - 1 ? "Finish" : "Next question"}
         onSkip={queue.length > 1 ? handleSkip : undefined}
         showTrickBadge={showTrickBadge}
       />
 
-      <div className="mt-5 flex items-center justify-between">
+      <div className="mt-5">
         <Button variant="outline" size="sm" onClick={() => setEndedEarly(true)}>
           {timeLimitSec ? "End test now" : "End set now"}
         </Button>
-        {answered && (
-          <Button onClick={handleNext}>
-            {index === queue.length - 1 ? "Finish" : "Next question"}
-          </Button>
-        )}
       </div>
     </div>
   );

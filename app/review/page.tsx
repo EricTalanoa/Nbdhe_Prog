@@ -5,8 +5,11 @@ import { ReviewSession } from "@/components/review/review-session";
 import type { ReviewCard } from "@/components/review/flashcard";
 import { PageHeader } from "@/components/ui/page-header";
 import { getQuestionSet } from "@/lib/question-sets";
+import { NEW_CARD, type CardState } from "@/lib/srs";
 
 const DECK_SIZE = 20;
+
+type RawSchedule = { due_at: string; ease: number; interval_days: number };
 
 type TaxRef = { score_area: string; subdomain: string | null };
 type RawOption = { label: string; body: string; is_correct: boolean };
@@ -28,6 +31,12 @@ function parseList(raw: string | string[] | undefined): string[] {
 function taxOf(t: TaxRef | TaxRef[] | null): TaxRef | null {
   if (!t) return null;
   return Array.isArray(t) ? t[0] ?? null : t;
+}
+
+// Card eyebrow label — the narrowest thing we know about the card ("Caries" over "Clinical").
+function topicOf(t: TaxRef | TaxRef[] | null): string | null {
+  const tax = taxOf(t);
+  return tax?.subdomain ?? tax?.score_area ?? null;
 }
 
 export default async function ReviewPage({
@@ -69,15 +78,25 @@ export default async function ReviewPage({
     .select("id, front, back, taxonomy(score_area, subdomain)")
     .in("status", ["approved", "live"]);
 
-  const { data: qSchedule } = await supabase.from("review_schedule").select("question_id, due_at");
+  const { data: qSchedule } = await supabase
+    .from("review_schedule")
+    .select("question_id, due_at, ease, interval_days");
   const { data: fcSchedule } = await supabase
     .from("flashcard_schedule")
-    .select("flashcard_id, due_at");
+    .select("flashcard_id, due_at, ease, interval_days");
 
-  const qDueAt = new Map<string, string>();
-  for (const r of (qSchedule ?? []) as { question_id: string; due_at: string }[]) qDueAt.set(r.question_id, r.due_at);
-  const fcDueAt = new Map<string, string>();
-  for (const r of (fcSchedule ?? []) as { flashcard_id: string; due_at: string }[]) fcDueAt.set(r.flashcard_id, r.due_at);
+  type Sched = { due_at: string; state: CardState };
+  const toState = (r: { ease: number; interval_days: number }): CardState => ({
+    ease: r.ease,
+    intervalDays: r.interval_days,
+  });
+
+  const qSched = new Map<string, Sched>();
+  for (const r of (qSchedule ?? []) as (RawSchedule & { question_id: string })[])
+    qSched.set(r.question_id, { due_at: r.due_at, state: toState(r) });
+  const fcSched = new Map<string, Sched>();
+  for (const r of (fcSchedule ?? []) as (RawSchedule & { flashcard_id: string })[])
+    fcSched.set(r.flashcard_id, { due_at: r.due_at, state: toState(r) });
 
   const now = Date.now();
   const due: { card: ReviewCard; dueAt: number }[] = [];
@@ -89,25 +108,37 @@ export default async function ReviewPage({
     const correct = q.options.find((o) => o.is_correct);
     if (!correct) continue;
     const rationale = Array.isArray(q.rationales) ? q.rationales[0] : q.rationales;
+    const scheduled = qSched.get(q.id);
     const card: ReviewCard = {
       id: q.id,
       kind: "question",
       front: q.stem,
       back: `${correct.label}. ${correct.body}`,
       note: rationale?.correct_explanation ?? null,
+      topic: topicOf(q.taxonomy),
+      state: scheduled?.state ?? NEW_CARD,
     };
-    const scheduled = qDueAt.get(q.id);
     if (scheduled === undefined) fresh.push(card);
-    else if (new Date(scheduled).getTime() <= now) due.push({ card, dueAt: new Date(scheduled).getTime() });
+    else if (new Date(scheduled.due_at).getTime() <= now)
+      due.push({ card, dueAt: new Date(scheduled.due_at).getTime() });
   }
 
   // Dedicated flashcards.
   for (const f of (fcData ?? []) as unknown as RawFlashcard[]) {
     if (!inTopic(f.taxonomy)) continue;
-    const card: ReviewCard = { id: f.id, kind: "flashcard", front: f.front, back: f.back, note: null };
-    const scheduled = fcDueAt.get(f.id);
+    const scheduled = fcSched.get(f.id);
+    const card: ReviewCard = {
+      id: f.id,
+      kind: "flashcard",
+      front: f.front,
+      back: f.back,
+      note: null,
+      topic: topicOf(f.taxonomy),
+      state: scheduled?.state ?? NEW_CARD,
+    };
     if (scheduled === undefined) fresh.push(card);
-    else if (new Date(scheduled).getTime() <= now) due.push({ card, dueAt: new Date(scheduled).getTime() });
+    else if (new Date(scheduled.due_at).getTime() <= now)
+      due.push({ card, dueAt: new Date(scheduled.due_at).getTime() });
   }
 
   due.sort((a, b) => a.dueAt - b.dueAt);

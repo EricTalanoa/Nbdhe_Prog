@@ -3,12 +3,13 @@
 // thresholds live here like lib/readiness.ts and lib/mock.ts.
 
 export type Grade = "again" | "hard" | "good" | "easy";
+export type GradeTone = "rose" | "amber" | "teal" | "sky";
 
-export const GRADES: { grade: Grade; label: string }[] = [
-  { grade: "again", label: "Again" },
-  { grade: "hard", label: "Hard" },
-  { grade: "good", label: "Good" },
-  { grade: "easy", label: "Easy" },
+export const GRADES: { grade: Grade; label: string; tone: GradeTone }[] = [
+  { grade: "again", label: "Again", tone: "rose" },
+  { grade: "hard", label: "Hard", tone: "amber" },
+  { grade: "good", label: "Good", tone: "teal" },
+  { grade: "easy", label: "Easy", tone: "sky" },
 ];
 
 export type CardState = { ease: number; intervalDays: number };
@@ -47,4 +48,18 @@ export function schedule(current: CardState, grade: Grade): NextState {
   const dueAt = new Date(Date.now() + intervalDays * 24 * 60 * 60 * 1000);
   // Store fractional "again" intervals as 0 days (relearning) — due_at carries the real timing.
   return { ease, intervalDays: intervalDays < 1 ? 0 : intervalDays, dueAt, lastResult: grade };
+}
+
+// Compact "when would this come back" label for the grade buttons ("<10m", "3d", "2mo"). Runs
+// `schedule` against the card's real state, so the hint is the interval the user will actually
+// get rather than a decorative constant.
+export function previewInterval(current: CardState, grade: Grade): string {
+  const { intervalDays, dueAt } = schedule(current, grade);
+  if (intervalDays < 1) {
+    const mins = Math.max(1, Math.round((dueAt.getTime() - Date.now()) / 60000));
+    return `<${mins}m`;
+  }
+  if (intervalDays < 30) return `${intervalDays}d`;
+  if (intervalDays < 365) return `${Math.round(intervalDays / 30)}mo`;
+  return `${Math.round(intervalDays / 365)}y`;
 }
